@@ -60,14 +60,14 @@
     .splash-hero::before {
       content: "";
       position: absolute;
-      width: 400px;
-      height: 400px;
+      width: 550px; /* تكبير مساحة الإضاءة الخلفية لتناسب الشعار الجديد */
+      height: 550px;
       background: radial-gradient(circle, rgba(255,189,34,0.15) 0%, transparent 70%);
       border-radius: 50%;
       z-index: 0;
     }
     .giant-logo {
-      height: 250px; 
+      height: 380px;  /* تكبير حجم الشعار بشكل كبير (كان 250px) */
       width: auto;
       object-fit: contain;
       z-index: 1;
@@ -79,7 +79,7 @@
       100% { transform: translateY(0px); }
     }
     @media(max-width:820px){
-      .giant-logo { height: 150px; }
+      .giant-logo { height: 220px; } /* تكبير حجم الشعار في شاشات الجوال أيضاً */
       .splash-hero { height: 60vh; }
     }
 
@@ -219,16 +219,22 @@
     .step h3{font-size:22px;margin:20px 0 12px;color:var(--deep); font-weight:800;}
     .step p{color:var(--muted);font-size:16px;margin:0; line-height:1.7;}
     
-    .faq-layout{display:grid;grid-template-columns:.78fr 1.22fr;gap:80px}
-    .faq-list{border-top:1px solid var(--line)}
-    details{border-bottom:1px solid var(--line);padding:22px 0}
-    summary{cursor:pointer;font-size:18px;font-weight:700;list-style:none;display:flex;gap:15px;justify-content:space-between; align-items:center;}
-    summary::-webkit-details-marker{display:none}
-    summary:after{content:"+";color:var(--coral);font-size:26px;line-height:1;font-weight:400; transition: transform .3s;}
-    details[open] summary:after{content:"−"; transform: rotate(180deg);}
-    details p{color:var(--muted);font-size:16px;margin:15px 0 0;max-width:600px; line-height:1.7;}
-    html[dir="rtl"] details p{margin: 15px 30px 0 0;}
-    html[dir="ltr"] details p{margin: 15px 0 0 30px;}
+    /* تنسيقات قسم الأسعار الجديد بدلاً من الأسئلة الشائعة */
+    .pricing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; margin-top: 55px; }
+    .pricing-card { background: rgba(255,255,255,0.9); border: 1px solid var(--line); border-radius: 24px; padding: 40px; transition: transform 0.3s ease, box-shadow 0.3s ease; position: relative; overflow: hidden; display: flex; flex-direction: column;}
+    .pricing-card:hover { transform: translateY(-5px); box-shadow: 0 18px 46px rgba(243,111,90,.12); border-color: #F0CFC1; }
+    .pricing-card.popular { border: 2px solid var(--gold); box-shadow: 0 12px 30px rgba(255, 189, 34, 0.15); }
+    .popular-badge { position: absolute; top: 18px; left: -35px; background: var(--gold); color: var(--deep); font-size: 13px; font-weight: 800; padding: 6px 40px; transform: rotate(-45deg); letter-spacing: 0; }
+    html[dir="ltr"] .popular-badge { right: -35px; left: auto; transform: rotate(45deg); }
+    .price-header { margin-bottom: 25px; border-bottom: 1px solid var(--line); padding-bottom: 25px; text-align: center; }
+    .price-title { font-size: 22px; color: var(--deep); font-weight: 800; margin: 0 0 10px; }
+    .old-price { font-size: 18px; color: var(--muted); text-decoration: line-through; margin-bottom: 5px; font-weight: 700; }
+    .new-price { font-size: 48px; color: var(--deep); font-weight: 900; line-height: 1; display: flex; align-items: center; justify-content: center; gap: 8px;}
+    .new-price span { font-size: 18px; color: var(--muted); font-weight: 700; }
+    .pricing-features { list-style: none; padding: 0; margin: 0 0 35px; text-align: start; flex-grow: 1; }
+    .pricing-features li { display: flex; align-items: flex-start; gap: 12px; font-size: 16px; color: var(--ink); margin-bottom: 18px; font-weight: 500;}
+    .pricing-features li::before { content: "✓"; color: var(--paper); background: var(--coral); width: 22px; height: 22px; border-radius: 50%; display: grid; place-items: center; font-size: 12px; flex-shrink: 0; margin-top: 3px; font-weight: bold;}
+    .pricing-card .button { width: 100%; min-height: 55px;}
     
     .contact-card{position:relative;overflow:hidden;border-radius:24px;padding:60px;background:linear-gradient(135deg,#CDE9D6,#F3EACB);color:var(--deep)}
     .contact-card h2{font-size:clamp(32px,4vw,50px);line-height:1.2;letter-spacing:-1px;max-width:650px;margin:10px 0 15px; font-weight:800;}
@@ -302,7 +308,7 @@
         <li><a href="#how-it-works" data-i18n="navHow">كيف يعمل</a></li>
         <li><a href="#about" data-i18n="navAbout">عن المنصة</a></li>
         <li><a href="#values" data-i18n="navValues">القيم</a></li>
-        <li><a href="#faq">الأسئلة الشائعة</a></li>
+        <li><a href="#pricing" data-i18n="navPricing">الأسعار</a></li>
       </ul>
       <div class="nav-actions">
         <!-- زر تغيير اللغة -->
@@ -429,14 +435,45 @@
       </div>
     </section>
     
-    <section class="section container animate-on-scroll" id="faq">
-      <div class="faq-layout">
-        <div><div class="section-label" data-i18n="faqLabel">الأسئلة الشائعة</div><h2 class="section-heading" data-i18n="faqTitle">إجابات واضحة ومباشرة.</h2><p class="section-intro" data-i18n="faqIntro">رفيق دراسي يحافظ على تركيزك في الاستعداد والتقدّم الحقيقي.</p></div>
-        <div class="faq-list">
-          <details open><summary data-i18n="faq1Q">لمن صُمّمت المنصّة؟</summary><p data-i18n="faq1A">لكل طالب يريد تنظيمًا أفضل، وتدريبًا مركزًا، وثقة أكبر قبل الاختبار.</p></details>
-          <details><summary data-i18n="faq2Q">هل تحل محل المعلّم؟</summary><p data-i18n="faq2A">لا. تدعم Exam-Pass استعدادك الشخصي، وتكمل الدروس والتدريب والمواد التعليمية.</p></details>
-          <details><summary data-i18n="faq3Q">هل تساعد في المراجعة قبل الاختبار؟</summary><p data-i18n="faq3A">نعم. تساعدك الخطة الواضحة والتدريبات المركّزة على ترتيب أولويات وقتك المتبقي.</p></details>
-          <details><summary data-i18n="faq4Q">ما معنى الاستعداد بنزاهة؟</summary><p data-i18n="faq4A">يعني تعلّم المادة بصدق والاستعداد للاختبار من دون اختصارات تضر بالنزاهة الأكاديمية.</p></details>
+    <section class="section container animate-on-scroll" id="pricing">
+      <div style="text-align: center; max-width: 650px; margin: 0 auto;">
+        <div class="section-label" data-i18n="pricingLabel">الأسعار</div>
+        <h2 class="section-heading" style="margin:0 auto 18px;" data-i18n="pricingTitle">استثمر في نجاحك.</h2>
+        <p class="section-intro" style="margin:0 auto;" data-i18n="pricingIntro">اختر الباقة التي تناسب احتياجاتك الدراسية وابدأ الاستعداد بثقة ووضوح تام.</p>
+      </div>
+      
+      <div class="pricing-grid">
+        <!-- الباقة الأولى -->
+        <div class="pricing-card">
+          <div class="price-header">
+            <h3 class="price-title" data-i18n="plan1Title">الباقة الأساسية</h3>
+            <div class="old-price">900 <span data-i18n="currency">ريال</span></div>
+            <div class="new-price">500 <span data-i18n="currency">ريال</span></div>
+          </div>
+          <ul class="pricing-features">
+            <li data-i18n="featurePh1">خطة دراسية مخصصة تناسب وقتك</li>
+            <li data-i18n="featurePh2">تدريب على بنك أسئلة شامل</li>
+            <li data-i18n="featurePh3">تقارير مبدئية لمتابعة مستوى التقدم</li>
+          </ul>
+          <a class="button secondary" href="#contact" data-i18n="selectPlan">اختر الباقة</a>
+        </div>
+        
+        <!-- الباقة الثانية (الأكثر طلباً) -->
+        <div class="pricing-card popular">
+          <div class="popular-badge" data-i18n="popularBadge">الأكثر طلباً</div>
+          <div class="price-header">
+            <h3 class="price-title" data-i18n="plan2Title">الباقة المتقدمة</h3>
+            <div class="old-price">1200 <span data-i18n="currency">ريال</span></div>
+            <div class="new-price">900 <span data-i18n="currency">ريال</span></div>
+          </div>
+          <ul class="pricing-features">
+            <li data-i18n="featurePh1">خطة دراسية مخصصة تناسب وقتك</li>
+            <li data-i18n="featurePh2">تدريب على بنك أسئلة شامل</li>
+            <li data-i18n="featurePh3">تقارير مبدئية لمتابعة مستوى التقدم</li>
+            <li data-i18n="featurePh4">محاكاة كاملة لبيئة الاختبار الفعلي</li>
+            <li data-i18n="featurePh5">جلسة مراجعة مع موجه أكاديمي</li>
+          </ul>
+          <a class="button primary" href="#contact" data-i18n="selectPlan">اختر الباقة</a>
         </div>
       </div>
     </section>
@@ -486,6 +523,7 @@
       navHow:{en:'How it works',ar:'كيف يعمل'},
       navAbout:{en:'About',ar:'عن المنصة'},
       navValues:{en:'Values',ar:'القيم'},
+      navPricing:{en:'Pricing',ar:'الأسعار'},
       navStart:{en:'Start preparing',ar:'ابدأ الاستعداد'},
       
       /* إضافة ترجمة "اختبار PMP" */
@@ -555,17 +593,22 @@
       step2Text:{en:'Use a balanced schedule that makes room for learning, review, and rest.',ar:'نظّم وقتك بين التعلّم والمراجعة والراحة.'},
       step3Title:{en:'Practice with confidence',ar:'تدرّب بثقة'},
       step3Text:{en:'Build readiness gradually through useful practice and reflection.',ar:'تقدّم تدريجيًا عبر تدريب مفيد ومراجعة واعية.'},
-      faqLabel:{en:'FAQ',ar:'الأسئلة الشائعة'},
-      faqTitle:{en:'Questions, answered simply.',ar:'إجابات واضحة ومباشرة.'},
-      faqIntro:{en:'A straightforward study companion that keeps the focus on preparation and genuine progress.',ar:'رفيق دراسي يحافظ على تركيزك في الاستعداد والتقدّم الحقيقي.'},
-      faq1Q:{en:'Who is Exam-Pass for?',ar:'لمن صُمّمت المنصّة؟'},
-      faq1A:{en:'It is designed for students who want more structure, focused practice, and confidence as an exam approaches.',ar:'لكل طالب يريد تنظيمًا أفضل، وتدريبًا مركزًا، وثقة أكبر قبل الاختبار.'},
-      faq2Q:{en:'Does it replace a teacher or tutor?',ar:'هل تحل محل المعلّم؟'},
-      faq2A:{en:'No. Exam-Pass supports personal preparation. It can complement lessons, tutoring, and the materials provided by an educational institution.',ar:'لا. تدعم Exam-Pass استعدادك الشخصي، وتكمل الدروس والتدريب والمواد التعليمية.'},
-      faq3Q:{en:'Can it help with last-minute revision?',ar:'هل تساعد في المراجعة قبل الاختبار؟'},
-      faq3A:{en:'Yes. A clear review plan and focused practice can help prioritize remaining study time responsibly.',ar:'نعم. تساعدك الخطة الواضحة والتدريبات المركّزة على ترتيب أولويات وقتك المتبقي.'},
-      faq4Q:{en:'What does ethical preparation mean?',ar:'ما معنى الاستعداد بنزاهة؟'},
-      faq4A:{en:'It means learning the material and preparing honestly for an exam — no shortcuts that undermine academic integrity.',ar:'يعني تعلّم المادة بصدق والاستعداد للاختبار من دون اختصارات تضر بالنزاهة الأكاديمية.'},
+      
+      /* إضافة كلمات قسم الأسعار والتسعير للترجمة التلقائية */
+      pricingLabel:{en:'Pricing',ar:'الأسعار'},
+      pricingTitle:{en:'Invest in your success.',ar:'استثمر في نجاحك.'},
+      pricingIntro:{en:'Choose the plan that fits your study needs and start preparing with confidence and absolute clarity.',ar:'اختر الباقة التي تناسب احتياجاتك الدراسية وابدأ الاستعداد بثقة ووضوح تام.'},
+      plan1Title:{en:'Basic Plan',ar:'الباقة الأساسية'},
+      plan2Title:{en:'Pro Plan',ar:'الباقة المتقدمة'},
+      currency:{en:'SAR',ar:'ريال'},
+      popularBadge:{en:'Most Popular',ar:'الأكثر طلباً'},
+      selectPlan:{en:'Choose Plan',ar:'اختر الباقة'},
+      featurePh1:{en:'Customized study plan fitting your schedule',ar:'خطة دراسية مخصصة تناسب وقتك'},
+      featurePh2:{en:'Comprehensive question bank practice',ar:'تدريب على بنك أسئلة شامل'},
+      featurePh3:{en:'Initial progress tracking reports',ar:'تقارير مبدئية لمتابعة مستوى التقدم'},
+      featurePh4:{en:'Full exam environment simulation',ar:'محاكاة كاملة لبيئة الاختبار الفعلي'},
+      featurePh5:{en:'Review session with an academic guide',ar:'جلسة مراجعة مع موجه أكاديمي'},
+      
       contactLabel:{en:'Start with confidence',ar:'ابدأ بثقة'},
       contactTitle:{en:'Make your next study session count.',ar:'اجعل جلستك القادمة خطوة نحو الاجتياز.'},
       contactText:{en:'Tell us the exam you are preparing for, and begin building a clearer preparation path.',ar:'أخبرنا عن اختبارك، وابدأ مسارًا أوضح للاستعداد.'},
