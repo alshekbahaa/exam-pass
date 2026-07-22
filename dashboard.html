@@ -100,6 +100,16 @@
     .quick { min-height:74px; padding:12px; border:1px solid var(--line); border-radius:12px; color:var(--ink); background:var(--card); text-align:start; font-weight:900; font-size:12px; transition:.2s; }
     .quick:hover { border-color:var(--deep2); background:var(--mint); transform:translateY(-2px); }.quick span { display:block; margin-bottom:4px; font-size:19px; }
     .mobile-nav { display:none; }
+    /* زر الطلب العائم: طبقات وظلال لإحساس ثلاثي الأبعاد */
+    .request-float { display:grid; grid-template-columns:minmax(0,1fr) 49px; align-items:center; gap:8px; margin:18px 8px 0; }
+    .request-float-main { display:flex; align-items:center; gap:10px; min-height:58px; padding:0 20px; border:1px solid rgba(255,255,255,.22); border-radius:17px; color:#fff; background:linear-gradient(145deg,#2e8c79,#123a35 72%); box-shadow:0 16px 0 #0a2924,0 24px 34px rgba(18,58,53,.32); font-size:15px; font-weight:900; transform:perspective(500px) rotateX(4deg); transition:transform .18s ease,box-shadow .18s ease; }
+    .request-float-main::before { width:28px; height:28px; display:grid; place-items:center; border-radius:9px; background:var(--gold); color:#4d3500; content:'✦'; font-size:15px; }
+    .request-float-main:hover { transform:perspective(500px) translateY(-5px) rotateX(0); box-shadow:0 20px 0 #0a2924,0 30px 38px rgba(18,58,53,.32); }
+    .request-float-main:active { transform:translateY(10px); box-shadow:0 6px 0 #0a2924,0 12px 20px rgba(18,58,53,.25); }
+    .request-float-list { display:grid; place-items:center; width:49px; height:49px; border:1px solid var(--line); border-radius:15px; color:var(--deep); background:var(--card); box-shadow:0 9px 0 #b8cbc0,0 15px 26px rgba(18,58,53,.16); font-size:19px; transition:transform .18s ease; }
+    .request-float-list:hover { transform:translateY(-3px); }
+    [data-theme="dark"] .request-float-list { box-shadow:0 9px 0 #092019,0 15px 26px rgba(0,0,0,.3); }
+    @media (max-width:600px) { .request-float-main { min-height:51px; padding:0 15px; border-radius:15px; font-size:13px; }.request-float-list { width:44px; height:44px; } }
     @media (max-width:1050px) { .overview { grid-template-columns:1.25fr 1fr 1fr; }.overview .stat:last-child { display:none; } }
     @media (max-width:840px) { .app { display:block; }.sidebar { display:none; }.content { padding-bottom:36px; }.dashboard-grid { grid-template-columns:1fr; }.overview { grid-template-columns:1.3fr 1fr; }.overview .stat:last-child { display:flex; }.mobile-nav { display:flex; justify-content:space-around; gap:4px; padding:7px; margin:0 0 17px; border:1px solid var(--line); border-radius:13px; background:var(--card); box-shadow:var(--shadow); }.mobile-nav a { display:grid; place-items:center; gap:2px; min-width:53px; min-height:43px; color:var(--muted); font-size:10px; font-weight:800; }.mobile-nav a.active { color:var(--deep); background:var(--mint); border-radius:9px; }.mobile-nav .nav-icon { font-size:19px; } }
     @media (max-width:600px) { .content { padding:20px 16px 88px; }.topbar { align-items:flex-start; margin-bottom:24px; }.greeting h1 { font-size:22px; }.top-actions .primary { display:none; }.overview { grid-template-columns:1fr 1fr; gap:11px; }.hero-card { grid-column:1/-1; min-height:173px; }.stat { min-height:150px; padding:15px; }.stat strong { font-size:25px; }.dashboard-grid { gap:13px; }.section-card { padding:17px; border-radius:14px; }.quick-actions { grid-template-columns:1fr 1fr; }.upgrade { display:none; } }
@@ -117,8 +127,12 @@
         <a class="nav-link" href="#questions"><span class="nav-icon">✦</span>بنك الأسئلة</a>
         <a class="nav-link" href="#progress"><span class="nav-icon">◔</span>التقدم والنتائج</a>
       </nav>
+      <aside class="request-float" aria-label="إجراءات الطلبات">
+        <a class="request-float-main" href="request.html">سجّل طلبك</a>
+        <a class="request-float-list" href="requests.html" aria-label="عرض طلباتي" title="عرض طلباتي">☷</a>
+      </aside>
       <div class="sidebar-bottom">
-        <div class="upgrade"><b>اس��عد بثقة أكبر ✨</b><p>نظّم مسارك وراجع تقدمك من مكان واحد.</p><button type="button" onclick="showNotice('هذه مساحة جاهزة لربط الاشتراك أو الباقات لاحقاً.')">استكشف المزايا</button></div>
+        <div class="upgrade"><b>اس  عد بثقة أكبر ✨</b><p>نظّم مسارك وراجع تقدمك من مكان واحد.</p><button type="button" onclick="showNotice('هذه مساحة جاهزة لربط الاشتراك أو الباقات لاحقاً.')">استكشف المزايا</button></div>
         <div class="user-box"><span class="avatar" id="sidebarAvatar">ب</span><div style="min-width:0"><div class="user-name" id="sidebarName">طالب Exam-Pass</div><div class="user-role">حساب متعلم</div></div><button class="logout" type="button" onclick="signOut()" aria-label="تسجيل الخروج" title="تسجيل الخروج">⇥</button></div>
       </div>
     </aside>
@@ -135,7 +149,7 @@
         <article class="hero-card"><div class="hero-kicker">✦ تركيز اليوم</div><h2>خطوة صغيرة اليوم تقرّبك من هدفك.</h2><p>اختر مهمة واحدة وابدأ جلسة مركّزة بدون تشتيت.</p><button class="primary" type="button" onclick="showNotice('ابدأ بربط زر الجلسة بمؤقّت الدراسة وسجل الإنجاز.')">ابدأ الآن ←</button></article>
         <article class="card stat"><div class="stat-head"><span>الهدف اليومي</span><span class="stat-icon">◷</span></div><div><strong>0/3</strong><small>جلسات مكتملة</small><div class="progress-line"><span style="width:0%"></span></div></div></article>
         <article class="card stat"><div class="stat-head"><span>وقت التركيز</span><span class="stat-icon">◴</span></div><div><strong>0 <small>دقيقة</small></strong><small>ابدأ أول جلسة اليوم</small><div class="progress-line"><span style="width:0%"></span></div></div></article>
-        <article class="card stat"><div class="stat-head"><span>دقة التدريب</span><span class="stat-icon">✦</span></div><div><strong>—</strong><small>تظهر بعد حل ا��أسئلة</small><div class="progress-line"><span style="width:0%"></span></div></div></article>
+        <article class="card stat"><div class="stat-head"><span>دقة التدريب</span><span class="stat-icon">✦</span></div><div><strong>—</strong><small>تظهر بعد حل ا  أسئلة</small><div class="progress-line"><span style="width:0%"></span></div></div></article>
       </section>
 
       <div class="dashboard-grid">
