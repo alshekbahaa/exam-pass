@@ -91,7 +91,42 @@
     .terms-note,.security-note { margin-top:14px; color:var(--muted); text-align:center; font-size:11px; line-height:1.65; }
     .terms-note a { color:var(--deep); font-weight:800; }
     .back-link { display:block; margin-top:22px; color:var(--muted); text-align:center; font-size:13px; font-weight:700; }
-    @media (max-width:520px) { body { padding:14px; } .auth-card { border-radius:20px; } .form-row { align-items:flex-start; flex-direction:column; gap:7px; } }
+    /* Tablet: keep the access options spacious and aligned. */
+    @media (min-width:601px) and (max-width:900px) {
+      body { padding:28px 24px; }
+      .auth-card { width:min(560px,100%); padding:44px 40px; }
+      .tabs { gap:6px; padding:6px; }
+      .tab-btn { min-height:48px; }
+      .top-controls { inset-block-start:20px; inset-inline-start:20px; }
+    }
+    /* Phone: use a calm full-page layout instead of a cramped floating card. */
+    @media (max-width:600px) {
+      body { display:block; min-height:100svh; padding:0; background:linear-gradient(160deg,var(--paper),var(--mint)); }
+      .auth-card { width:100%; min-height:100svh; padding:82px 20px calc(30px + env(safe-area-inset-bottom)); border:0; border-radius:0; box-shadow:none; background:transparent; }
+      .top-controls { inset-block-start:16px; inset-inline-start:20px; gap:10px; }
+      .ctrl-btn { min-width:44px; min-height:44px; border-radius:12px; }
+      .auth-header { padding-top:0; margin-bottom:24px; }
+      .auth-logo { height:58px; margin-bottom:12px; }
+      .brand-fallback { width:58px; height:58px; margin-bottom:12px; font-size:21px; }
+      .auth-title { font-size:25px; }
+      .auth-sub { font-size:14px; }
+      .tabs { gap:6px; padding:6px; margin-bottom:20px; border:1px solid var(--line); border-radius:15px; }
+      .tab-btn { min-height:50px; border-radius:11px; font-size:14px; white-space:nowrap; }
+      .form-group { margin-bottom:16px; }
+      .form-label { margin-bottom:8px; font-size:14px; }
+      .form-input { min-height:54px; border-radius:14px; font-size:16px; }
+      .btn { min-height:54px; border-radius:14px; }
+      .btn-social,.btn-magic { min-height:52px; }
+      .form-row { align-items:center; flex-direction:row; gap:10px; margin-top:10px; }
+      .remember-label,.forgot-link { font-size:13px; }
+      .alert { padding:12px; margin-bottom:16px; font-size:12px; }
+      .terms-note,.security-note { margin-top:12px; }
+    }
+    @media (max-width:360px) {
+      .auth-card { padding-inline:16px; }
+      .auth-title { font-size:23px; }
+      .form-row { align-items:flex-start; flex-direction:column; gap:7px; }
+    }
     @media (prefers-reduced-motion:reduce) { *,*::before,*::after { scroll-behavior:auto!important; animation-duration:.01ms!important; transition-duration:.01ms!important; } }
   </style>
 </head>
@@ -101,20 +136,20 @@
       <button class="ctrl-btn" id="themeToggle" type="button" aria-label="تبديل المظهر">🌙</button>
       <button class="ctrl-btn" id="langToggle" type="button" aria-label="Change language">EN</button>
     </div>
-
+​
     <header class="auth-header">
       <img class="auth-logo" src="PMP-cropped.svg" alt="شعار Exam-Pass" onerror="this.style.display='none';document.getElementById('brandFallback').style.display='flex'">
       <div class="brand-fallback" id="brandFallback" aria-label="Exam-Pass">EP</div>
       <h1 class="auth-title" id="mainTitle">مرحباً بك مجدداً</h1>
       <p class="auth-sub" id="subTitle">سجل دخولك لمتابعة خطتك الدراسية</p>
     </header>
-
+​
     <div class="tabs" role="tablist" aria-label="طرق الوصول للحساب">
       <button class="tab-btn active" id="loginTab" type="button" role="tab" aria-selected="true" onclick="switchTab('login')" data-i18n="tabLogin">تسجيل الدخول</button>
       <button class="tab-btn" id="registerTab" type="button" role="tab" aria-selected="false" onclick="switchTab('register')" data-i18n="tabRegister">إنشاء حساب</button>
     </div>
     <div id="statusAlert" class="alert" role="alert" aria-live="polite"></div>
-
+​
     <form id="loginForm" class="auth-form active" novalidate onsubmit="handleLogin(event)">
       <div class="form-group">
         <label class="form-label" for="loginEmail" data-i18n="labelEmail">البريد الإلكتروني</label>
@@ -141,7 +176,7 @@
         </button>
       </div>
     </form>
-
+​
     <form id="registerForm" class="auth-form" novalidate onsubmit="handleRegister(event)">
       <div class="form-group"><label class="form-label" for="regName" data-i18n="labelName">الاسم الكامل</label><input type="text" class="form-input" id="regName" required autocomplete="name" placeholder="محمد أحمد"></div>
       <div class="form-group"><label class="form-label" for="regEmail" data-i18n="labelEmail">البريد الإلكتروني</label><input type="email" class="form-input" id="regEmail" required autocomplete="email" placeholder="name@example.com"></div>
@@ -153,13 +188,13 @@
       <button type="submit" class="btn btn-primary" id="registerSubmit"><span class="btn-spinner" aria-hidden="true"></span><span class="btn-text" data-i18n="btnRegister">إنشاء الحساب الآن</span></button>
       <p class="terms-note" data-i18n="termsNote">بالتسجيل توافق على <a href="#">سياسة الخصوصية</a> و<a href="#">شروط الاستخدام</a></p>
     </form>
-
+​
     <form id="forgotForm" class="auth-form" novalidate onsubmit="handleForgot(event)">
       <div class="form-group"><label class="form-label" for="forgotEmail" data-i18n="labelForgotEmail">أدخل بريدك لاستعادة كلمة المرور</label><input type="email" class="form-input" id="forgotEmail" required autocomplete="email" placeholder="name@example.com"></div>
       <button type="submit" class="btn btn-primary" id="forgotSubmit"><span class="btn-spinner" aria-hidden="true"></span><span class="btn-text" data-i18n="btnForgot">إرسال تعليمات الاستعادة</span></button>
       <button type="button" class="back-to-login" onclick="switchTab('login')" data-i18n="backToLogin">← العودة لتسجيل الدخول</button>
     </form>
-
+​
     <form id="resetForm" class="auth-form" novalidate onsubmit="handlePasswordUpdate(event)">
       <div class="form-group">
         <label class="form-label" for="resetPass" data-i18n="labelResetPass">كلمة المرور الجديدة</label>
@@ -169,10 +204,10 @@
       <div class="form-group"><label class="form-label" for="resetPassConfirm" data-i18n="labelConfirmPass">تأكيد كلمة المرور</label><div class="input-wrap"><input type="password" class="form-input" id="resetPassConfirm" required autocomplete="new-password" placeholder="••••••••"><button type="button" class="eye-toggle" aria-label="إظهار كلمة المرور" onclick="toggleEye('resetPassConfirm',this)">👁</button></div></div>
       <button type="submit" class="btn btn-primary" id="resetSubmit"><span class="btn-spinner" aria-hidden="true"></span><span class="btn-text" data-i18n="btnUpdatePassword">تحديث كلمة المرور</span></button>
     </form>
-
+​
     <a href="index.html" class="back-link" data-i18n="backHome">← العودة إلى الصفحة الرئيسية</a>
   </main>
-
+​
   <script>
     // أضف هذا المسار ضمن Redirect URLs في إعدادات Authentication في Supabase.
     const SUPABASE_URL = 'https://pigavirpwiireyugxmcq.supabase.co';
@@ -181,7 +216,7 @@
     const APP_URL = 'https://alshekbahaa.github.io/exam-pass/auth.html';
     const DASHBOARD_URL = 'https://alshekbahaa.github.io/exam-pass/dashboard.html';
     const sb = window.supabase?.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
+​
     const i18n = {
       ar: { loginTitle:'مرحباً بك مجدداً',loginSub:'سجل دخولك لمتابعة خطتك الدراسية',regTitle:'أنشئ حسابك الجديد',regSub:'ابدأ مسارك نحو اجتياز الاختبار بثقة',forgotTitle:'استعادة كلمة المرور',forgotSub:'سنرسل لك رابطاً لإعادة تعيين كلمة المرور',resetTitle:'أنشئ كلمة مرور جديدة',resetSub:'اختر كلمة مرور آمنة لحسابك',tabLogin:'تسجيل الدخول',tabRegister:'إنشاء حساب',labelEmail:'البريد الإلكتروني',labelPass:'كلمة المرور',labelName:'الاسم الكامل',labelNewPass:'كلمة المرور الجديدة',labelForgotEmail:'أدخل بريدك لاستعادة كلمة المرور',labelResetPass:'كلمة المرور الجديدة',labelConfirmPass:'تأكيد كلمة المرور',rememberMe:'تذكرني',forgotLink:'نسيت كلمة المرور؟',btnLogin:'تسجيل الدخول',btnMagic:'⚡ إرسال رابط دخول سحري',googleLogin:'متابعة بـ Google',btnRegister:'إنشاء الحساب الآن',btnForgot:'إرسال تعليمات الاستعادة',btnUpdatePassword:'تحديث كلمة المرور',backToLogin:'← العودة لتسجيل الدخول',backHome:'← العودة إلى الصفحة الرئيسية',orWith:'أو باستخدام',termsNote:'بالتسجيل توافق على <a href="#">سياسة الخصوصية</a> و<a href="#">شروط الاستخدام</a>',msgLoginOk:'تم تسجيل الدخول بنجاح. جارٍ التحويل…',msgRegOk:'تم إنشاء الحساب. تحقق من بريدك لتأكيده.',msgForgotOk:'إذا كان البريد مسجلاً، فستصلك تعليمات الاستعادة إليه.',msgMagicOk:'إذا كان البريد مسجلاً، فستصلك رسالة برابط الدخول.',msgPasswordUpdated:'تم تحديث كلمة المرور. يمكنك تسجيل الدخول الآن.',errInvalidEmail:'أدخل عنوان بريد إلكتروني صالحاً.',errEmptyFields:'أكمل جميع الحقول المطلوبة.',errPassShort:'يجب أن تتكون كلمة المرور من 8 أحرف على الأقل.',errPassMismatch:'كلمتا المرور غير متطابقتين.',errEmailInLogin:'أدخل بريدك الإلكتروني أولاً لإرسال الرابط.',errGeneric:'تعذر إتمام الطلب. حاول مرة أخرى.',errNotConfigured:'تعذر تهيئة خدمة تسجيل الدخول. أعد تحميل الصفحة أو تواصل مع الدعم.',strWeak:'ضعيفة جداً',strFair:'مقبولة',strGood:'جيدة',strStrong:'قوية',errCredentials:'البريد الإلكتروني أو كلمة المرور غير صحيحين.',errEmailUnconfirmed:'يرجى تأكيد بريدك الإلكتروني ثم المحاولة.' },
       en: { loginTitle:'Welcome Back',loginSub:'Log in to continue your study plan',regTitle:'Create Your Account',regSub:'Start your path to pass the exam with confidence',forgotTitle:'Reset Password',forgotSub:"We'll send you a password reset link",resetTitle:'Create a new password',resetSub:'Choose a secure password for your account',tabLogin:'Log In',tabRegister:'Sign Up',labelEmail:'Email address',labelPass:'Password',labelName:'Full name',labelNewPass:'New password',labelForgotEmail:'Enter your email to reset password',labelResetPass:'New password',labelConfirmPass:'Confirm password',rememberMe:'Remember me',forgotLink:'Forgot password?',btnLogin:'Log In',btnMagic:'⚡ Send Magic Link',googleLogin:'Continue with Google',btnRegister:'Create account',btnForgot:'Send reset instructions',btnUpdatePassword:'Update password',backToLogin:'← Back to log in',backHome:'← Back to homepage',orWith:'or continue with',termsNote:'By signing up you agree to our <a href="#">Privacy Policy</a> and <a href="#">Terms of Service</a>',msgLoginOk:'Signed in successfully. Redirecting…',msgRegOk:'Account created. Check your email to confirm it.',msgForgotOk:'If the email is registered, reset instructions will be sent.',msgMagicOk:'If the email is registered, a magic link will be sent.',msgPasswordUpdated:'Password updated. You can log in now.',errInvalidEmail:'Enter a valid email address.',errEmptyFields:'Complete all required fields.',errPassShort:'Password must be at least 8 characters.',errPassMismatch:'Passwords do not match.',errEmailInLogin:'Enter your email first to send the link.',errGeneric:'We could not complete the request. Please try again.',errNotConfigured:'The sign-in service could not be initialized. Reload the page or contact support.',strWeak:'Very weak',strFair:'Fair',strGood:'Good',strStrong:'Strong',errCredentials:'Incorrect email or password.',errEmailUnconfirmed:'Please confirm your email, then try again.' }
@@ -189,7 +224,7 @@
     let lang = 'ar', currentTab = 'login', recoveryMode = false;
     const $ = id => document.getElementById(id);
     const t = () => i18n[lang];
-
+​
     function applyLang(next) {
       lang = next; document.documentElement.lang = lang; document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
       $('langToggle').textContent = lang === 'ar' ? 'EN' : 'ع';
@@ -198,11 +233,11 @@
     }
     $('langToggle').addEventListener('click', () => applyLang(lang === 'ar' ? 'en' : 'ar'));
     applyLang('ar');
-
+​
     const savedTheme = localStorage.getItem('ep_theme') || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
     document.documentElement.dataset.theme = savedTheme; $('themeToggle').textContent = savedTheme === 'dark' ? '☀️' : '🌙';
     $('themeToggle').addEventListener('click', () => { const next = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark'; document.documentElement.dataset.theme = next; localStorage.setItem('ep_theme',next); $('themeToggle').textContent = next === 'dark' ? '☀️' : '🌙'; });
-
+​
     function switchTab(tab, preserveAlert = false) {
       currentTab = tab; if (!preserveAlert) hideAlert();
       document.querySelectorAll('.auth-form').forEach(form => form.classList.remove('active'));
@@ -227,7 +262,7 @@
       return error?.message || t().errGeneric;
     }
     function getRedirectUrl() { return APP_URL; }
-
+​
     async function handleLogin(event) {
       event.preventDefault(); clearErrors(); hideAlert();
       const email = $('loginEmail').value.trim(), password = $('loginPass').value;
@@ -305,3 +340,4 @@
   </script>
 </body>
 </html>
+​
