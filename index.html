@@ -1,295 +1,289 @@
 <!doctype html>
-<html lang="ar" dir="rtl">
+<html lang="en" dir="ltr">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="description" content="Exam-Pass helps students prepare for exams with clearer plans, focused practice, and confidence-building support." />
   <meta name="theme-color" content="#123A35" />
-  <title>Exam-Pass — طريقك الأوضح نحو الثقة في الاختبار</title>
+  <title>Exam-Pass — Your path to exam confidence</title>
   <style>
     /* استيراد خط تجوال المريح للعين */
     @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap');
     
-    /* المتغيرات الأساسية للألوان والخطوط */
-    :root{
-      --ink: #193236;
-      --deep: #123A35;
-      --mint: #E6F2E8;
-      --paper: #FCFBF7;
-      --warm: #FFF5E8;
-      --gold: #FFBD22;
-      --coral: #F36F5A;
-      --muted: #607276;
-      --line: #D9E4DD;
+    :root {
+      --ink: #193236; --deep: #123A35; --deep2: #1E6256; --mint: #E6F2E8; --paper: #FCFBF7; 
+      --warm: #FFF5E8; --gold: #FFBD22; --coral: #F36F5A; --muted: #607276; --line: #D9E4DD; 
       --shadow: 0 18px 46px rgba(22,63,56,.12);
-      --font-main: 'Tajawal', 'Janna LT', 'Noto Sans Arabic', sans-serif;
+      --font-ui: 'Tajawal', 'Janna LT', 'Noto Sans Arabic', Arial, sans-serif;
     }
     
-    *{box-sizing:border-box}
-    html{scroll-behavior:smooth}
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
     
-    /* تطبيق الخط الجديد وضبط المسافات لراحة العين */
-    body{
-      margin: 0;
-      color: var(--ink);
-      background: var(--paper);
-      font-family: var(--font-main);
+    /* ضبط الخط الأساسي وتباعد الأسطر لراحة العين */
+    body {
+      margin: 0; 
+      color: var(--ink); 
+      background: var(--paper); 
+      font-family: var(--font-ui); 
       font-size: 16px;
-      line-height: 1.7; /* مسافة أسطر مريحة جداً للقراءة */
+      line-height: 1.7; 
       overflow-x: hidden;
     }
+    a { color: inherit; }
+    button, input, select, textarea { font-family: var(--font-ui); }
     
-    a{color:inherit}
-    h1, h2, h3, h4, h5, strong, b { font-family: var(--font-main); }
-    .container{width:min(1160px,calc(100% - 48px));margin:auto}
-    .announcement{background:var(--deep);color:#EAF7F0;text-align:center;font-size:14px;padding:10px 24px; font-weight: 500;}
-    .announcement strong{color:var(--gold)}
+    .container { width: min(1160px, calc(100% - 48px)); margin: auto; }
+    .announcement { background: var(--deep); color: #EAF7F0; text-align: center; font-size: 14px; padding: 10px 24px; font-weight: 500; }
+    .announcement strong { color: var(--gold); }
     
     /* =========================================
-       القسم الأول الإبداعي: شاشة الشعار العملاق
+       شاشة الشعار العملاق الترحيبية (Splash Hero)
        ========================================= */
     .splash-hero {
-      height: 75vh; 
+      /* ارتفاع مرن: 75% من الشاشة في الكمبيوتر، ويقل قليلاً في الجوال */
+      height: clamp(50vh, 75vh, 800px); 
       display: flex;
       align-items: center;
       justify-content: center;
-      background: linear-gradient(135deg, #0f2c28 0%, #1a4a44 100%);
+      background: linear-gradient(135deg, #0f2c28 0%, #1a4a44 100%); 
       position: relative;
       overflow: hidden;
     }
+
+    /* إضاءة خلفية مرنة تتغير مع حجم الشاشة */
     .splash-hero::before {
       content: "";
       position: absolute;
-      width: 550px; /* تكبير مساحة الإضاءة الخلفية لتناسب الشعار الجديد */
-      height: 550px;
-      background: radial-gradient(circle, rgba(255,189,34,0.15) 0%, transparent 70%);
+      width: clamp(250px, 50vw, 600px);
+      height: clamp(250px, 50vw, 600px);
+      background: radial-gradient(circle, rgba(255,189,34,0.18) 0%, transparent 70%);
       border-radius: 50%;
       z-index: 0;
     }
+
+    /* الشعار العملاق مرن باستخدام clamp ليناسب (جوال، آيباد، كمبيوتر) */
     .giant-logo {
-      height: 380px;  /* تكبير حجم الشعار بشكل كبير (كان 250px) */
+      height: clamp(180px, 35vw, 450px);
       width: auto;
+      max-width: 90%;
       object-fit: contain;
       z-index: 1;
       animation: floatLogo 4s ease-in-out infinite; 
     }
+
     @keyframes floatLogo {
       0% { transform: translateY(0px); }
       50% { transform: translateY(-15px); }
       100% { transform: translateY(0px); }
     }
-    @media(max-width:820px){
-      .giant-logo { height: 220px; } /* تكبير حجم الشعار في شاشات الجوال أيضاً */
-      .splash-hero { height: 60vh; }
-    }
 
     /* =========================================
-       القسم الثاني: شريط التنقل (Sticky Nav)
+       شريط التنقل اللاصق (Sticky Navigation)
        ========================================= */
     .nav-wrap {
       position: sticky; 
       top: 0; 
-      z-index: 100; 
+      z-index: 100;
       background: rgba(252,251,247,.94);
       backdrop-filter: blur(14px);
       border-bottom: 1px solid rgba(217,228,221,.75);
       box-shadow: 0 4px 20px rgba(0,0,0,0.05); 
     }
-    nav {
-      height: 90px; 
-      display: flex;
-      align-items: center;
-      justify-content: center; 
-      gap: 40px;
-      position: relative;
-    }
-    .nav-wrap .brand { display: none; }
+    nav { height: 90px; display: flex; align-items: center; justify-content: center; gap: 40px; position: relative; }
+    .nav-wrap .brand { display: none; } /* إخفاء الشعار الصغير من الشريط */
     
-    .nav-links{display:flex;align-items:center;gap:35px;list-style:none;margin:0;padding:0;font-size:16px;font-weight:700}
-    .nav-links a{text-decoration:none;color:#42575a;transition: color 0.3s ease; position:relative; padding:11px 0;}
-    .nav-links a:hover, .nav-links a.is-active{color:var(--deep); font-weight:800;}
-    .nav-links a::after{content:"";position:absolute;right:0;bottom:3px;left:0;height:2px;border-radius:2px;background:var(--coral);transform:scaleX(0);transform-origin:center;transition:transform .22s ease}
-    .nav-links a:hover::after,.nav-links a.is-active::after{transform:scaleX(1)}
+    .nav-links { display: flex; align-items: center; gap: 35px; list-style: none; margin: 0; padding: 0; font-size: 16px; font-weight: 700; }
+    .nav-links a { text-decoration: none; color: #42575a; transition: color 0.3s ease; position: relative; padding: 10px 0;}
+    .nav-links a::after { content:""; position:absolute; right:0; bottom:3px; left:0; height:2px; border-radius:2px; background:var(--coral); transform:scaleX(0); transition:transform .22s ease; }
+    .nav-links a:hover::after, .nav-links a.is-active::after { transform:scaleX(1); }
+    .nav-links a:hover, .nav-links a.is-active { color: var(--deep); font-weight: 800; }
     
-    /* ضبط اتجاه الأزرار في القائمة بناءً على اللغة */
-    .nav-actions{display:flex;align-items:center;gap:15px; position: absolute;}
-    html[dir="rtl"] .nav-actions { left: 24px; right: auto; }
-    html[dir="ltr"] .nav-actions { right: 24px; left: auto; }
+    .nav-actions { display: flex; align-items: center; gap: 15px; position: absolute; right: 24px; }
     
-    .lang-button,.nav-cta,.button{border:0;display:inline-flex;align-items:center;justify-content:center;gap:9px;text-decoration:none;font-family:var(--font-main);font-weight:700;cursor:pointer;border-radius:10px;min-height:45px;padding:0 18px;transition:.2s; font-size:15px;}
-    .lang-button{color:var(--deep);background:#F0F6F1;border:1px solid #CFE0D3;font-size:14px; font-weight:800;}
-    .lang-button:hover{background:#E4F1E7; transform:translateY(-2px); box-shadow:0 8px 16px rgba(18,58,53,.10)}
-    .nav-cta{background:var(--deep);color:#fff}
-    .nav-cta:hover,.button.primary:hover{transform:translateY(-3px);background:#0c2d29; box-shadow:0 12px 22px rgba(18,58,53,.22)}
-    .button span[aria-hidden],.nav-cta span[aria-hidden]{display:inline-block;transition:transform .22s ease}
-    html[dir="rtl"] .button:hover span[aria-hidden], html[dir="rtl"] .nav-cta:hover span[aria-hidden]{transform:translateX(-4px)}
-    html[dir="ltr"] .button:hover span[aria-hidden], html[dir="ltr"] .nav-cta:hover span[aria-hidden]{transform:translateX(4px)}
-    .menu{display:none;background:transparent;border:0;font:inherit;font-size:24px;color:var(--deep);cursor:pointer}
+    /* الأزرار الأساسية */
+    .lang-button, .nav-cta, .button { border: 0; display: inline-flex; align-items: center; justify-content: center; gap: 9px; text-decoration: none; font-weight: 800; cursor: pointer; border-radius: 10px; min-height: 48px; padding: 0 20px; transition: .2s; font-size: 15px; position: relative; overflow: hidden;}
+    .lang-button { color: var(--deep); background: #F0F6F1; border: 1px solid #CFE0D3; min-height: 40px; }
+    .lang-button:hover { background: #E4F1E7; transform: translateY(-2px); box-shadow: 0 5px 10px rgba(18,58,53,.10); }
+    .nav-cta, .button.primary { background: var(--deep); color: #fff; }
+    .nav-cta:hover, .button.primary:hover { transform: translateY(-3px); box-shadow: 0 12px 22px rgba(18,58,53,.22); background: #0c2d29; }
+    .button.secondary { background: #fff; color: var(--deep); border: 1px solid #C8D8CE; }
+    .button.secondary:hover { background: #F4FAF5; transform: translateY(-2px); box-shadow: 0 8px 16px rgba(18,58,53,.10); }
+    .menu { display: none; background: transparent; border: 0; font-size: 28px; color: var(--deep); cursor: pointer; }
 
-    /* باقي التنسيقات العامة */
-    .hero{position:relative;overflow:hidden;background:linear-gradient(115deg,#FDF9EF 0%,#F6F5E9 46%,#E0EFE4 100%)}
-    .hero-inner{position:relative;z-index:1;display:grid;grid-template-columns:1.03fr .97fr;align-items:center;gap:60px;min-height:625px;padding:70px 0}
-    .eyebrow{display:inline-flex;align-items:center;gap:8px;color:var(--deep);font-size:14px;font-weight:800;text-transform:uppercase;letter-spacing:0.5px}
-    .eyebrow:before{content:"";width:10px;height:10px;border-radius:50%;background:var(--coral);box-shadow:0 0 0 5px rgba(243,111,90,.14)}
-    h1{font-size:clamp(38px,4.5vw,65px);letter-spacing:-1px;line-height:1.2;margin:17px 0 20px;color:var(--deep);max-width:650px; font-weight:800;}
-    .accent{position:relative;display:inline-block;z-index:0}
-    .accent:after{content:"";position:absolute;z-index:-1;left:-4px;right:-7px;bottom:3px;height:15px;border-radius:14px;background:var(--gold);transform:rotate(-1.2deg)}
-    .hero p{font-size:18px;color:#506367;max-width:550px;margin:0 0 28px; line-height: 1.8;}
-    .hero-actions{display:flex;flex-wrap:wrap;gap:15px;align-items:center}
-    .button.primary{background:var(--deep);color:#fff;min-height:52px;padding:0 24px; font-size:16px;}
-    .button.secondary{background:#fff;color:var(--deep);border:1px solid #C8D8CE;min-height:52px; font-size:16px;}
-    .button.secondary:hover{background:#F4FAF5; transform:translateY(-2px); box-shadow:0 8px 16px rgba(18,58,53,.10)}
+    /* =========================================
+       تنسيقات الأقسام الأساسية (مرنة للأجهزة)
+       ========================================= */
+    .hero { position: relative; overflow: hidden; background: linear-gradient(115deg,#FDF9EF 0%,#F6F5E9 46%,#E0EFE4 100%); }
+    .hero-inner { position: relative; z-index: 1; display: grid; grid-template-columns: 1.03fr 0.97fr; align-items: center; gap: 60px; min-height: 625px; padding: 70px 0; }
+    .eyebrow { display: inline-flex; align-items: center; gap: 8px; color: var(--deep); font-size: 14px; font-weight: 900; text-transform: uppercase; letter-spacing: 1.2px; }
+    .eyebrow:before { content:""; width:10px; height:10px; border-radius:50%; background:var(--coral); box-shadow:0 0 0 5px rgba(243,111,90,.14); }
+    h1 { font-size: clamp(38px, 5vw, 68px); letter-spacing: -1.5px; line-height: 1.2; margin: 17px 0 20px; color: var(--deep); max-width: 650px; font-weight: 900; }
+    .accent { position: relative; display: inline-block; z-index: 0; }
+    .accent:after { content:""; position:absolute; z-index:-1; left:-4px; right:-7px; bottom:6px; height:18px; border-radius:14px; background:var(--gold); transform:rotate(-1.2deg); }
+    .hero p { font-size: clamp(16px, 2vw, 19px); color: #506367; max-width: 550px; margin: 0 0 28px; }
+    .hero-actions { display: flex; flex-wrap: wrap; gap: 15px; align-items: center; }
     
-    .trust-row{display:flex;gap:20px;align-items:center;margin-top:35px;color:#5D7071;font-size:14px;font-weight:700}
-    .avatars{display:flex}
-    .avatar{width:32px;height:32px;border-radius:50%;border:2px solid var(--paper);display:grid;place-items:center;background:#F8C9AE;color:#643B2C;font-size:12px;margin-left:-10px; font-weight:bold;}
-    html[dir="ltr"] .avatar{margin-left:0; margin-right:-10px;}
-    .avatar:first-child{margin-left:0; margin-right:0; background:#B8D8C5;color:#1A5545}
-    .avatar:last-child{background:#D5C6F0;color:#493E70}
+    .exam-card { position: relative; margin: auto; width: min(100%, 440px); padding: 17px; background: rgba(255,255,255,.86); border: 1px solid rgba(255,255,255,.9); border-radius: 24px; box-shadow: var(--shadow); transform: rotate(2deg); direction: ltr; text-align: left; }
+    .exam-card:before { content:""; position:absolute; z-index:-1; inset:13px -14px -13px 16px; border:2px solid var(--gold); border-radius:25px; transform:rotate(-6deg); }
+    .card-head { display: flex; align-items: center; justify-content: space-between; padding: 4px 6px 16px; }
+    .small-logo { display: flex; align-items: center; gap: 7px; font-weight: 800; font-size: 15px; color: var(--deep); }
+    .small-logo span { height: 23px; width: 23px; border-radius: 7px; background: var(--gold); display: grid; place-items: center; color: var(--deep); font-size: 15px; }
+    .status { font-size: 12px; color: #26704E; background: #E2F3E8; padding: 5px 12px; border-radius: 99px; font-weight: 800; }
     
-    .exam-card{position:relative;margin:auto;width:min(100%,440px);padding:20px;background:rgba(255,255,255,.86);border:1px solid rgba(255,255,255,.9);border-radius:24px;box-shadow:var(--shadow);transform:rotate(2deg);direction:ltr;text-align:left}
-    .exam-card:before{content:"";position:absolute;z-index:-1;inset:13px -14px -13px 16px;border:2px solid var(--gold);border-radius:25px;transform:rotate(-6deg)}
-    .card-head{display:flex;align-items:center;justify-content:space-between;padding:4px 6px 16px}
-    .small-logo{display:flex;align-items:center;gap:7px;font-weight:800;font-size:15px;color:var(--deep)}
-    .small-logo span{height:25px;width:25px;border-radius:7px;background:var(--gold);display:grid;place-items:center;color:var(--deep);font-size:15px; font-weight:900;}
-    .status{font-size:12px;color:#26704E;background:#E2F3E8;padding:6px 12px;border-radius:99px;font-weight:800}
+    /* مربع اختبار PMP */
+    .pmp-visual { display: flex; align-items: center; padding: 25px; background: linear-gradient(128deg,#0C4A6E 0%,#115E59 55%,#174C45 100%); border-radius: 16px; position: relative; overflow: hidden; }
+    .pmp-grid { position: absolute; inset: 0; opacity: .18; background-image: linear-gradient(rgba(255,255,255,.35) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.35) 1px,transparent 1px); background-size: 28px 28px; mask-image: linear-gradient(90deg,transparent,black 42%,black); }
+    .pmp-hero-mark { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: flex-start; color: #fff; text-align: left; }
+    .pmp-kicker { font-family: Arial,sans-serif; font-size: 10px; font-weight: 800; letter-spacing: 2px; color: #A9E6D5; }
+    .pmp-hero-mark strong { margin: 5px 0; font-family: var(--font-ui); font-size: clamp(38px, 6vw, 50px); line-height: 1; letter-spacing: -1px; color: #fff; text-shadow: 0 7px 18px rgba(0,0,0,.16); }
+    .pmp-hero-caption { margin-top: 8px; padding: 6px 10px; border: 1px solid rgba(255,255,255,.28); border-radius: 6px; background: rgba(255,255,255,.11); font-size: 12px; font-weight: 800; letter-spacing: .2px; }
+    .tick { position: absolute; right: 26px; bottom: 21px; display: grid; place-items: center; width: 49px; height: 49px; border-radius: 50%; background: var(--coral); color: #fff; font-size: 28px; font-weight: 900; box-shadow: 0 7px 15px rgba(100,32,21,.25); border:2px solid rgba(255,255,255,.35); z-index: 2; }
     
-    .tick{position:absolute;right:26px;bottom:21px;display:grid;place-items:center;width:49px;height:49px;border-radius:50%;background:var(--coral);color:#fff;font-size:28px;font-weight:900;box-shadow:0 7px 15px rgba(100,32,21,.25)}
-    .progress-panel{display:flex;align-items:center;gap:15px;margin-top:20px;padding:2px 6px 4px}
-    .progress-ring{width:56px;height:56px;border-radius:50%;display:grid;place-items:center;background:conic-gradient(var(--coral) 0 68%,#E8EFEB 68% 100%)}
-    .progress-ring b{display:grid;place-items:center;width:44px;height:44px;border-radius:50%;background:#fff;font-size:13px;color:var(--deep); font-weight:800;}
-    .progress-text strong,.progress-text span{display:block}
-    .progress-text strong{font-size:15px; font-weight:700;}
-    .progress-text span{font-size:13px;color:var(--muted); margin-top:3px;}
+    .progress-panel { display: flex; align-items: center; gap: 15px; margin-top: 16px; padding: 4px 6px; }
+    .progress-ring { width: 55px; height: 55px; border-radius: 50%; display: grid; place-items: center; background: conic-gradient(var(--coral) 0 68%,#E8EFEB 68% 100%); }
+    .progress-ring b { display: grid; place-items: center; width: 43px; height: 43px; border-radius: 50%; background: #fff; font-size: 12px; color: var(--deep); }
+    .progress-text strong { display: block; font-size: 15px; }
+    .progress-text span { display: block; font-size: 13px; color: var(--muted); }
+
+    .logos { padding: 30px 0; background: #fff; border-bottom: 1px solid var(--line); }
+    .logos-inner { display: flex; justify-content: space-between; align-items: center; gap: 20px; color: #748986; font-size: 14px; font-weight: 700; }
+    .logos-list { display: flex; gap: 35px; align-items: center; color: #A0AEAA; font-size: 16px; letter-spacing: .5px; }
+    .logos-list b { font-weight: 850; }
     
-    .logos{padding:30px 0;background:#fff;border-bottom:1px solid var(--line)}
-    .logos-inner{display:flex;justify-content:space-between;align-items:center;gap:20px;color:#748986;font-size:15px;font-weight:700}
-    .logos-list{display:flex;gap:35px;align-items:center;color:#A0AEAA;font-size:17px;letter-spacing:.5px}
-    .logos-list b{font-weight:800}
+    section { scroll-margin-top: 102px; }
+    .section { padding: 100px 0; }
+    .section-label { color: var(--coral); font-size: 13px; font-weight: 900; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 10px;}
+    .section-heading { max-width: 670px; margin: 11px 0 14px; font-size: clamp(30px, 4vw, 46px); letter-spacing: -1px; line-height: 1.2; color: var(--deep); font-weight: 900;}
+    .section-intro { max-width: 580px; color: var(--muted); font-size: clamp(16px, 2vw, 18px); margin: 0; }
     
-    section{scroll-margin-top:102px}
-    .section{padding:100px 0}
-    .section-label{color:var(--coral);font-size:14px;font-weight:800;letter-spacing:1px;text-transform:uppercase; margin-bottom: 10px; display:block;}
-    .section-heading{max-width:670px;margin:0 0 18px;font-size:clamp(30px,4vw,46px);letter-spacing:-1px;line-height:1.2;color:var(--deep); font-weight:800;}
-    .section-intro{max-width:600px;color:var(--muted);font-size:18px;margin:0; line-height: 1.7;}
+    /* موازنة الأيقونات باستخدام clamp */
+    .feature-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 50px; }
+    .feature { border: 1px solid var(--line); border-radius: 20px; padding: 30px; background: #fff; transition: .3s; }
+    .feature:hover { transform: translateY(-5px); border-color: #A6C9B4; box-shadow: 0 12px 30px rgba(20,58,48,.08); }
+    .icon-box { 
+      width: clamp(45px, 6vw, 55px); 
+      height: clamp(45px, 6vw, 55px); 
+      border-radius: 14px; 
+      display: grid; 
+      place-items: center; 
+      margin-bottom: 25px; 
+      color: var(--deep); 
+      font-size: clamp(20px, 3vw, 26px); 
+      background: var(--mint); 
+    }
+    .feature:nth-child(2) .icon-box, .feature:nth-child(5) .icon-box { background: #FFF1D6; color: #A76700; }
+    .feature:nth-child(3) .icon-box, .feature:nth-child(6) .icon-box { background: #FFE9E4; color: #C04E3C; }
+    .feature h3 { margin: 0 0 10px; font-size: 20px; font-weight: 800; }
+    .feature p { font-size: 15px; color: var(--muted); margin: 0; }
     
-    .feature-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:55px}
-    .feature{border:1px solid var(--line);border-radius:20px;padding:30px;background:#fff;transition:.3s ease;}
-    .feature:hover{transform:translateY(-5px);border-color:#A6C9B4;box-shadow:0 12px 30px rgba(20,58,48,.08)}
-    .icon-box{width:48px;height:48px;border-radius:12px;display:grid;place-items:center;margin-bottom:24px;color:var(--deep);font-size:24px;background:var(--mint); font-weight:bold;}
-    .feature:nth-child(2) .icon-box,.feature:nth-child(5) .icon-box{background:#FFF1D6;color:#A76700}
-    .feature:nth-child(3) .icon-box,.feature:nth-child(6) .icon-box{background:#FFE9E4;color:#C04E3C}
-    .feature h3{margin:0 0 10px;font-size:20px; font-weight:700;}
-    .feature p{font-size:15px;color:var(--muted);margin:0; line-height:1.7;}
+    .about { background: var(--deep); color: #fff; overflow: hidden; position: relative; }
+    .about-grid { position: relative; z-index: 1; display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 70px; align-items: center; }
+    .about .section-label { color: var(--gold); }
+    .about .section-heading { color: #fff; max-width: 520px; }
+    .about .section-intro { color: #BCD2CA; }
+    .principles { display: grid; gap: 20px; margin-top: 35px; }
+    .principle { display: grid; grid-template-columns: 45px 1fr; gap: 15px; border-bottom: 1px solid rgba(255,255,255,.15); padding: 0 0 20px; }
+    .principle:last-child { border: 0; padding: 0; }
+    .number { font-size: 15px; font-weight: 900; color: var(--gold); padding-top: 5px; }
+    .principle strong { display: block; font-size: 18px; font-weight: 800; }
+    .principle span { font-size: 15px; color: #BCD2CA; }
+    .quote-card { background: #F8F4E9; color: var(--ink); border-radius: 24px; padding: 40px; box-shadow: 18px 18px 0 rgba(255,189,34,.15); transform: rotate(2deg); }
+    .quote-mark { color: var(--coral); font-size: 80px; line-height: 0.6; font-family: Georgia, serif; }
+    .quote-card blockquote { font-size: clamp(20px, 3vw, 28px); font-weight: 700; line-height: 1.4; margin: 15px 0 30px; }
+    .quote-card footer { color: var(--muted); font-size: 14px; font-weight: 700; }
     
-    .about{background:var(--deep);color:#fff;overflow:hidden;position:relative}
-    .about-grid{position:relative;z-index:1;display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:center}
-    .about .section-label{color:var(--gold)}
-    .about .section-heading{color:#fff;max-width:520px}
-    .about .section-intro{color:#BCD2CA}
-    .principles{display:grid;gap:18px; margin-top:35px;}
-    .principle{display:grid;grid-template-columns:48px 1fr;gap:15px;border-bottom:1px solid rgba(255,255,255,.15);padding:0 0 18px}
-    .principle:last-child{border:0;padding:0}
-    .number{font-size:15px;font-weight:900;color:var(--gold);padding-top:4px}
-    .principle strong{display:block;font-size:18px; font-weight:700; margin-bottom:5px;}
-    .principle span{font-size:15px;color:#BCD2CA; line-height:1.6;}
+    .values { padding: 100px 0; background: linear-gradient(116deg,#FFF0E8,#FCFBF7 55%,#F0F8F1); }
+    .values-head { text-align: center; }
+    .values-head .section-heading { margin: 10px auto 15px; }
+    .values-head .section-intro { margin: auto; }
+    .value-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-top: 60px; }
+    .value-card { padding: 35px 30px; background: rgba(255,255,255,.85); border: 1px solid #F0CFC1; border-radius: 20px; }
+    .value-icon { font-size: clamp(34px, 4vw, 42px); color: var(--coral); line-height: 1; margin-bottom: 20px; }
+    .value-card h3 { margin: 0 0 10px; color: #263754; font-size: 22px; font-weight: 800;}
+    .value-card p { margin: 0; color: #72809A; font-size: 16px; max-width: 520px; }
+
+    /* =========================================
+       قسم الأسعار الجديد (بدلاً من الأسئلة الشائعة)
+       ========================================= */
+    .pricing-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-top: 50px; }
+    .pricing-card { background: #fff; border: 1px solid var(--line); border-radius: 24px; padding: 40px; position: relative; transition: .3s; display: flex; flex-direction: column; }
+    .pricing-card:hover { transform: translateY(-5px); box-shadow: 0 20px 40px rgba(18,58,53,.08); }
+    .pricing-card.popular { border: 2px solid var(--gold); box-shadow: 0 15px 35px rgba(255,189,34,.15); background: linear-gradient(to bottom, #fff, #FFFcf5); }
     
-    .quote-card{background:#F8F4E9;color:var(--ink);border-radius:24px;padding:40px;box-shadow:18px 18px 0 rgba(255,189,34,.15);transform:rotate(2deg)}
-    .quote-mark{color:var(--coral);font:64px Georgia,serif;line-height:.6}
-    .quote-card blockquote{font-size:26px; font-weight:700; line-height:1.5; margin:15px 0 30px}
-    .quote-card footer{color:var(--muted);font-size:15px;font-weight:700}
+    .ribbon { position: absolute; top: 0; right: 30px; background: var(--gold); color: var(--deep); font-weight: 900; font-size: 13px; padding: 8px 16px; border-radius: 0 0 8px 8px; box-shadow: 0 4px 10px rgba(255,189,34,.3); }
+    html[dir="rtl"] .ribbon { right: auto; left: 30px; }
     
-    .values{padding:100px 0;background:linear-gradient(116deg,#FFF0E8,#FCFBF7 55%,#F0F8F1)}
-    .values-head{text-align:center}
-    .values-head .section-heading{margin:10px auto 16px}
-    .values-head .section-intro{margin:auto}
-    .value-grid{display:grid;grid-template-columns:1fr 1fr;gap:30px;margin-top:60px}
-    .value-card{padding:35px 30px;background:rgba(255,255,255,.85);border:1px solid #F0CFC1;border-radius:20px; transition:.3s;}
-    .value-card:hover{box-shadow: 0 10px 30px rgba(243,111,90,.08); transform: translateY(-3px);}
-    .value-icon{font-size:40px;color:var(--coral);line-height:1;margin-bottom:20px}
-    .value-card h3{margin:0 0 12px;color:#263754;font-size:22px; font-weight:800;}
-    .value-card p{margin:0;color:#72809A;font-size:16px;max-width:520px; line-height:1.7;}
+    .pricing-card h3 { font-size: 24px; color: var(--deep); margin: 0 0 15px; font-weight: 800; }
+    .pricing-card .price { display: flex; flex-direction: column; margin-bottom: 25px; }
+    .pricing-card .price del { color: var(--muted); font-size: 18px; font-weight: 600; text-decoration-color: var(--coral); text-decoration-thickness: 2px; }
+    .pricing-card .price strong { font-size: clamp(38px, 4vw, 48px); color: var(--deep); font-weight: 900; line-height: 1; }
     
-    .steps{background:var(--warm)}
-    .steps-top{display:flex;justify-content:space-between;align-items:end;gap:24px}
-    .steps-top .section-heading{margin-bottom:0}
-    .steps-list{display:grid;grid-template-columns:repeat(3,1fr);gap:25px;margin-top:55px;counter-reset:steps}
-    .step{position:relative;padding:35px 30px;border-radius:20px;background:#fff;border:1px solid #F0DCC1;counter-increment:steps}
-    .step:before{content:"0" counter(steps);font-size:15px;font-weight:900;color:var(--coral);letter-spacing:1px}
-    .step h3{font-size:22px;margin:20px 0 12px;color:var(--deep); font-weight:800;}
-    .step p{color:var(--muted);font-size:16px;margin:0; line-height:1.7;}
+    .pricing-features { list-style: none; padding: 0; margin: 0 0 35px; flex-grow: 1; }
+    .pricing-features li { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 16px; font-size: 16px; color: #506367; }
+    .pricing-features li::before { content: "✓"; color: #26704E; font-weight: 900; font-size: 18px; background: #E2F3E8; width: 24px; height: 24px; display: grid; place-items: center; border-radius: 50%; flex-shrink: 0; }
+    .pricing-card .button { width: 100%; justify-content: center; min-height: 54px; font-size: 17px; }
+
+    .contact-card { position: relative; overflow: hidden; border-radius: 28px; padding: 60px; background: linear-gradient(135deg,#CDE9D6,#F3EACB); color: var(--deep); }
+    .contact-card h2 { font-size: clamp(32px, 4vw, 50px); line-height: 1.1; letter-spacing: -1.5px; max-width: 650px; margin: 10px 0 15px; font-weight: 900; }
+    .contact-card p { font-size: clamp(16px, 2vw, 19px); max-width: 600px; color: #476762; margin: 0 0 30px; }
     
-    /* تنسيقات قسم الأسعار الجديد بدلاً من الأسئلة الشائعة */
-    .pricing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; margin-top: 55px; }
-    .pricing-card { background: rgba(255,255,255,0.9); border: 1px solid var(--line); border-radius: 24px; padding: 40px; transition: transform 0.3s ease, box-shadow 0.3s ease; position: relative; overflow: hidden; display: flex; flex-direction: column;}
-    .pricing-card:hover { transform: translateY(-5px); box-shadow: 0 18px 46px rgba(243,111,90,.12); border-color: #F0CFC1; }
-    .pricing-card.popular { border: 2px solid var(--gold); box-shadow: 0 12px 30px rgba(255, 189, 34, 0.15); }
-    .popular-badge { position: absolute; top: 18px; left: -35px; background: var(--gold); color: var(--deep); font-size: 13px; font-weight: 800; padding: 6px 40px; transform: rotate(-45deg); letter-spacing: 0; }
-    html[dir="ltr"] .popular-badge { right: -35px; left: auto; transform: rotate(45deg); }
-    .price-header { margin-bottom: 25px; border-bottom: 1px solid var(--line); padding-bottom: 25px; text-align: center; }
-    .price-title { font-size: 22px; color: var(--deep); font-weight: 800; margin: 0 0 10px; }
-    .old-price { font-size: 18px; color: var(--muted); text-decoration: line-through; margin-bottom: 5px; font-weight: 700; }
-    .new-price { font-size: 48px; color: var(--deep); font-weight: 900; line-height: 1; display: flex; align-items: center; justify-content: center; gap: 8px;}
-    .new-price span { font-size: 18px; color: var(--muted); font-weight: 700; }
-    .pricing-features { list-style: none; padding: 0; margin: 0 0 35px; text-align: start; flex-grow: 1; }
-    .pricing-features li { display: flex; align-items: flex-start; gap: 12px; font-size: 16px; color: var(--ink); margin-bottom: 18px; font-weight: 500;}
-    .pricing-features li::before { content: "✓"; color: var(--paper); background: var(--coral); width: 22px; height: 22px; border-radius: 50%; display: grid; place-items: center; font-size: 12px; flex-shrink: 0; margin-top: 3px; font-weight: bold;}
-    .pricing-card .button { width: 100%; min-height: 55px;}
-    
-    .contact-card{position:relative;overflow:hidden;border-radius:24px;padding:60px;background:linear-gradient(135deg,#CDE9D6,#F3EACB);color:var(--deep)}
-    .contact-card h2{font-size:clamp(32px,4vw,50px);line-height:1.2;letter-spacing:-1px;max-width:650px;margin:10px 0 15px; font-weight:800;}
-    .contact-card p{font-size:18px;max-width:600px;color:#476762;margin:0 0 30px; line-height:1.7;}
-    
-    .social-contact-bar { background-color: var(--gold); padding: 18px 24px; border-radius: 14px; margin-top: 35px; display: flex; align-items: center; justify-content: center; gap: 30px; color: var(--deep); font-weight: 800; font-size: 17px; box-shadow: 0 4px 15px rgba(255, 189, 34, 0.3); flex-wrap: wrap; }
+    .social-contact-bar { background-color: var(--gold); padding: 18px 25px; border-radius: 16px; margin-top: 40px; display: flex; align-items: center; justify-content: center; gap: 30px; color: var(--deep); font-weight: 800; font-size: 17px; box-shadow: 0 8px 25px rgba(255, 189, 34, 0.25); flex-wrap: wrap; }
     .social-contact-bar a { color: var(--deep); text-decoration: none; display: inline-flex; align-items: center; gap: 8px; transition: transform 0.2s ease, opacity 0.2s ease; }
     .social-contact-bar a:hover { transform: translateY(-3px); opacity: 0.8; }
 
-    .footer{padding:50px 0 30px}
-    .footer-top{display:flex;align-items:start;justify-content:space-between;gap:40px;padding-bottom:40px;border-bottom:1px solid var(--line)}
-    .footer-text{color:var(--muted);font-size:15px;max-width:350px;margin:18px 0 0; line-height:1.7;}
-    .footer-links{display:flex;gap:60px}
-    .footer-links b{font-size:14px;color:var(--deep);letter-spacing:1px;text-transform:uppercase;margin-bottom:15px; display:block; font-weight:800;}
-    .footer-links a{text-decoration:none;color:var(--muted);font-size:15px;margin:10px 0; display:block; transition:color .2s;}
-    .footer-links a:hover{color:var(--coral);}
-    .footer-bottom{padding-top:25px;display:flex;justify-content:space-between;color:#82918E;font-size:14px}
-    
+    .footer { padding: 60px 0 30px; }
+    .footer-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 40px; padding-bottom: 40px; border-bottom: 1px solid var(--line); }
+    .footer .brand-mark { height: clamp(60px, 8vw, 90px); width: auto; object-fit: contain; } /* لوقو الفوتر مرن */
+    .footer-text { color: var(--muted); font-size: 15px; max-width: 320px; margin: 15px 0 0; }
+    .footer-links { display: flex; gap: 60px; }
+    .footer-links b { font-size: 14px; color: var(--deep); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 15px; font-weight: 900; display: block; }
+    .footer-links a { display: block; text-decoration: none; color: var(--muted); font-size: 15px; margin: 8px 0; transition: color 0.2s; }
+    .footer-links a:hover { color: var(--coral); }
+    .footer-bottom { padding-top: 25px; display: flex; justify-content: space-between; color: #82918E; font-size: 13px; }
+
+    /* حركات الظهور التدريجي */
     .animate-on-scroll { opacity: 0; transform: translateY(40px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; will-change: opacity, transform; }
     .animate-on-scroll.is-visible { opacity: 1; transform: translateY(0); }
 
-    /* تنسيق مربع الاختبار وتخصيص كلمة اختبار PMP */
-    .pmp-visual{display:flex;align-items:center;padding:25px;background:linear-gradient(128deg,#0C4A6E 0%,#115E59 55%,#174C45 100%)}
-    .pmp-grid{position:absolute;inset:0;opacity:.18;background-image:linear-gradient(rgba(255,255,255,.35) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.35) 1px,transparent 1px);background-size:28px 28px;mask-image:linear-gradient(90deg,transparent,black 42%,black)}
-    .pmp-hero-mark{position:relative;z-index:1;display:flex;flex-direction:column;color:#fff;}
-    .pmp-kicker{font-size:11px;font-weight:800;letter-spacing:2px;color:#A9E6D5; font-family: Arial, sans-serif;}
-    .pmp-hero-mark strong{margin:5px 0 0; font-size:clamp(35px,5.5vw,50px);line-height:1.1; color:#fff;text-shadow:0 7px 18px rgba(0,0,0,.16); font-weight:900;}
-    .pmp-hero-caption{margin-top:12px;padding:6px 12px;border:1px solid rgba(255,255,255,.28);border-radius:8px;background:rgba(255,255,255,.11);font-size:12px;font-weight:800;}
+    html[dir="rtl"] body { text-align: right; }
+    html[dir="rtl"] .pmp-hero-mark { align-items: flex-start; text-align: right; }
+    html[dir="rtl"] .pmp-hero-mark strong { direction: rtl; }
+    html[dir="rtl"] .hero:before { right: auto; left: -120px; }
+    html[dir="rtl"] .hero:after { left: auto; right: -180px; }
+    html[dir="rtl"] .about:after { right: auto; left: -145px; }
+    html[dir="rtl"] .quote-card { transform: rotate(-2deg); }
+    html[dir="rtl"] .principle { grid-template-columns: 1fr 45px; }
+    html[dir="rtl"] .number { grid-column: 2; grid-row: 1; text-align: right;}
+    html[dir="rtl"] .principle>div { grid-column: 1; grid-row: 1; }
+    html[dir="rtl"] .contact-card:after { right: auto; left: -55px; }
     
-    /* ضبط الاتجاهات داخل المربع المرئي */
-    html[dir="rtl"] .pmp-hero-mark{align-items:flex-start;text-align:right}
-    html[dir="ltr"] .pmp-hero-mark{align-items:flex-start;text-align:left}
-    html[dir="rtl"] .pmp-hero-mark strong{direction:rtl}
-    html[dir="ltr"] .pmp-hero-mark strong{direction:ltr}
-
-    /* إصلاح اتجاهات وتخطيط RTL و LTR العامة */
-    html[dir="rtl"] body{text-align:right}
-    html[dir="ltr"] body{text-align:left}
-    html[dir="rtl"] .quote-card{transform:rotate(-2deg)}
-    html[dir="ltr"] .quote-card{transform:rotate(2deg)}
-    html[dir="rtl"] .principle{grid-template-columns:1fr 48px}
-    html[dir="ltr"] .principle{grid-template-columns:48px 1fr}
-    html[dir="rtl"] .number{grid-column:2;grid-row:1}
-    html[dir="rtl"] .principle>div{grid-column:1;grid-row:1}
+    /* التصميم المتجاوب للجوال والآيباد */
+    @media(max-width: 992px) {
+      .pricing-grid { grid-template-columns: 1fr; gap: 30px; }
+    }
     
-    @media(max-width:820px){
+    @media(max-width: 820px) {
       nav { justify-content: space-between; height: 80px; }
-      .nav-links{display:none}
-      .nav-links.open{display:flex;position:absolute;top:80px;left:0;right:0;z-index:4;flex-direction:column;align-items:stretch;gap:0;padding:15px;background:#fff;border:1px solid var(--line);border-radius:0 0 16px 16px; box-shadow:0 15px 30px rgba(0,0,0,0.1)}
-      .nav-links.open a{display:block;padding:14px 10px; border-bottom: 1px solid var(--line);}
-      .nav-links.open a:last-child {border-bottom: none;}
-      .menu{display:block}
-      .nav-actions { position: static; }
-      .hero-inner,.about-grid,.faq-layout{grid-template-columns:1fr;gap:50px}
-      h1{letter-spacing:0;}
+      .nav-links { display: none; }
+      .nav-links.open { display: flex; position: absolute; top: 80px; left: 0; right: 0; z-index: 4; flex-direction: column; align-items: stretch; gap: 0; padding: 15px; background: #fff; border: 1px solid var(--line); border-radius: 0 0 16px 16px; box-shadow: 0 15px 30px rgba(0,0,0,0.1); }
+      .nav-links.open a { padding: 15px 10px; border-bottom: 1px solid var(--line); }
+      .nav-links.open a:last-child { border: none; }
+      .nav-links.open a::after { display: none; } /* إخفاء الخط السفلي في الجوال */
+      .menu { display: block; }
+      .nav-actions { position: static; gap: 10px; }
+      .hero-inner, .about-grid { grid-template-columns: 1fr; gap: 50px; }
+      .hero-copy { order: 2; }
+      .exam-card { max-width: 100%; }
+      .logos-inner { display: block; text-align: center; }
+      .logos-list { justify-content: center; margin-top: 15px; flex-wrap: wrap; gap: 20px;}
+      .section { padding: 70px 0; }
+      .feature-grid, .value-grid { grid-template-columns: 1fr; }
+      .quote-card { transform: none; }
+      html[dir="rtl"] .quote-card { transform: none; }
+      .footer-top { flex-direction: column; }
+      .footer-links { flex-wrap: wrap; gap: 40px; margin-top: 30px; }
+      .social-contact-bar { flex-direction: column; gap: 15px; padding: 20px; }
     }
   </style>
 </head>
@@ -297,23 +291,22 @@
   <div class="announcement" data-i18n="announcement">Built for honest progress — <strong>prepare smarter, not harder.</strong></div>
   
   <header class="splash-hero">
-    <!-- استبدال الصورة لتصبح بصيغة SVG حسب الطلب -->
+    <!-- استخدام ملف SVG لشعار احترافي شفاف -->
     <img src="PMP-cropped.svg" class="giant-logo" alt="شعار Exam-Pass الرئيسي">
   </header>
 
   <div class="nav-wrap">
     <nav class="container" aria-label="Primary navigation">
       <ul class="nav-links">
-        <li><a href="#features" data-i18n="navFeatures">المزايا</a></li>
-        <li><a href="#how-it-works" data-i18n="navHow">كيف يعمل</a></li>
-        <li><a href="#about" data-i18n="navAbout">عن المنصة</a></li>
-        <li><a href="#values" data-i18n="navValues">القيم</a></li>
-        <li><a href="#pricing" data-i18n="navPricing">الأسعار</a></li>
+        <li><a href="#features" data-i18n="navFeatures">Features</a></li>
+        <li><a href="#how-it-works" data-i18n="navHow">How it works</a></li>
+        <li><a href="#about" data-i18n="navAbout">About</a></li>
+        <li><a href="#values" data-i18n="navValues">Values</a></li>
+        <li><a href="#pricing" data-i18n="navPricing">Pricing</a></li> <!-- تم التغيير للأسعار -->
       </ul>
       <div class="nav-actions">
-        <!-- زر تغيير اللغة -->
-        <button class="lang-button" id="langToggle" type="button" aria-label="Change language">English</button>
-        <a class="nav-cta" href="#contact"><span data-i18n="navStart">ابدأ الاستعداد</span> <span aria-hidden="true">→</span></a>
+        <button class="lang-button" id="langToggle" type="button" aria-label="Change language">العربية</button>
+        <a class="nav-cta" href="#contact"><span data-i18n="navStart">Start preparing</span> <span aria-hidden="true">→</span></a>
         <button class="menu" aria-label="Open navigation" type="button">☰</button>
       </div>
     </nav>
@@ -323,38 +316,38 @@
     <section class="hero animate-on-scroll" id="home">
       <div class="container hero-inner">
         <div class="hero-copy">
-          <div class="eyebrow" data-i18n="heroEyebrow">استعداد ذكي للاختبارات</div>
-          <h1 data-i18n="heroTitle">خطّة واضحة تساعدك على <span class="accent">الاستعداد والاجتياز.</span></h1>
-          <p data-i18n="heroText">يساعدك Exam-Pass على تنظيم وقتك، والتدرّب على ما يهم، ومتابعة تقدّمك حتى تدخل الاختبار بثقة.</p>
+          <div class="eyebrow" data-i18n="heroEyebrow">Exam preparation, made clearer</div>
+          <h1 data-i18n="heroTitle">Your clearer path to <span class="accent">exam confidence.</span></h1>
+          <p data-i18n="heroText">Exam-Pass brings focused practice, practical study plans, and timely support together — so students can prepare with clarity and show up ready.</p>
           <div class="hero-actions">
-            <a class="button primary" href="#contact"><span data-i18n="heroPrimary">ابدأ خطتي</span> <span aria-hidden="true">→</span></a>
-            <a class="button secondary" href="#features" data-i18n="heroSecondary">استكشف المزايا</a>
+            <a class="button primary" href="#pricing"><span data-i18n="heroPrimary">View Plans</span> <span aria-hidden="true">→</span></a>
+            <a class="button secondary" href="#features" data-i18n="heroSecondary">Explore the features</a>
           </div>
           <div class="trust-row">
             <div class="avatars" aria-hidden="true"><span class="avatar">A</span><span class="avatar">M</span><span class="avatar">S</span></div>
-            <span data-i18n="trust">للاستعداد الجاد والنزيه للاختبارات.</span>
+            <span data-i18n="trust">Designed for focused, ethical exam preparation.</span>
           </div>
         </div>
         <div class="exam-card animate-on-scroll" aria-label="Study progress example">
           <div class="card-head">
             <div class="small-logo"><span>✓</span> exam-pass</div>
-            <div class="status" data-i18n="status">على المسار الصحيح</div>
+            <div class="status" data-i18n="status">On track</div>
           </div>
           <div class="card-illustration pmp-visual" aria-label="Exam preparation visual">
             <div class="pmp-grid" aria-hidden="true"></div>
             <div class="pmp-hero-mark">
               <span class="pmp-kicker">EXAM PREPARATION</span>
-              <!-- جعل الكلمة قابلة للترجمة التلقائية بين العربية والإنجليزية -->
-              <strong data-i18n="pmpExam">اختبار PMP</strong>
-              <span class="pmp-hero-caption" data-i18n="pmpBadge">استعد بتركيز · اجتز بثقة</span>
+              <!-- النص هنا يترجم تلقائياً -->
+              <strong data-i18n="pmpText">PMP Exam</strong> 
+              <span class="pmp-hero-caption" data-i18n="pmpBadge">PMP® exam preparation</span>
             </div>
             <div class="tick">✓</div>
           </div>
           <div class="progress-panel">
             <div class="progress-ring"><b>68%</b></div>
             <div class="progress-text">
-              <strong data-i18n="weekGoal">هدف الأسبوع</strong>
-              <span data-i18n="weekProgress">4 من 6 جلسات مكتملة</span>
+              <strong data-i18n="weekGoal">Weekly study goal</strong>
+              <span data-i18n="weekProgress">4 of 6 sessions completed</span>
             </div>
           </div>
         </div>
@@ -363,44 +356,44 @@
     
     <div class="logos animate-on-scroll">
       <div class="container logos-inner">
-        <span data-i18n="logosIntro">خطوات بسيطة لكل موسم اختبارات.</span>
+        <span data-i18n="logosIntro">A calm, structured approach for every exam season.</span>
         <div class="logos-list">
-          <b data-i18n="plan">خَطِّط</b><b data-i18n="practice">تَدَرَّب</b><b data-i18n="review">رَاجِع</b><b data-i18n="improve">تَحَسَّن</b>
+          <b data-i18n="plan">PLAN</b><b data-i18n="practice">PRACTICE</b><b data-i18n="review">REVIEW</b><b data-i18n="improve">IMPROVE</b>
         </div>
       </div>
     </div>
     
     <section class="section container animate-on-scroll" id="features">
-      <div class="section-label" data-i18n="featuresLabel">المزايا</div>
-      <h2 class="section-heading" data-i18n="featuresTitle">كل ما تحتاجه للاستعداد.</h2>
-      <p class="section-intro" data-i18n="featuresIntro">أدوات عملية تساعدك على تنظيم الدراسة، والتدرّب بتركيز، ومراجعة ما يحتاج اهتمامك.</p>
+      <div class="section-label" data-i18n="featuresLabel">Features</div>
+      <h2 class="section-heading" data-i18n="featuresTitle">Everything useful. Nothing distracting.</h2>
+      <p class="section-intro" data-i18n="featuresIntro">The right tools to organize study time, practice deliberately, and identify the topics that deserve attention.</p>
       <div class="feature-grid">
-        <article class="feature"><div class="icon-box">◷</div><h3 data-i18n="feature1Title">خطة تناسبك</h3><p data-i18n="feature1Text">حوّل موعد اختبارك ووقتك المتاح إلى خطة واقعية قابلة للتنفيذ.</p></article>
-        <article class="feature"><div class="icon-box">⌁</div><h3 data-i18n="feature2Title">تدريب موجّه</h3><p data-i18n="feature2Text">ركّز على المفاهيم المهمة من خلال تدريبات منظمة.</p></article>
-        <article class="feature"><div class="icon-box">↗</div><h3 data-i18n="feature3Title">متابعة التقدّم</h3><p data-i18n="feature3Text">اعرف ما أتقنته وما يحتاج إلى مراجعة إضافية.</p></article>
-        <article class="feature"><div class="icon-box">✓</div><h3 data-i18n="feature4Title">مراجعة ثابتة</h3><p data-i18n="feature4Text">ثبّت معلوماتك بجلسات مراجعة قصيرة ومنتظمة.</p></article>
-        <article class="feature"><div class="icon-box">◉</div><h3 data-i18n="feature5Title">جاهزية يوم الاختبار</h3><p data-i18n="feature5Text">استعد بهدوء عبر قوائم واضحة وتدريبات محددة الوقت.</p></article>
-        <article class="feature"><div class="icon-box">☼</div><h3 data-i18n="feature6Title">وفق وتيرتك</h3><p data-i18n="feature6Text">عدّل جدولك ليتناسب مع حياتك ووقت دراستك.</p></article>
+        <article class="feature"><div class="icon-box">◷</div><h3 data-i18n="feature1Title">Personal study path</h3><p data-i18n="feature1Text">Turn your exam date and available time into a focused, manageable plan.</p></article>
+        <article class="feature"><div class="icon-box">⌁</div><h3 data-i18n="feature2Title">Targeted practice</h3><p data-i18n="feature2Text">Use focused practice sets to revisit concepts without getting lost in noise.</p></article>
+        <article class="feature"><div class="icon-box">↗</div><h3 data-i18n="feature3Title">Progress insights</h3><p data-i18n="feature3Text">See what is improving and where a little more review can make a difference.</p></article>
+        <article class="feature"><div class="icon-box">✓</div><h3 data-i18n="feature4Title">Simple review loops</h3><p data-i18n="feature4Text">Build steady recall with short review moments woven into your plan.</p></article>
+        <article class="feature"><div class="icon-box">◉</div><h3 data-i18n="feature5Title">Exam-day readiness</h3><p data-i18n="feature5Text">Use clear checklists and timed practice to arrive calm and prepared.</p></article>
+        <article class="feature"><div class="icon-box">☼</div><h3 data-i18n="feature6Title">Built for your pace</h3><p data-i18n="feature6Text">Adapt the schedule around real life instead of forcing a one-size-fits-all routine.</p></article>
       </div>
     </section>
     
     <section class="section about animate-on-scroll" id="about">
       <div class="container about-grid">
         <div>
-          <div class="section-label" data-i18n="aboutLabel">عن Exam-Pass</div>
-          <h2 class="section-heading" data-i18n="aboutTitle">الاستعداد الجيد يغيّر تجربة الاختبار.</h2>
-          <p class="section-intro" data-i18n="aboutIntro">نؤمن بأن الاجتياز يبدأ بخطة واضحة، وتدريب هادف، ودعم يحترم جهد كل طالب.</p>
+          <div class="section-label" data-i18n="aboutLabel">About Exam-Pass</div>
+          <h2 class="section-heading" data-i18n="aboutTitle">Good preparation changes how an exam feels.</h2>
+          <p class="section-intro" data-i18n="aboutIntro">We believe achievement starts with clarity: a plan you can follow, practice that has a purpose, and support that respects every student's effort.</p>
           <div class="principles">
-            <div class="principle"><span class="number">01</span><div><strong data-i18n="principle1Title">الوضوح أولًا</strong><span data-i18n="principle1Text">خطوات بسيطة تجعلك أقرب إلى هدفك.</span></div></div>
-            <div class="principle"><span class="number">02</span><div><strong data-i18n="principle2Title">تدريب هادف</strong><span data-i18n="principle2Text">كل جلسة تبني معرفة وثقة.</span></div></div>
-            <div class="principle"><span class="number">03</span><div><strong data-i18n="principle3Title">تقدّم بنزاهة</strong><span data-i18n="principle3Text">التعلّم الحقيقي هو الطريق إلى الاجتياز.</span></div></div>
+            <div class="principle"><span class="number">01</span><div><strong data-i18n="principle1Title">Clarity before complexity</strong><span data-i18n="principle1Text">Simple next steps make it easier to keep moving.</span></div></div>
+            <div class="principle"><span class="number">02</span><div><strong data-i18n="principle2Title">Practice with purpose</strong><span data-i18n="principle2Text">Every session should build useful confidence.</span></div></div>
+            <div class="principle"><span class="number">03</span><div><strong data-i18n="principle3Title">Progress with integrity</strong><span data-i18n="principle3Text">Real learning is the goal — not shortcuts.</span></div></div>
           </div>
         </div>
         <aside class="quote-card">
           <div class="quote-mark">“</div>
-          <!-- تم تغيير الاقتباس هنا بناءً على طلبك -->
-          <blockquote data-i18n="quote">دع عناء الاستعداد للاختبار واجتيازه علينا.</blockquote>
-          <footer data-i18n="quoteFooter">Exam-Pass · رفيقك في الاستعداد للاختبار</footer>
+          <!-- الاقتباس الجديد -->
+          <blockquote data-i18n="quote">Leave the hassle of preparing and passing the exam to us.</blockquote>
+          <footer data-i18n="quoteFooter">Exam-Pass · A student-first study companion</footer>
         </aside>
       </div>
     </section>
@@ -408,88 +401,76 @@
     <section class="values animate-on-scroll" id="values">
       <div class="container">
         <div class="values-head">
-          <div class="section-label" data-i18n="valuesLabel">قيمنا</div>
-          <h2 class="section-heading" data-i18n="valuesTitle">مبادئ تقود كل ما نقدمه.</h2>
-          <p class="section-intro" data-i18n="valuesIntro">نريد أن يكون الاستعداد الجيد للاختبارات متاحًا وواضحًا وداعمًا لكل طالب.</p>
+          <div class="section-label" data-i18n="valuesLabel">Our values</div>
+          <h2 class="section-heading" data-i18n="valuesTitle">The principles that guide everything we do.</h2>
+          <p class="section-intro" data-i18n="valuesIntro">Our commitment is simple: make quality exam preparation accessible, supportive, and student-centred.</p>
         </div>
         <div class="value-grid">
-          <article class="value-card"><div class="value-icon">✓</div><h3 data-i18n="value1Title">رسالة واضحة</h3><p data-i18n="value1Text">نجعل الاستعداد الجيد للاختبارات أقرب إلى كل طالب.</p></article>
-          <article class="value-card"><div class="value-icon">♧</div><h3 data-i18n="value2Title">الطالب أولًا</h3><p data-i18n="value2Text">نصمّم الأدوات حول احتياجات الطالب وتجربة التعلّم الواقعية.</p></article>
-          <article class="value-card"><div class="value-icon">✿</div><h3 data-i18n="value3Title">الجودة</h3><p data-i18n="value3Text">نهتم بجودة المحتوى، وسهولة الاستخدام، ودعم الطالب.</p></article>
-          <article class="value-card"><div class="value-icon">♡</div><h3 data-i18n="value4Title">التمكين</h3><p data-i18n="value4Text">نزوّدك بأدوات عملية وثقة تساعدك على بلوغ هدفك.</p></article>
+          <article class="value-card"><div class="value-icon">✓</div><h3 data-i18n="value1Title">Mission driven</h3><p data-i18n="value1Text">We are committed to making quality exam preparation accessible to every student, regardless of background or resources.</p></article>
+          <article class="value-card"><div class="value-icon">♧</div><h3 data-i18n="value2Title">Student focused</h3><p data-i18n="value2Text">Every feature we build is designed with students in mind, based on real feedback and sound learning practices.</p></article>
+          <article class="value-card"><div class="value-icon">✿</div><h3 data-i18n="value3Title">Excellence</h3><p data-i18n="value3Text">We aim for high standards in content quality, technical performance, and student support.</p></article>
+          <article class="value-card"><div class="value-icon">♡</div><h3 data-i18n="value4Title">Empowerment</h3><p data-i18n="value4Text">We give students useful tools and confidence to work toward their academic goals.</p></article>
         </div>
       </div>
     </section>
     
-    <section class="section steps animate-on-scroll" id="how-it-works">
-      <div class="container">
-        <div class="steps-top">
-          <div><div class="section-label" data-i18n="howLabel">كيف يساعدك</div><h2 class="section-heading" data-i18n="howTitle">ثلاث خطوات نحو الاجتياز.</h2></div>
-          <p class="section-intro" data-i18n="howIntro">حدّد هدفك، اتبع خطة مناسبة، وتدرّب بانتظام.</p>
-        </div>
-        <div class="steps-list">
-          <article class="step"><h3 data-i18n="step1Title">حدّد اختبارك</h3><p data-i18n="step1Text">اختر الاختبار والمواد والوقت المتاح لك.</p></article>
-          <article class="step"><h3 data-i18n="step2Title">اتبع خطتك</h3><p data-i18n="step2Text">نظّم وقتك بين التعلّم والمراجعة والراحة.</p></article>
-          <article class="step"><h3 data-i18n="step3Title">تدرّب بثقة</h3><p data-i18n="step3Text">تقدّم تدريجيًا عبر تدريب مفيد ومراجعة واعية.</p></article>
-        </div>
-      </div>
-    </section>
-    
+    <!-- قسم الأسعار الجديد -->
     <section class="section container animate-on-scroll" id="pricing">
-      <div style="text-align: center; max-width: 650px; margin: 0 auto;">
-        <div class="section-label" data-i18n="pricingLabel">الأسعار</div>
-        <h2 class="section-heading" style="margin:0 auto 18px;" data-i18n="pricingTitle">استثمر في نجاحك.</h2>
-        <p class="section-intro" style="margin:0 auto;" data-i18n="pricingIntro">اختر الباقة التي تناسب احتياجاتك الدراسية وابدأ الاستعداد بثقة ووضوح تام.</p>
+      <div class="values-head">
+        <div class="section-label" data-i18n="pricingLabel">Pricing</div>
+        <h2 class="section-heading" data-i18n="pricingTitle">Invest in your future.</h2>
+        <p class="section-intro" data-i18n="pricingIntro">Choose the plan that best fits your preparation needs.</p>
       </div>
       
       <div class="pricing-grid">
-        <!-- الباقة الأولى -->
+        <!-- الباقة الأساسية -->
         <div class="pricing-card">
-          <div class="price-header">
-            <h3 class="price-title" data-i18n="plan1Title">الباقة الأساسية</h3>
-            <div class="old-price">900 <span data-i18n="currency">ريال</span></div>
-            <div class="new-price">500 <span data-i18n="currency">ريال</span></div>
+          <h3 data-i18n="plan1Name">Basic Plan</h3>
+          <div class="price">
+            <del data-i18n="plan1Old">900 SAR</del>
+            <strong data-i18n="plan1New">500 SAR</strong>
           </div>
           <ul class="pricing-features">
-            <li data-i18n="featurePh1">خطة دراسية مخصصة تناسب وقتك</li>
-            <li data-i18n="featurePh2">تدريب على بنك أسئلة شامل</li>
-            <li data-i18n="featurePh3">تقارير مبدئية لمتابعة مستوى التقدم</li>
+            <li data-i18n="plan1Feat1">Custom study schedule</li>
+            <li data-i18n="plan1Feat2">Targeted practice questions</li>
+            <li data-i18n="plan1Feat3">Basic progress tracking</li>
+            <li data-i18n="plan1Feat4">Email support</li>
           </ul>
-          <a class="button secondary" href="#contact" data-i18n="selectPlan">اختر الباقة</a>
+          <a class="button secondary" href="#contact" data-i18n="choosePlan">Choose Plan</a>
         </div>
         
-        <!-- الباقة الثانية (الأكثر طلباً) -->
+        <!-- الباقة المتقدمة (الأكثر طلباً) -->
         <div class="pricing-card popular">
-          <div class="popular-badge" data-i18n="popularBadge">الأكثر طلباً</div>
-          <div class="price-header">
-            <h3 class="price-title" data-i18n="plan2Title">الباقة المتقدمة</h3>
-            <div class="old-price">1200 <span data-i18n="currency">ريال</span></div>
-            <div class="new-price">900 <span data-i18n="currency">ريال</span></div>
+          <div class="ribbon"><span data-i18n="mostPopular">Most Popular</span></div>
+          <h3 data-i18n="plan2Name">Advanced Plan</h3>
+          <div class="price">
+            <del data-i18n="plan2Old">1200 SAR</del>
+            <strong data-i18n="plan2New">900 SAR</strong>
           </div>
           <ul class="pricing-features">
-            <li data-i18n="featurePh1">خطة دراسية مخصصة تناسب وقتك</li>
-            <li data-i18n="featurePh2">تدريب على بنك أسئلة شامل</li>
-            <li data-i18n="featurePh3">تقارير مبدئية لمتابعة مستوى التقدم</li>
-            <li data-i18n="featurePh4">محاكاة كاملة لبيئة الاختبار الفعلي</li>
-            <li data-i18n="featurePh5">جلسة مراجعة مع موجه أكاديمي</li>
+            <li data-i18n="plan2Feat1">Everything in Basic Plan</li>
+            <li data-i18n="plan2Feat2">Full exam simulations</li>
+            <li data-i18n="plan2Feat3">Advanced performance analytics</li>
+            <li data-i18n="plan2Feat4">Priority 24/7 support & guidance</li>
+            <li data-i18n="plan2Feat5">1-on-1 review session</li>
           </ul>
-          <a class="button primary" href="#contact" data-i18n="selectPlan">اختر الباقة</a>
+          <a class="button primary" href="#contact" data-i18n="choosePlan">Choose Plan</a>
         </div>
       </div>
     </section>
     
     <section class="container animate-on-scroll" id="contact">
       <div class="contact-card">
-        <div class="section-label" data-i18n="contactLabel">ابدأ بثقة</div>
-        <h2 data-i18n="contactTitle">اجعل جلستك القادمة خطوة نحو الاجتياز.</h2>
-        <p data-i18n="contactText">أخبرنا عن اختبارك، وابدأ مسارًا أوضح للاستعداد.</p>
-        <a class="button primary" href="mailto:hello@exam-pass.com?subject=Exam-Pass%20study%20plan"><span data-i18n="contactButton">ابدأ الآن</span> <span aria-hidden="true">→</span></a>
+        <div class="section-label" data-i18n="contactLabel">Start with confidence</div>
+        <h2 data-i18n="contactTitle">Make your next study session count.</h2>
+        <p data-i18n="contactText">Tell us the exam you are preparing for, and begin building a clearer preparation path.</p>
+        <a class="button primary" href="#pricing"><span data-i18n="contactButton">Get started</span> <span aria-hidden="true">→</span></a>
         
         <div class="social-contact-bar">
-            <span data-i18n="contactUsTitle">للتواصل المباشر:</span>
-            <a href="#" aria-label="Telegram">✈️ تيلجرام</a>
-            <a href="#" aria-label="WhatsApp">💬 واتساب</a>
-            <a href="#" aria-label="Discord">👾 ديسكورد</a>
+            <span data-i18n="contactUsTitle">Direct Contact:</span>
+            <a href="#" aria-label="Telegram">✈️ <span data-i18n="telegram">Telegram</span></a>
+            <a href="#" aria-label="WhatsApp">💬 <span data-i18n="whatsapp">WhatsApp</span></a>
+            <a href="#" aria-label="Discord">👾 <span data-i18n="discord">Discord</span></a>
         </div>
       </div>
     </section>
@@ -498,21 +479,33 @@
   <footer class="container footer animate-on-scroll">
     <div class="footer-top">
       <div>
-        <!-- استبدال الصورة لصيغة SVG في الفوتر أيضاً -->
-        <a class="brand" href="#home" style="display: block; margin-bottom: 20px;">
-          <img class="brand-mark" src="PMP-cropped.svg" alt="شعار Exam-Pass" style="height: 80px;"/>
+        <a class="brand" href="#home" style="display: block; margin-bottom: 15px;">
+          <!-- شعار الفوتر SVG -->
+          <img class="brand-mark" src="PMP-cropped.svg" alt="شعار Exam-Pass"/>
         </a>
-        <p class="footer-text" data-i18n="footerText">طريقة أبسط وأوضح للاستعداد للاختبارات المهمة.</p>
+        <p class="footer-text" data-i18n="footerText">A calmer, clearer way to prepare for the exams that matter.</p>
       </div>
       <div class="footer-links">
-        <div><b data-i18n="footerExplore">استكشف</b><a href="#features" data-i18n="navFeatures">المزايا</a><a href="#how-it-works" data-i18n="navHow">كيف يعمل</a></div>
-        <div><b data-i18n="footerCompany">عن المنصّة</b><a href="#about" data-i18n="navAbout">عن المنصة</a><a href="#values" data-i18n="navValues">القيم</a></div>
-        <div><b data-i18n="footerContact">تواصل</b><a href="mailto:hello@exam-pass.com" data-i18n="emailUs">راسلنا</a><a href="#contact" data-i18n="contactButton">ابدأ الآن</a></div>
+        <div>
+          <b data-i18n="footerExplore">Explore</b>
+          <a href="#features" data-i18n="navFeatures">Features</a>
+          <a href="#pricing" data-i18n="navPricing">Pricing</a>
+        </div>
+        <div>
+          <b data-i18n="footerCompany">Company</b>
+          <a href="#about" data-i18n="navAbout">About</a>
+          <a href="#values" data-i18n="navValues">Values</a>
+        </div>
+        <div>
+          <b data-i18n="footerContact">Contact</b>
+          <a href="mailto:hello@exam-pass.com" data-i18n="emailUs">Email us</a>
+          <a href="#contact" data-i18n="contactButton">Get started</a>
+        </div>
       </div>
     </div>
     <div class="footer-bottom">
-      <p data-i18n="rights">© 2026 exam-pass. جميع الحقوق محفوظة.</p>
-      <p><a href="#home" data-i18n="privacy">الخصوصية</a> · <a href="#home" data-i18n="terms">الشروط</a></p>
+      <p data-i18n="rights">© 2026 exam-pass. All rights reserved.</p>
+      <p><a href="#home" data-i18n="privacy">Privacy</a> · <a href="#home" data-i18n="terms">Terms</a></p>
     </div>
   </footer>
   
@@ -521,139 +514,103 @@
       announcement:{en:'A clearer plan, smarter practice, and a confident pass.',ar:'خطّة أوضح، تدريب أذكى، واجتياز بثقة.'},
       navFeatures:{en:'Features',ar:'المزايا'},
       navHow:{en:'How it works',ar:'كيف يعمل'},
-      navAbout:{en:'About',ar:'عن المنصة'},
+      navAbout:{en:'About',ar:'عن المنصّة'},
       navValues:{en:'Values',ar:'القيم'},
       navPricing:{en:'Pricing',ar:'الأسعار'},
-      navStart:{en:'Start preparing',ar:'ابدأ الاستعداد'},
-      
-      /* إضافة ترجمة "اختبار PMP" */
-      pmpExam: {en: 'PMP Exam', ar: 'اختبار PMP'},
+      navStart:{en:'Start now',ar:'ابدأ الآن'},
       pmpBadge:{en:'Prepare with focus · Pass with confidence',ar:'استعد بتركيز · اجتز بثقة'},
-      
+      pmpText:{en:'PMP Exam', ar:'اختبار PMP'},
       heroEyebrow:{en:'Smart exam preparation',ar:'استعداد ذكي للاختبارات'},
-      heroTitle:{en:'Your clearer path to <span class="accent">exam confidence.</span>',ar:'خطّة واضحة تساعدك على <span class="accent">الاستعداد والاجتياز.</span>'},
+      heroTitle:{en:'A clear plan to help you <span class="accent">prepare and pass.</span>',ar:'خطّة واضحة تساعدك على <span class="accent">الاستعداد والاجتياز.</span>'},
       heroText:{en:'Exam-Pass helps you organize your time, practice what matters, and track your progress so you enter the exam with confidence.',ar:'يساعدك Exam-Pass على تنظيم وقتك، والتدرّب على ما يهم، ومتابعة تقدّمك حتى تدخل الاختبار بثقة.'},
-      heroPrimary:{en:'Build my study plan',ar:'ابدأ خطتي'},
+      heroPrimary:{en:'View Plans',ar:'عرض الباقات'},
       heroSecondary:{en:'Explore features',ar:'استكشف المزايا'},
-      trust:{en:'Designed for focused, ethical exam preparation.',ar:'للاستعداد الجاد والنزيه للاختبارات.'},
+      trust:{en:'For focused, ethical exam preparation.',ar:'للاستعداد الجاد والنزيه للاختبارات.'},
       status:{en:'On track',ar:'على المسار الصحيح'},
-      weekGoal:{en:'Weekly study goal',ar:'هدف الأسبوع'},
-      weekProgress:{en:'4 of 6 sessions completed',ar:'4 من 6 جلسات مكتملة'},
-      logosIntro:{en:'A calm, structured approach for every exam season.',ar:'خطوات بسيطة لكل موسم اختبارات.'},
-      plan:{en:'PLAN',ar:'خَطِّط'},
-      practice:{en:'PRACTICE',ar:'تَدَرَّب'},
-      review:{en:'REVIEW',ar:'رَاجِع'},
-      improve:{en:'IMPROVE',ar:'تَحَسَّن'},
+      weekGoal:{en:'Weekly goal',ar:'هدف الأسبوع'},
+      weekProgress:{en:'4 of 6 sessions complete',ar:'4 من 6 جلسات مكتملة'},
+      logosIntro:{en:'Simple steps for every exam season.',ar:'خطوات بسيطة لكل موسم اختبارات.'},
+      plan:{en:'PLAN',ar:'خَطِّط'},practice:{en:'PRACTICE',ar:'تَدَرَّب'},review:{en:'REVIEW',ar:'رَاجِع'},improve:{en:'IMPROVE',ar:'تَحَسَّن'},
       featuresLabel:{en:'Features',ar:'المزايا'},
-      featuresTitle:{en:'Everything useful. Nothing distracting.',ar:'كل ما تحتاجه للاستعداد.'},
-      featuresIntro:{en:'The right tools to organize study time, practice deliberately, and identify the topics that deserve attention.',ar:'أدوات عملية تساعدك على تنظيم الدراسة، والتدرّب بتركيز، ومراجعة ما يحتاج اهتمامك.'},
-      feature1Title:{en:'Personal study path',ar:'خطة تناسبك'},
-      feature1Text:{en:'Turn your exam date and available time into a focused, manageable plan.',ar:'حوّل موعد اختبارك ووقتك المتاح إلى خطة واقعية قابلة للتنفيذ.'},
-      feature2Title:{en:'Targeted practice',ar:'تدريب موجّه'},
-      feature2Text:{en:'Use focused practice sets to revisit concepts without getting lost in noise.',ar:'ركّز على المفاهيم المهمة من خلال تدريبات منظمة.'},
-      feature3Title:{en:'Progress insights',ar:'متابعة التقدّم'},
-      feature3Text:{en:'See what is improving and where a little more review can make a difference.',ar:'اعرف ما أتقنته وما يحتاج إلى مراجعة إضافية.'},
-      feature4Title:{en:'Simple review loops',ar:'مراجعة ثابتة'},
-      feature4Text:{en:'Build steady recall with short review moments woven into your plan.',ar:'ثبّت معلوماتك بجلسات مراجعة قصيرة ومنتظمة.'},
-      feature5Title:{en:'Exam-day readiness',ar:'جاهزية يوم الاختبار'},
-      feature5Text:{en:'Use clear checklists and timed practice to arrive calm and prepared.',ar:'استعد بهدوء عبر قوائم واضحة وتدريبات محددة الوقت.'},
-      feature6Title:{en:'Built for your pace',ar:'وفق وتيرتك'},
-      feature6Text:{en:'Adapt the schedule around real life instead of forcing a one-size-fits-all routine.',ar:'عدّل جدولك ليتناسب مع حياتك ووقت دراستك.'},
+      featuresTitle:{en:'Everything you need to prepare.',ar:'كل ما تحتاجه للاستعداد.'},
+      featuresIntro:{en:'Practical tools to organize study, practice with focus, and review what needs attention.',ar:'أدوات عملية تساعدك على تنظيم الدراسة، والتدرّب بتركيز، ومراجعة ما يحتاج اهتمامك.'},
+      feature1Title:{en:'A plan that fits you',ar:'خطة تناسبك'},feature1Text:{en:'Turn your exam date and available time into a realistic, workable plan.',ar:'حوّل موعد اختبارك ووقتك المتاح إلى خطة واقعية قابلة للتنفيذ.'},
+      feature2Title:{en:'Targeted practice',ar:'تدريب موجّه'},feature2Text:{en:'Focus on important concepts through organized practice.',ar:'ركّز على المفاهيم المهمة من خلال تدريبات منظمة.'},
+      feature3Title:{en:'Progress tracking',ar:'متابعة التقدّم'},feature3Text:{en:'See what you have mastered and what needs more review.',ar:'اعرف ما أتقنته وما يحتاج إلى مراجعة إضافية.'},
+      feature4Title:{en:'Steady review',ar:'مراجعة ثابتة'},feature4Text:{en:'Strengthen recall with short, regular review sessions.',ar:'ثبّت معلوماتك بجلسات مراجعة قصيرة ومنتظمة.'},
+      feature5Title:{en:'Exam-day readiness',ar:'جاهزية يوم الاختبار'},feature5Text:{en:'Prepare calmly with clear checklists and timed practice.',ar:'استعد بهدوء عبر قوائم واضحة وتدريبات محددة الوقت.'},
+      feature6Title:{en:'At your pace',ar:'وفق وتيرتك'},feature6Text:{en:'Adjust your schedule to suit your life and study time.',ar:'عدّل جدولك ليتناسب مع حياتك ووقت دراستك.'},
       aboutLabel:{en:'About Exam-Pass',ar:'عن Exam-Pass'},
-      aboutTitle:{en:'Good preparation changes how an exam feels.',ar:'الاستعداد الجيد يغيّر تجربة الاختبار.'},
-      aboutIntro:{en:'We believe achievement starts with clarity: a plan you can follow, practice that has a purpose, and support that respects every student’s effort.',ar:'نؤمن بأن الاجتياز يبدأ بخطة واضحة، وتدريب هادف، ودعم يحترم جهد كل طالب.'},
-      principle1Title:{en:'Clarity before complexity',ar:'الوضوح أولًا'},
-      principle1Text:{en:'Simple next steps make it easier to keep moving.',ar:'خطوات بسيطة تجعلك أقرب إلى هدفك.'},
-      principle2Title:{en:'Practice with purpose',ar:'تدريب هادف'},
-      principle2Text:{en:'Every session should build useful confidence.',ar:'كل جلسة تبني معرفة وثقة.'},
-      principle3Title:{en:'Progress with integrity',ar:'تقدّم بنزاهة'},
-      principle3Text:{en:'Real learning is the goal — not shortcuts.',ar:'التعلّم الحقيقي هو الطريق إلى الاجتياز.'},
-      
-      /* تعديل الاقتباس ليتوافق مع المعنى المطلوب */
+      aboutTitle:{en:'Good preparation changes the exam experience.',ar:'الاستعداد الجيد يغيّر تجربة الاختبار.'},
+      aboutIntro:{en:'We believe passing starts with a clear plan, purposeful practice, and support that respects every student’s effort.',ar:'نؤمن بأن الاجتياز يبدأ بخطة واضحة، وتدريب هادف، ودعم يحترم جهد كل طالب.'},
+      principle1Title:{en:'Clarity first',ar:'الوضوح أولًا'},principle1Text:{en:'Simple steps bring you closer to your goal.',ar:'خطوات بسيطة تجعلك أقرب إلى هدفك.'},
+      principle2Title:{en:'Purposeful practice',ar:'تدريب هادف'},principle2Text:{en:'Every session builds knowledge and confidence.',ar:'كل جلسة تبني معرفة وثقة.'},
+      principle3Title:{en:'Progress with integrity',ar:'تقدّم بنزاهة'},principle3Text:{en:'Real learning is the path to passing.',ar:'التعلّم الحقيقي هو الطريق إلى الاجتياز.'},
       quote:{en:'Leave the hassle of preparing and passing the exam to us.',ar:'دع عناء الاستعداد للاختبار واجتيازه علينا.'},
-      
-      quoteFooter:{en:'Exam-Pass · A student-first study companion',ar:'Exam-Pass · رفيقك في الاستعداد للاختبار'},
+      quoteFooter:{en:'Exam-Pass · Your companion for exam preparation',ar:'Exam-Pass · رفيقك في الاستعداد للاختبار'},
       valuesLabel:{en:'Our values',ar:'قيمنا'},
-      valuesTitle:{en:'The principles that guide everything we do.',ar:'مبادئ تقود كل ما نقدمه.'},
-      valuesIntro:{en:'Our commitment is simple: make quality exam preparation accessible, supportive, and student-centred.',ar:'نريد أن يكون الاستعداد الجيد للاختبارات متاحًا وواضحًا وداعمًا لكل طالب.'},
-      value1Title:{en:'Mission driven',ar:'رسالة واضحة'},
-      value1Text:{en:'We are committed to making quality exam preparation accessible to every student, regardless of background or resources.',ar:'نجعل الاستعداد الجيد للاختبارات أقرب إلى كل طالب.'},
-      value2Title:{en:'Student focused',ar:'الطالب أولًا'},
-      value2Text:{en:'Every feature we build is designed with students in mind, based on real feedback and sound learning practices.',ar:'نصمّم الأدوات حول احتياجات الطالب وتجربة التعلّم الواقعية.'},
-      value3Title:{en:'Excellence',ar:'الجودة'},
-      value3Text:{en:'We aim for high standards in content quality, technical performance, and student support.',ar:'نهتم بجودة المحتوى، وسهولة الاستخدام، ودعم الطالب.'},
-      value4Title:{en:'Empowerment',ar:'التمكين'},
-      value4Text:{en:'We give students useful tools and confidence to work toward their academic goals.',ar:'نزوّدك بأدوات عملية وثقة تساعدك على بلوغ هدفك.'},
-      howLabel:{en:'How it works',ar:'كيف يساعدك'},
-      howTitle:{en:'A better rhythm for preparing.',ar:'ثلاث خطوات نحو الاجتياز.'},
-      howIntro:{en:'Keep the journey simple: understand what matters, make a plan, and practice with intention.',ar:'حدّد هدفك، اتبع خطة مناسبة، وتدرّب بانتظام.'},
-      step1Title:{en:'Share your goal',ar:'حدّد اختبارك'},
-      step1Text:{en:'Start with the exam, subjects, and timeline you are working toward.',ar:'اختر الاختبار والمواد والوقت المتاح لك.'},
-      step2Title:{en:'Follow a clear plan',ar:'اتبع خطتك'},
-      step2Text:{en:'Use a balanced schedule that makes room for learning, review, and rest.',ar:'نظّم وقتك بين التعلّم والمراجعة والراحة.'},
-      step3Title:{en:'Practice with confidence',ar:'تدرّب بثقة'},
-      step3Text:{en:'Build readiness gradually through useful practice and reflection.',ar:'تقدّم تدريجيًا عبر تدريب مفيد ومراجعة واعية.'},
+      valuesTitle:{en:'Principles that guide everything we do.',ar:'مبادئ تقود كل ما نقدمه.'},
+      valuesIntro:{en:'We want good exam preparation to be accessible, clear, and supportive for every student.',ar:'نريد أن يكون الاستعداد الجيد للاختبارات متاحًا وواضحًا وداعمًا لكل طالب.'},
+      value1Title:{en:'A clear mission',ar:'رسالة واضحة'},value1Text:{en:'We make quality exam preparation more accessible to every student.',ar:'نجعل الاستعداد الجيد للاختبارات أقرب إلى كل طالب.'},
+      value2Title:{en:'Student first',ar:'الطالب أولًا'},value2Text:{en:'We design tools around student needs and real learning experiences.',ar:'نصمّم الأدوات حول احتياجات الطالب وتجربة التعلّم الواقعية.'},
+      value3Title:{en:'Quality',ar:'الجودة'},value3Text:{en:'We care about content quality, ease of use, and student support.',ar:'نهتم بجودة المحتوى، وسهولة الاستخدام، ودعم الطالب.'},
+      value4Title:{en:'Empowerment',ar:'التمكين'},value4Text:{en:'We give you practical tools and confidence to reach your goal.',ar:'نزوّدك بأدوات عملية وثقة تساعدك على بلوغ هدفك.'},
       
-      /* إضافة كلمات قسم الأسعار والتسعير للترجمة التلقائية */
+      /* ترجمة الأسعار */
       pricingLabel:{en:'Pricing',ar:'الأسعار'},
-      pricingTitle:{en:'Invest in your success.',ar:'استثمر في نجاحك.'},
-      pricingIntro:{en:'Choose the plan that fits your study needs and start preparing with confidence and absolute clarity.',ar:'اختر الباقة التي تناسب احتياجاتك الدراسية وابدأ الاستعداد بثقة ووضوح تام.'},
-      plan1Title:{en:'Basic Plan',ar:'الباقة الأساسية'},
-      plan2Title:{en:'Pro Plan',ar:'الباقة المتقدمة'},
-      currency:{en:'SAR',ar:'ريال'},
-      popularBadge:{en:'Most Popular',ar:'الأكثر طلباً'},
-      selectPlan:{en:'Choose Plan',ar:'اختر الباقة'},
-      featurePh1:{en:'Customized study plan fitting your schedule',ar:'خطة دراسية مخصصة تناسب وقتك'},
-      featurePh2:{en:'Comprehensive question bank practice',ar:'تدريب على بنك أسئلة شامل'},
-      featurePh3:{en:'Initial progress tracking reports',ar:'تقارير مبدئية لمتابعة مستوى التقدم'},
-      featurePh4:{en:'Full exam environment simulation',ar:'محاكاة كاملة لبيئة الاختبار الفعلي'},
-      featurePh5:{en:'Review session with an academic guide',ar:'جلسة مراجعة مع موجه أكاديمي'},
+      pricingTitle:{en:'Invest in your future.',ar:'استثمر في مستقبلك.'},
+      pricingIntro:{en:'Choose the plan that best fits your preparation needs.',ar:'اختر الباقة التي تناسب احتياجاتك لضمان اجتياز الاختبار.'},
+      plan1Name:{en:'Basic Plan',ar:'الباقة الأساسية'},
+      plan1Old:{en:'900 SAR',ar:'900 ريال'},
+      plan1New:{en:'500 SAR',ar:'500 ريال'},
+      plan1Feat1:{en:'Custom study schedule',ar:'جدول دراسي مخصص'},
+      plan1Feat2:{en:'Targeted practice questions',ar:'أسئلة تدريبية موجهة'},
+      plan1Feat3:{en:'Basic progress tracking',ar:'متابعة أساسية للتقدم'},
+      plan1Feat4:{en:'Email support',ar:'دعم فني عبر البريد'},
       
+      mostPopular:{en:'Most Popular',ar:'الأكثر طلباً'},
+      plan2Name:{en:'Advanced Plan',ar:'الباقة المتقدمة'},
+      plan2Old:{en:'1200 SAR',ar:'1200 ريال'},
+      plan2New:{en:'900 SAR',ar:'900 ريال'},
+      plan2Feat1:{en:'Everything in Basic Plan',ar:'جميع مزايا الباقة الأساسية'},
+      plan2Feat2:{en:'Full exam simulations',ar:'محاكاة كاملة للاختبار'},
+      plan2Feat3:{en:'Advanced performance analytics',ar:'تحليل متقدم للأداء ونقاط الضعف'},
+      plan2Feat4:{en:'Priority 24/7 support & guidance',ar:'أولوية في الدعم الفني والتوجيه 24/7'},
+      plan2Feat5:{en:'1-on-1 review session',ar:'جلسة مراجعة وتوجيه فردية'},
+      choosePlan:{en:'Choose Plan',ar:'اختر الباقة'},
+
       contactLabel:{en:'Start with confidence',ar:'ابدأ بثقة'},
       contactTitle:{en:'Make your next study session count.',ar:'اجعل جلستك القادمة خطوة نحو الاجتياز.'},
-      contactText:{en:'Tell us the exam you are preparing for, and begin building a clearer preparation path.',ar:'أخبرنا عن اختبارك، وابدأ مسارًا أوضح للاستعداد.'},
-      contactButton:{en:'Get started',ar:'ابدأ الآن'},
+      contactText:{en:'Tell us about your exam and start a clearer preparation path.',ar:'تواصل معنا الآن للبدء في مسار أوضح للاستعداد واجتياز الاختبار.'},
+      contactButton:{en:'Start now',ar:'ابدأ الآن'},
       contactUsTitle:{en:'Direct Contact:', ar:'للتواصل المباشر:'},
-      footerText:{en:'A calmer, clearer way to prepare for the exams that matter.',ar:'طريقة أبسط وأوضح للاستعداد للاختبارات المهمة.'},
+      telegram:{en:'Telegram', ar:'تيلجرام'},
+      whatsapp:{en:'WhatsApp', ar:'واتساب'},
+      discord:{en:'Discord', ar:'ديسكورد'},
+      footerText:{en:'A simpler, clearer way to prepare for important exams.',ar:'طريقة أبسط وأوضح للاستعداد للاختبارات المهمة.'},
       footerExplore:{en:'Explore',ar:'استكشف'},
-      footerCompany:{en:'Company',ar:'عن المنصّة'},
+      footerCompany:{en:'About the platform',ar:'عن المنصّة'},
       footerContact:{en:'Contact',ar:'تواصل'},
-      emailUs:{en:'Email us',ar:'راسلنا'},
-      rights:{en:'© 2026 Exam-Pass. All rights reserved.',ar:'© 2026 Exam-Pass. جميع الحقوق محفوظة.'},
+      emailUs:{en:'Email us',ar:'راسلنا عبر البريد'},
+      rights:{en:'© 2026 exam-pass. All rights reserved.',ar:'© 2026 exam-pass. جميع الحقوق محفوظة.'},
       privacy:{en:'Privacy',ar:'الخصوصية'},
       terms:{en:'Terms',ar:'الشروط'}
     };
     
-    // الوضع الافتراضي لغة عربية
-    let lang='ar';
-    const toggle=document.getElementById('langToggle');
-    
+    let lang='ar'; const toggle=document.getElementById('langToggle');
     function setLanguage(next){
       lang=next;
       document.documentElement.lang=lang;
       document.documentElement.dir=lang==='ar'?'rtl':'ltr';
-      
       document.querySelectorAll('[data-i18n]').forEach(el=>{
         const entry=strings[el.dataset.i18n];
-        if(entry)el.innerHTML=entry[lang];
+        if(entry)el.innerHTML=entry[lang]
       });
-      
       toggle.textContent=lang==='ar'?'English':'العربية';
       toggle.setAttribute('aria-label',lang==='ar'?'Change language to English':'تغيير اللغة إلى العربية');
       document.title=lang==='ar'?'Exam-Pass — طريقك الأوضح نحو الثقة في الاختبار':'Exam-Pass — Your path to exam confidence';
-      
-      // عكس اتجاه السهم بناءً على اللغة
-      document.querySelectorAll('span[aria-hidden="true"]').forEach(span => {
-         if(span.textContent.includes('→') || span.textContent.includes('←')) {
-             span.textContent = lang === 'ar' ? '←' : '→';
-         }
-      });
     }
-    
-    // تشغيل اللغة عند التحميل
     setLanguage(lang);
-    
-    // حدث التبديل عند الضغط على الزر
     toggle.addEventListener('click',()=>setLanguage(lang==='en'?'ar':'en'));
     
     document.querySelector('.menu').addEventListener('click',()=>document.querySelector('.nav-links').classList.toggle('open'));
@@ -678,7 +635,8 @@
     document.querySelectorAll('.animate-on-scroll').forEach((el) => {
         scrollObserver.observe(el);
     });
-
   </script>
 </body>
 </html>
+
+
