@@ -44,7 +44,6 @@
 
     .container { width: min(1160px, calc(100% - 48px)); margin: auto; }
     
-    /* شريط الإعلان العلوي مع تأثير اللمعان (Shimmer Effect) */
     .announcement { 
       background: var(--deep); 
       color: #EAF7F0; 
@@ -277,7 +276,7 @@
     .social-contact-bar a { color: #193236; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; transition: transform 0.2s ease, opacity 0.2s ease; }
     .social-contact-bar a:hover { transform: translateY(-3px); opacity: 0.8; }
 
-    /* تنسيق زر الواتساب العائم التفاعلي */
+    /* تصميم زر الواتساب العائم الجديد كأيقونة احترافية نظيفة (SVG) */
     .whatsapp-float {
       position: fixed;
       bottom: 25px;
@@ -285,49 +284,33 @@
       z-index: 999;
       display: flex;
       align-items: center;
-      gap: 12px;
-      text-decoration: none;
+      justify-content: center;
+      width: 60px;
+      height: 60px;
       background: #25D366;
       color: #fff;
-      padding: 10px 18px 10px 10px;
-      border-radius: 50px;
-      box-shadow: 0 8px 25px rgba(37, 211, 102, 0.35);
+      border-radius: 50%;
+      box-shadow: 0 8px 25px rgba(37, 211, 102, 0.4);
       transition: transform 0.3s ease, box-shadow 0.3s ease;
       animation: floatPulse 3s infinite ease-in-out;
+      text-decoration: none;
     }
     html[dir="rtl"] .whatsapp-float {
       right: auto;
       left: 25px;
-      padding: 10px 10px 10px 18px;
     }
     .whatsapp-float:hover {
-      transform: scale(1.06);
-      box-shadow: 0 12px 30px rgba(37, 211, 102, 0.5);
+      transform: scale(1.1);
+      box-shadow: 0 12px 30px rgba(37, 211, 102, 0.6);
     }
-    .whatsapp-icon {
-      font-size: 30px;
-      display: grid;
-      place-items: center;
-      width: 44px;
-      height: 44px;
-      background: #fff;
-      color: #25D366;
-      border-radius: 50%;
-    }
-    .whatsapp-text {
-      font-size: 14px;
-      font-weight: 800;
-      white-space: nowrap;
-      color: #fff;
-      text-shadow: 0 1px 2px rgba(0,0,0,0.15);
+    .whatsapp-float svg {
+      width: 34px;
+      height: 34px;
+      fill: #fff;
     }
     @keyframes floatPulse {
       0%, 100% { transform: translateY(0); }
       50% { transform: translateY(-6px); }
-    }
-    @media(max-width: 600px) {
-      .whatsapp-text { display: none; }
-      .whatsapp-float { padding: 12px; border-radius: 50%; }
     }
 
     .footer { padding: 60px 0 30px; background: var(--card-bg); border-top: 1px solid var(--line); }
@@ -389,13 +372,11 @@
     <div class="scroll-progress-bar" id="scrollProgressBar"></div>
   </div>
 
-  <!-- زر الواتساب العائم مع الرسالة المطلوبة تماماً -->
+  <!-- زر الواتساب العائم الجديد بأيقونة واتساب رسمية ونظيفة (SVG) ورسالة مخصصة -->
   <a href="https://wa.me/966501994875?text=%D8%A7%D9%84%D8%B3%D9%84%D8%A7%D9%85%20%D8%B9%D9%84%D9%8A%D9%83%D9%85%D8%8C%20%D8%A3%D8%B1%D8%BA%D8%A8%20%D8%A8%D8%A7%D9%84%D8%A7%D8%B3%D8%AA%D9%81%D8%B3%D8%A7%D8%B1%20%D8%B9%D9%86%20%D8%A8%D8%A7%D9%82%D8%A7%D8%AA%20%D8%A7%D9%84%D8%A7%D8%B3%D8%AA%D8%B9%D8%AF%D8%A7%D8%AF%20%D9%84%D8%A7%D8%AE%D8%AA%D8%A8%D8%A7%D8%B1%20PMP" class="whatsapp-float" target="_blank" aria-label="تواصل معنا عبر واتساب">
-    <div class="whatsapp-icon">💬</div>
-    <span class="whatsapp-text" data-i18n="whatsappFloatText">هل لديك استفسار؟ تحدث معنا</span>
+    <svg viewBox="0 0 24 24"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22.5l5.81-1.52c1.45.79 3.11 1.21 4.8 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01-1.87-1.87-4.36-2.9-7.03-2.9m0 1.83c2.21 0 4.29.86 5.85 2.42 1.56 1.56 2.42 3.64 2.42 5.85 0 4.56-3.71 8.27-8.27 8.27-1.46 0-2.88-.39-4.12-1.13l-.3-.18-3.09.81.82-3.02-.19-.31c-.81-1.31-1.24-2.83-1.24-4.39 0-4.56 3.71-8.27 8.27-8.27m4.51 6.16c-.18-.09-1.07-.53-1.24-.59-.17-.06-.29-.09-.41.09-.12.18-.47.59-.58.71-.11.12-.22.14-.4.05-.18-.09-.76-.28-1.45-.89-.54-.48-.91-1.07-1.02-1.25-.11-.18-.01-.28.08-.37.08-.08.18-.22.27-.33.09-.11.12-.18.18-.3.06-.12.03-.23-.01-.32-.04-.09-.41-1-.57-1.37-.15-.36-.3-.31-.41-.32l-.35-.01c-.12 0-.32.05-.49.23-.17.18-.65.64-.65 1.56 0 .92.67 1.81.76 1.93.09.12 1.32 2.01 3.2 2.82.45.2.8.32 1.07.41.45.15.86.13 1.18.08.36-.05 1.07-.44 1.22-.87.15-.43.15-.8.11-.87-.04-.07-.15-.11-.33-.2z"/></svg>
   </a>
 
-  <!-- شريط الإعلان العلوي مع اللمعان وعبارة خطة أوضح والصلاة على النبي -->
   <div class="announcement">
     <strong data-i18n="announcementText">خطّة أوضح، تدريب أذكى، واجتياز بثقة.</strong>
     <span class="salat" data-i18n="salatText">اللهم صل على نبينا محمد 🤍</span>
@@ -491,7 +472,8 @@
         <div>
           <div class="section-label" data-i18n="aboutLabel">About Exam-Pass</div>
           <h2 class="section-heading" data-i18n="aboutTitle">Good preparation changes how an exam feels.</h2>
-          <p class="section-intro" data-i18n="aboutIntro">We believe achievement starts with clarity: a plan you can follow, practice that has a purpose, and support that respects every student's effort.</p>
+          <!-- تحديث النص الإضافي المعتمد -->
+          <p class="section-intro" data-i18n="aboutIntro">We believe achievement starts with clarity: a plan you can follow, practice that has a purpose, and support that respects every student's effort. لان نجاحك هو غايتنا، نضع بين يديك أدوات تصنع الفارق الحقيقي في مستقبلك الأكاديمي والمهني.</p>
           <div class="principles">
             <div class="principle"><span class="number">01</span><div><strong data-i18n="principle1Title">Clarity before complexity</strong><span data-i18n="principle1Text">Simple next steps make it easier to keep moving.</span></div></div>
             <div class="principle"><span class="number">02</span><div><strong data-i18n="principle2Title">Practice with purpose</strong><span data-i18n="principle2Text">Every session should build useful confidence.</span></div></div>
@@ -506,6 +488,7 @@
       </div>
     </section>
     
+    <!-- قسم القيم مع استبدال النزاهة بالدفع بعد الإتمام والحصول على الشهادة -->
     <section class="section values animate-on-scroll" id="values">
       <div class="container">
         <div class="values-head">
@@ -516,7 +499,7 @@
         <div class="value-grid">
           <article class="value-card"><div class="value-icon">💡</div><h3 data-i18n="value2Title">Student focused</h3></article>
           <article class="value-card"><div class="value-icon">✨</div><h3 data-i18n="value3Title">Excellence</h3></article>
-          <article class="value-card"><div class="value-icon">🚀</div><h3 data-i18n="value4Title">Empowerment</h3></article>
+          <article class="value-card"><div class="value-icon">📜</div><h3 data-i18n="valuePayment">Payment after completion & getting certified</h3></article>
         </div>
       </div>
     </section>
@@ -647,7 +630,7 @@
 
       aboutLabel:{en:'About Exam-Pass',ar:'عن Exam-Pass'},
       aboutTitle:{en:'Good preparation changes how an exam feels.',ar:'الاستعداد الجيد يغيّر تجربة الاختبار.'},
-      aboutIntro:{en:'We believe achievement starts with clarity: a plan you can follow, practice that has a purpose, and support that respects every student\'s effort.',ar:'نؤمن بأن الاجتياز يبدأ بخطة واضحة، وتدريب هادف، ودعم يحترم جهد كل طالب.'},
+      aboutIntro:{en:'We believe achievement starts with clarity: a plan you can follow, practice that has a purpose, and support that respects every student\'s effort. Because your success is our goal, we put in your hands tools that make a real difference in your academic and professional future.',ar:'نؤمن بأن الاجتياز يبدأ بخطة واضحة، وتدريب هادف، ودعم يحترم جهد كل طالب. لأن نجاحك هو غايتنا، نضع بين يديك أدوات تصنع الفارق الحقيقي في مستقبلك الأكاديمي والمهني.'},
       
       principle1Title:{en:'Clarity before complexity',ar:'الوضوح أولًا'},principle1Text:{en:'Simple next steps make it easier to keep moving.',ar:'خطوات بسيطة تجعلك أقرب إلى هدفك.'},
       principle2Title:{en:'Practice with purpose',ar:'تدريب هادف'},principle2Text:{en:'Every session should build useful confidence.',ar:'كل جلسة تبني معرفة وثقة.'},
@@ -662,7 +645,7 @@
       
       value2Title:{en:'Student focused',ar:'الطالب أولاً'},
       value3Title:{en:'Excellence',ar:'التميز والجودة'},
-      value4Title:{en:'Empowerment',ar:'التمكين والثقة'},
+      valuePayment:{en:'Payment after completion & getting certified',ar:'الدفع بعد الإتمام والحصول على الشهادة'},
       
       pricingLabel:{en:'Pricing',ar:'الأسعار'},
       pricingTitle:{en:'Invest in your future.',ar:'استثمر في مستقبلك.'},
