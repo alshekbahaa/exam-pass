@@ -246,7 +246,7 @@
     .social-contact-bar a { color: #193236; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; transition: transform 0.2s ease, opacity 0.2s ease; }
     .social-contact-bar a:hover { transform: translateY(-3px); opacity: 0.8; }
 
-    /* تنسيق زر الواتساب العائم التفاعلي (Floating WhatsApp Widget) */
+    /* تنسيق زر الواتساب العائم التفاعلي */
     .whatsapp-float {
       position: fixed;
       bottom: 25px;
@@ -354,13 +354,12 @@
   </style>
 </head>
 <body>
-  <!-- شريط تقدم التصفح -->
   <div class="scroll-progress-container">
     <div class="scroll-progress-bar" id="scrollProgressBar"></div>
   </div>
 
-  <!-- زر الواتساب العائم التفاعلي -->
-  <a href="https://wa.me/966501994875?text=%D السلاحم%20عليكم،%20أرغب%20بالاستفسار%20عن%20باقات%20الاستعداد%20لاختبار%20PMP" class="whatsapp-float" target="_blank" aria-label="تواصل معنا عبر واتساب">
+  <!-- زر الواتساب العائم مع النص المخصص المباشر -->
+  <a href="https://wa.me/966501994875?text=%D8%ل%D8%ط%D8%ا%D8%ل%D8%م%20%D8%B9%D9%84%D9%8A%D9%83%D9%85%D8%8C%20%D8%A3%D8%B1%D8%BA%D8%A8%20%D8%A8%D8%A7%D9%84%D8%A7%D8%B3%D8%AA%D9%81%D8%B3%D8%A7%D8%B1%20%D8%B9%D9%86%20%D8%A8%D8%A7%D9%82%D8%A7%D8%AA%20%D8%A7%D9%84%D8%A7%D8%B3%D8%AA%D8%B9%D8%AF%D8%A7%D8%AF%20%D9%84%D8%A7%D8%AE%D8%AA%D8%A8%D8%A7%D8%B1%20PMP" class="whatsapp-float" target="_blank" aria-label="تواصل معنا عبر واتساب">
     <div class="whatsapp-icon">💬</div>
     <span class="whatsapp-text" data-i18n="whatsappFloatText">هل لديك استفسار؟ تحدث معنا</span>
   </a>
@@ -439,7 +438,6 @@
       </div>
     </div>
     
-    <!-- قسم المزايا -->
     <section class="section container animate-on-scroll" id="features">
       <div class="section-label" data-i18n="featuresLabel">Features</div>
       <h2 class="section-heading" data-i18n="featuresTitle">Everything useful. Nothing distracting.</h2>
@@ -473,7 +471,6 @@
       </div>
     </section>
     
-    <!-- قسم القيم -->
     <section class="section values animate-on-scroll" id="values">
       <div class="container">
         <div class="values-head">
@@ -489,7 +486,6 @@
       </div>
     </section>
     
-    <!-- قسم الأسعار -->
     <section class="section container animate-on-scroll" id="pricing">
       <div class="values-head">
         <div class="section-label" data-i18n="pricingLabel">Pricing</div>
@@ -510,7 +506,7 @@
             <li><span class="icon">📈</span> <span data-i18n="plan1Feat3">Progress tracking</span></li>
             <li><span class="icon">✉️</span> <span data-i18n="plan1Feat4">Email support</span></li>
           </ul>
-          <a class="button secondary" href="#contact" data-i18n="choosePlan">Choose Plan</a>
+          <a class="button secondary" href="https://wa.me/966501994875?text=%D8%ل%D8%ط%D8%ا%D8%ل%D8%م%20%D8%B9%D9%84%D9%8A%D9%83%D9%85%D8%8C%20%D8%A3%D8%B1%D8%BA%D8%A8%20%D8%A8%D8%A7%D9%84%D8%A7%D8%B3%D8%AA%D9%81%D8%B3%D8%A7%D8%B1%20%D8%B9%D9%86%20%D8%A8%D8%A7%D9%82%D8%A7%D8%AA%20%D8%A7%D9%84%D8%A7%D8%B3%D8%AA%D8%B9%D8%AF%D8%A7%D8%AF%20%D9%84%D8%A7%D8%AE%D8%AA%D8%A8%D8%A7%D8%B1%20PMP" data-i18n="choosePlan">Choose Plan</a>
         </div>
         
         <div class="pricing-card popular">
@@ -527,7 +523,7 @@
             <li><span class="icon">⭐</span> <span data-i18n="plan2Feat4">24/7 Priority support</span></li>
             <li><span class="icon">👥</span> <span data-i18n="plan2Feat5">1-on-1 coaching</span></li>
           </ul>
-          <a class="button primary" href="#contact" data-i18n="choosePlan">Choose Plan</a>
+          <a class="button primary" href="https://wa.me/966501994875?text=%D8%ل%D8%ط%D8%ا%D8%ل%D8%م%20%D8%B9%D9%84%D9%8A%D9%83%D9%85%D8%8C%20%D8%A3%D8%B1%D8%BA%D8%A8%20%D8%A8%D8%A7%D9%84%D8%A7%D8%B3%D8%AA%D9%81%D8%B3%D8%A7%D8%B1%20%D8%B9%D9%86%20%D8%A8%D8%A7%D9%82%D8%A7%D8%AA%20%D8%A7%D9%84%D8%A7%D8%B3%D8%AA%D8%B9%D8%AF%D8%A7%D8%AF%20%D9%84%D8%A7%D8%AE%D8%AA%D8%A8%D8%A7%D8%B1%20PMP" data-i18n="choosePlan">Choose Plan</a>
         </div>
       </div>
     </section>
@@ -537,11 +533,11 @@
         <div class="section-label" data-i18n="contactLabel">Start with confidence</div>
         <h2 data-i18n="contactTitle">Make your next study session count.</h2>
         <p data-i18n="contactText">Tell us the exam you are preparing for, and begin building a clearer preparation path.</p>
-        <a class="button primary" href="#pricing"><span data-i18n="contactButton">Get started</span> <span aria-hidden="true">→</span></a>
+        <a class="button primary" href="https://wa.me/966501994875?text=%D8%ل%D8%ط%D8%ا%D8%ل%D8%م%20%D8%B9%D9%84%D9%8A%D9%83%D9%85%D8%8C%20%D8%A3%D8%B1%D8%BA%D8%A8%20%D8%A8%D8%A7%D9%84%D8%A7%D8%B3%D8%AA%D9%81%D8%B3%D8%A7%D8%B1%20%D8%B9%D9%86%20%D8%A8%D8%A7%D9%82%D8%A7%D8%AA%20%D8%A7%D9%84%D8%A7%D8%B3%D8%AA%D8%B9%D8%AF%D8%A7%D8%AF%20%D9%84%D8%A7%D8%AE%D8%AA%D8%A8%D8%A7%D8%B1%20PMP"><span data-i18n="contactButton">Get started</span> <span aria-hidden="true">→</span></a>
         
         <div class="social-contact-bar">
             <span data-i18n="contactUsTitle">Direct Contact:</span>
-            <a href="https://wa.me/966501994875" aria-label="WhatsApp">💬 <span data-i18n="whatsapp">WhatsApp</span></a>
+            <a href="https://wa.me/966501994875?text=%D8%ل%D8%ط%D8%ا%D8%ل%D8%م%20%D8%B9%D9%84%D9%8A%D9%83%D9%85%D8%8C%20%D8%A3%D8%B1%D8%BA%D8%A8%20%D8%A8%D8%A7%D9%84%D8%A7%D8%B3%D8%AA%D9%81%D8%B3%D8%A7%D8%B1%20%D8%B9%D9%86%20%D8%A8%D8%A7%D9%82%D8%A7%D8%AA%20%D8%A7%D9%84%D8%A7%D8%B3%D8%AA%D8%B9%D8%AF%D8%A7%D8%AF%20%D9%84%D8%A7%D8%AE%D8%AA%D8%A8%D8%A7%D8%B1%20PMP" aria-label="WhatsApp">💬 <span data-i18n="whatsapp">WhatsApp</span></a>
             <a href="#" aria-label="Telegram">✈️ <span data-i18n="telegram">Telegram</span></a>
             <a href="#" aria-label="Discord">👾 <span data-i18n="discord">Discord</span></a>
         </div>
