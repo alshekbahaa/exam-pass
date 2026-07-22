@@ -131,12 +131,18 @@
     
     [data-theme="dark"] .nav-links a:hover, [data-theme="dark"] .nav-links a.is-active { color: var(--gold); }
 
-    .nav-actions { display: flex; align-items: center; gap: 12px; position: absolute; right: 24px; }
+    .nav-actions { display: flex; align-items: center; gap: 10px; position: absolute; right: 24px; }
     
-    .lang-button, .theme-toggle, .nav-cta, .button { border: 0; display: inline-flex; align-items: center; justify-content: center; gap: 9px; text-decoration: none; font-weight: 800; cursor: pointer; border-radius: 10px; min-height: 44px; padding: 0 16px; transition: .2s; font-size: 15px; position: relative; overflow: hidden;}
+    .lang-button, .theme-toggle, .login-btn, .nav-cta, .button { border: 0; display: inline-flex; align-items: center; justify-content: center; gap: 9px; text-decoration: none; font-weight: 800; cursor: pointer; border-radius: 10px; min-height: 44px; padding: 0 16px; transition: .2s; font-size: 15px; position: relative; overflow: hidden;}
     .lang-button, .theme-toggle { color: var(--deep); background: var(--mint); border: 1px solid var(--line); min-height: 40px; }
     .lang-button:hover, .theme-toggle:hover { transform: translateY(-2px); box-shadow: 0 5px 10px rgba(18,58,53,.10); }
     
+    /* زر تسجيل الدخول الجديد */
+    .login-btn { color: var(--deep); background: transparent; border: 1px solid var(--deep); min-height: 40px; }
+    .login-btn:hover { background: var(--mint); transform: translateY(-2px); }
+    [data-theme="dark"] .login-btn { color: var(--gold); border-color: var(--gold); background: transparent; }
+    [data-theme="dark"] .login-btn:hover { background: #11382E; }
+
     [data-theme="dark"] .lang-button, [data-theme="dark"] .theme-toggle { color: #fff; background: var(--deep2); }
 
     .nav-cta, .button.primary { background: var(--deep); color: #fff; }
@@ -276,7 +282,6 @@
     .social-contact-bar a { color: #193236; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; transition: transform 0.2s ease, opacity 0.2s ease; }
     .social-contact-bar a:hover { transform: translateY(-3px); opacity: 0.8; }
 
-    /* تصميم زر الواتساب العائم الجديد كأيقونة احترافية نظيفة (SVG) */
     .whatsapp-float {
       position: fixed;
       bottom: 25px;
@@ -372,7 +377,6 @@
     <div class="scroll-progress-bar" id="scrollProgressBar"></div>
   </div>
 
-  <!-- زر الواتساب العائم الجديد بأيقونة واتساب رسمية ونظيفة (SVG) ورسالة مخصصة -->
   <a href="https://wa.me/966501994875?text=%D8%A7%D9%84%D8%B3%D9%84%D8%A7%D9%85%20%D8%B9%D9%84%D9%8A%D9%83%D9%85%D8%8C%20%D8%A3%D8%B1%D8%BA%D8%A8%20%D8%A8%D8%A7%D9%84%D8%A7%D8%B3%D8%AA%D9%81%D8%B3%D8%A7%D8%B1%20%D8%B9%D9%86%20%D8%A8%D8%A7%D9%82%D8%A7%D8%AA%20%D8%A7%D9%84%D8%A7%D8%B3%D8%AA%D8%B9%D8%AF%D8%A7%D8%AF%20%D9%84%D8%A7%D8%AE%D8%AA%D8%A8%D8%A7%D8%B1%20PMP" class="whatsapp-float" target="_blank" aria-label="تواصل معنا عبر واتساب">
     <svg viewBox="0 0 24 24"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22.5l5.81-1.52c1.45.79 3.11 1.21 4.8 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01-1.87-1.87-4.36-2.9-7.03-2.9m0 1.83c2.21 0 4.29.86 5.85 2.42 1.56 1.56 2.42 3.64 2.42 5.85 0 4.56-3.71 8.27-8.27 8.27-1.46 0-2.88-.39-4.12-1.13l-.3-.18-3.09.81.82-3.02-.19-.31c-.81-1.31-1.24-2.83-1.24-4.39 0-4.56 3.71-8.27 8.27-8.27m4.51 6.16c-.18-.09-1.07-.53-1.24-.59-.17-.06-.29-.09-.41.09-.12.18-.47.59-.58.71-.11.12-.22.14-.4.05-.18-.09-.76-.28-1.45-.89-.54-.48-.91-1.07-1.02-1.25-.11-.18-.01-.28.08-.37.08-.08.18-.22.27-.33.09-.11.12-.18.18-.3.06-.12.03-.23-.01-.32-.04-.09-.41-1-.57-1.37-.15-.36-.3-.31-.41-.32l-.35-.01c-.12 0-.32.05-.49.23-.17.18-.65.64-.65 1.56 0 .92.67 1.81.76 1.93.09.12 1.32 2.01 3.2 2.82.45.2.8.32 1.07.41.45.15.86.13 1.18.08.36-.05 1.07-.44 1.22-.87.15-.43.15-.8.11-.87-.04-.07-.15-.11-.33-.2z"/></svg>
   </a>
@@ -396,6 +400,8 @@
         <li><a href="#pricing" data-i18n="navPricing">Pricing</a></li>
       </ul>
       <div class="nav-actions">
+        <!-- زر تسجيل الدخول الجديد الذي يربط بصفحة auth.html -->
+        <a class="login-btn" href="auth.html" data-i18n="navLogin">تسجيل الدخول</a>
         <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle dark mode">🌙</button>
         <button class="lang-button" id="langToggle" type="button" aria-label="Change language">العربية</button>
         <a class="nav-cta" href="#contact"><span data-i18n="navStart">Start preparing</span> <span aria-hidden="true">→</span></a>
@@ -472,8 +478,7 @@
         <div>
           <div class="section-label" data-i18n="aboutLabel">About Exam-Pass</div>
           <h2 class="section-heading" data-i18n="aboutTitle">Good preparation changes how an exam feels.</h2>
-          <!-- تحديث النص الإضافي المعتمد -->
-          <p class="section-intro" data-i18n="aboutIntro">We believe achievement starts with clarity: a plan you can follow, practice that has a purpose, and support that respects every student's effort. لان نجاحك هو غايتنا، نضع بين يديك أدوات تصنع الفارق الحقيقي في مستقبلك الأكاديمي والمهني.</p>
+          <p class="section-intro" data-i18n="aboutIntro">We believe achievement starts with clarity: a plan you can follow, practice that has a purpose, and support that respects every student's effort. Because your success is our goal, we put in your hands tools that make a real difference in your academic and professional future.</p>
           <div class="principles">
             <div class="principle"><span class="number">01</span><div><strong data-i18n="principle1Title">Clarity before complexity</strong><span data-i18n="principle1Text">Simple next steps make it easier to keep moving.</span></div></div>
             <div class="principle"><span class="number">02</span><div><strong data-i18n="principle2Title">Practice with purpose</strong><span data-i18n="principle2Text">Every session should build useful confidence.</span></div></div>
@@ -488,7 +493,6 @@
       </div>
     </section>
     
-    <!-- قسم القيم مع استبدال النزاهة بالدفع بعد الإتمام والحصول على الشهادة -->
     <section class="section values animate-on-scroll" id="values">
       <div class="container">
         <div class="values-head">
@@ -604,6 +608,7 @@
       navAbout:{en:'About',ar:'عن المنصّة'},
       navValues:{en:'Values',ar:'القيم'},
       navPricing:{en:'Pricing',ar:'الأسعار'},
+      navLogin:{en:'Log In',ar:'تسجيل الدخول'},
       navStart:{en:'Start now',ar:'ابدأ الآن'},
       pmpBadge:{en:'Prepare with focus · Pass with confidence',ar:'استعد بتركيز · اجتز بثقة'},
       pmpText:{en:'PMP Exam', ar:'اختبار PMP'},
