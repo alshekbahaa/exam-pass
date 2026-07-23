@@ -128,7 +128,7 @@
       .form-row { align-items:flex-start; flex-direction:column; gap:7px; }
     }
     @media (prefers-reduced-motion:reduce) { *,*::before,*::after { scroll-behavior:auto!important; animation-duration:.01ms!important; transition-duration:.01ms!important; } }
-  </style>
+  body::before{content:"";position:fixed;inset:20% 8%;z-index:0;pointer-events:none;background:url("PMP-cropped.svg") center/contain no-repeat;opacity:.035;filter:grayscale(1);transform:rotate(-14deg)}.auth-card,.auth-shell{position:relative;z-index:1}</style>
 </head>
 <body>
   <main class="auth-card" aria-labelledby="mainTitle">
@@ -167,9 +167,9 @@
         </div>
       </div>
       <button type="submit" class="btn btn-primary" id="loginSubmit"><span class="btn-spinner" aria-hidden="true"></span><span class="btn-text" data-i18n="btnLogin">تسجيل الدخول</span></button>
-      <button type="button" class="btn btn-magic" id="btnMagic" onclick="sendMagicLink()"><span class="btn-spinner" aria-hidden="true"></span><span class="btn-text">✉️ أرسل لي رابط دخول آمن</span></button>
+      <button type="button" class="btn btn-magic" id="btnMagic" onclick="sendMagicLink()"><span class="btn-spinner" aria-hidden="true"></span><span class="btn-text">✉️ إرسال رابط دخول سريع</span></button>
       <div class="divider">تواجه مشكلة؟</div>
-      <a class="btn btn-social" style="display:flex;align-items:center;justify-content:center;gap:8px;text-decoration:none" href="https://wa.me/9665501994875?text=%D8%A7%D9%84%D8%B3%D9%84%D8%A7%D9%85%20%D8%B9%D9%84%D9%8A%D9%83%D9%85%D8%8C%20%D8%A3%D9%88%D8%A7%D8%AC%D9%87%20%D9%85%D8%B4%D9%83%D9%84%D8%A9%20%D9%81%D9%8A%20%D8%AA%D8%B3%D8%AC%D9%8A%D9%84%20%D8%A7%D9%84%D8%AF%D8%AE%D9%88%D9%84%20%D8%A3%D9%88%20%D8%A5%D9%86%D8%B4%D8%A7%D8%A1%20%D8%AD%D8%B3%D8%A7%D8%A8%20%D9%81%D9%8A%20%D9%85%D9%86%D8%B5%D8%A9%20Exam-Pass.%20%D8%A3%D8%B1%D8%AC%D9%88%20%D8%A7%D9%84%D9%85%D8%B3%D8%A7%D8%B9%D8%AF%D8%A9." target="_blank" rel="noopener">
+      <a class="btn btn-social" style="display:flex;align-items:center;justify-content:center;gap:8px;text-decoration:none" href="https://wa.me/966501994875?text=%D8%A7%D9%84%D8%B3%D9%84%D8%A7%D9%85%20%D8%B9%D9%84%D9%8A%D9%83%D9%85%D8%8C%20%D8%A3%D9%88%D8%A7%D8%AC%D9%87%20%D9%85%D8%B4%D9%83%D9%84%D8%A9%20%D9%81%D9%8A%20%D8%AA%D8%B3%D8%AC%D9%8A%D9%84%20%D8%A7%D9%84%D8%AF%D8%AE%D9%88%D9%84%20%D8%A3%D9%88%20%D8%A5%D9%86%D8%B4%D8%A7%D8%A1%20%D8%AD%D8%B3%D8%A7%D8%A8%20%D9%81%D9%8A%20%D9%85%D9%86%D8%B5%D8%A9%20Exam-Pass.%20%D8%A3%D8%B1%D8%AC%D9%88%20%D8%A7%D9%84%D9%85%D8%B3%D8%A7%D8%B9%D8%AF%D8%A9." target="_blank" rel="noopener">
         <span aria-hidden="true" style="font-size:20px">💬</span><span>تواصل عبر واتساب</span>
       </a>
     </form>
@@ -258,7 +258,7 @@
       if (message.includes('rate limit')) return lang === 'ar' ? 'تم إرسال طلبات كثيرة. انتظر قليلاً ثم أعد المحاولة.' : 'Too many requests. Please wait a moment and try again.';
       return error?.message || t().errGeneric;
     }
-    function getRedirectUrl() { return APP_URL; }
+    function getRedirectUrl() { return DASHBOARD_URL; }
 ​
     async function handleLogin(event) {
       event.preventDefault(); clearErrors(); hideAlert();
@@ -300,7 +300,7 @@
       if (!validEmail(email)) { markError('loginEmail'); return showAlert(t().errInvalidEmail); }
       if (!configured()) return showAlert(t().errNotConfigured);
       setLoading('btnMagic',true);
-      try { const { error } = await sb.auth.signInWithOtp({ email, options:{ emailRedirectTo:getRedirectUrl() } }); if (error) throw error; showAlert(t().msgMagicOk,'success'); }
+      try { const { error } = await sb.auth.signInWithOtp({ email, options:{ emailRedirectTo:DASHBOARD_URL, shouldCreateUser:false } }); if (error) throw error; showAlert(t().msgMagicOk,'success'); }
       catch (error) { showAlert(readableError(error)); }
       finally { setLoading('btnMagic',false); }
     }
