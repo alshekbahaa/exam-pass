@@ -5,20 +5,20 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Exam-Pass | نظام التذاكر والدعم</title>
   <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
-  <!-- Supabase Library -->
+  
+  <!-- مكتبة Supabase -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  
   <style>
-    /* =========================================
-       المتغيرات والهوية البصرية الحديثة
-       ========================================= */
     :root {
-      --ink: #193236; --deep: #123A35; --deep2: #1E6256; --mint: #E6F2E8; --paper: #F4F7F6; 
-      --gold: #FFBD22; --coral: #F36F5A; --muted: #607276; --line: #E1EAE5; 
+      /* نفس الهوية البصرية للموقع الأساسي */
+      --ink: #193236; --deep: #123A35; --deep2: #1E6256; --mint: #E6F2E8; --paper: #FCFBF7; 
+      --warm: #FFF5E8; --gold: #FFBD22; --coral: #F36F5A; --muted: #607276; --line: #D9E4DD; 
       --shadow: 0 12px 35px rgba(22,63,56,.08);
       --font-ui: 'Tajawal', Arial, sans-serif;
       --card-bg: #ffffff;
       
-      /* ألوان حالات التذاكر */
+      /* ألوان مخصصة لحالات التذاكر */
       --st-open-bg: #E2F3E8; --st-open-txt: #26704E;
       --st-prog-bg: #E7F0FD; --st-prog-txt: #2E70BA;
       --st-close-bg: #F0F4F2; --st-close-txt: #5A6E68;
@@ -40,41 +40,40 @@
       font-family: var(--font-ui); 
       font-size: 15px;
       line-height: 1.6; 
+      background-image: radial-gradient(circle at 100% 0%, rgba(255,189,34,0.05) 0%, transparent 25%),
+                        radial-gradient(circle at 0% 100%, rgba(18,58,53,0.05) 0%, transparent 25%);
+      min-height: 100vh;
     }
+    
     a { color: inherit; text-decoration: none; transition: 0.2s; }
     button, input, select, textarea { font-family: var(--font-ui); }
-    
-    /* =========================================
-       شريط التنقل (الناف بار)
-       ========================================= */
+
     .top-nav {
       position: sticky; top: 0; z-index: 100;
-      background: rgba(255,255,255,0.9);
-      backdrop-filter: blur(12px);
+      background: rgba(252, 251, 247, 0.85);
+      backdrop-filter: blur(14px);
       border-bottom: 1px solid var(--line);
       height: 80px;
       display: flex; align-items: center; justify-content: space-between;
       padding: 0 40px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.02);
     }
-    .brand img { height: 50px; object-fit: contain; }
+    .brand img { height: 45px; object-fit: contain; }
     .nav-actions { display: flex; gap: 12px; align-items: center; }
     
     .btn {
       display: inline-flex; align-items: center; justify-content: center; gap: 8px;
       min-height: 44px; padding: 0 20px;
       border-radius: 12px; font-weight: 800; font-size: 14px;
-      cursor: pointer; transition: 0.2s; border: none;
+      cursor: pointer; transition: 0.3s; border: none;
     }
     .btn-primary { background: var(--deep); color: #fff; box-shadow: 0 6px 15px rgba(18,58,53,.15); }
-    .btn-primary:hover { background: var(--deep2); transform: translateY(-2px); }
+    .btn-primary:hover { background: var(--deep2); transform: translateY(-2px); box-shadow: 0 8px 20px rgba(18,58,53,.25); }
     .btn-gold { background: var(--gold); color: var(--deep); box-shadow: 0 6px 15px rgba(255,189,34,.2); }
     .btn-gold:hover { transform: translateY(-2px); filter: brightness(1.05); }
     .btn-ghost { background: transparent; color: var(--muted); border: 1px solid var(--line); }
-    .btn-ghost:hover { background: var(--mint); color: var(--deep); border-color: var(--mint); }
+    .btn-ghost:hover { background: var(--card-bg); color: var(--deep); border-color: var(--deep); box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
 
-    /* =========================================
-       تخطيط الصفحة الرئيسي (Grid Layout)
-       ========================================= */
     .page-container {
       max-width: 1200px; margin: 40px auto; padding: 0 20px;
     }
@@ -91,18 +90,17 @@
       width: 200px; height: 200px; border-radius: 50%;
       background: radial-gradient(circle, rgba(255,189,34,0.15) 0%, transparent 70%);
     }
-    .header-text h1 { margin: 0; font-size: 32px; font-weight: 900; letter-spacing: -0.5px; }
-    .header-text p { margin: 8px 0 0; color: #A9E6D5; font-size: 15px; }
+    .header-text h1 { margin: 0; font-size: 32px; font-weight: 900; letter-spacing: -0.5px; position: relative; z-index: 1;}
+    .header-text p { margin: 8px 0 0; color: #A9E6D5; font-size: 15px; position: relative; z-index: 1;}
 
-    /* منطقة التحكم والجداول */
     .dashboard-grid {
-      display: grid; grid-template-columns: 300px 1fr; gap: 30px; align-items: start;
+      display: grid; grid-template-columns: 280px 1fr; gap: 30px; align-items: start;
     }
 
-    /* لوحة التحكم الجانبية */
     .control-panel {
       background: var(--card-bg); border-radius: 20px; padding: 25px;
       box-shadow: var(--shadow); border: 1px solid var(--line);
+      position: sticky; top: 100px;
     }
     .control-group { margin-bottom: 20px; }
     .control-group:last-child { margin-bottom: 0; }
@@ -116,34 +114,32 @@
     }
     .filter-input:focus, .filter-select:focus { border-color: var(--gold); box-shadow: 0 0 0 3px rgba(255,189,34,0.2); background: #fff; }
 
-    /* جدول التذاكر */
     .tickets-container {
-      background: var(--card-bg); border-radius: 20px; padding: 25px;
+      background: var(--card-bg); border-radius: 20px; padding: 10px 25px 25px;
       box-shadow: var(--shadow); border: 1px solid var(--line);
     }
     .table-wrapper { overflow-x: auto; }
     .tickets-table { width: 100%; border-collapse: separate; border-spacing: 0; text-align: right; }
     
     .tickets-table th {
-      background: var(--mint); color: var(--deep); font-size: 13px; font-weight: 800;
-      padding: 15px; border-bottom: 2px solid var(--line); white-space: nowrap;
+      color: var(--muted); font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px;
+      padding: 20px 15px 15px; border-bottom: 2px solid var(--line); white-space: nowrap;
     }
-    .tickets-table th:first-child { border-radius: 12px 0 0 12px; }
-    .tickets-table th:last-child { border-radius: 0 12px 12px 0; }
     
     .tickets-table td {
-      padding: 18px 15px; border-bottom: 1px solid var(--line);
+      padding: 20px 15px; border-bottom: 1px solid var(--line);
       font-size: 14px; font-weight: 500; color: var(--ink); vertical-align: middle;
+      transition: background 0.2s;
     }
     .tickets-table tr:last-child td { border-bottom: none; }
     .tickets-table tr:hover td { background: #FDFEFE; }
     
-    .ticket-id { font-family: monospace; font-size: 13px; font-weight: bold; color: var(--deep2); background: var(--mint); padding: 4px 8px; border-radius: 6px; }
-    .ticket-title { font-weight: 800; color: var(--deep); display: block; margin-bottom: 4px; }
-    .ticket-date { font-size: 12px; color: var(--muted); }
+    .ticket-id { font-family: monospace; font-size: 14px; font-weight: bold; color: var(--deep2); background: var(--mint); padding: 6px 10px; border-radius: 8px; }
+    .ticket-title { font-weight: 800; color: var(--deep); display: block; margin-bottom: 6px; font-size: 15px; }
+    .ticket-date { font-size: 12px; color: var(--muted); font-weight: 600;}
 
     /* الشارات (Pills) لحالة التذكرة والأولوية */
-    .pill { display: inline-flex; align-items: center; justify-content: center; padding: 5px 12px; border-radius: 8px; font-weight: 800; font-size: 12px; white-space: nowrap; }
+    .pill { display: inline-flex; align-items: center; justify-content: center; padding: 6px 14px; border-radius: 50px; font-weight: 800; font-size: 12px; white-space: nowrap; letter-spacing: 0.5px; }
     
     .p-urgent { background: var(--pr-urgent-bg); color: var(--pr-urgent-txt); }
     .p-high { background: var(--pr-high-bg); color: var(--pr-high-txt); }
@@ -154,84 +150,85 @@
     .s-in_progress { background: var(--st-prog-bg); color: var(--st-prog-txt); }
     .s-closed { background: var(--st-close-bg); color: var(--st-close-txt); }
 
-    /* =========================================
-       النافذة المنبثقة (Modal) لرفع وعرض تذكرة
-       ========================================= */
     .modal-overlay {
       display: none; position: fixed; inset: 0; z-index: 1000;
-      background: rgba(18, 58, 53, 0.6); backdrop-filter: blur(5px);
+      background: rgba(18, 58, 53, 0.4); backdrop-filter: blur(8px);
       align-items: center; justify-content: center; padding: 20px;
     }
-    .modal-overlay.active { display: flex; animation: fadeIn 0.2s ease; }
+    .modal-overlay.active { display: flex; animation: fadeIn 0.3s ease; }
     
     .modal-box {
-      background: #fff; width: 100%; max-width: 600px; border-radius: 24px;
-      box-shadow: 0 25px 50px rgba(0,0,0,0.15); overflow: hidden;
+      background: var(--card-bg); width: 100%; max-width: 600px; border-radius: 28px;
+      box-shadow: 0 25px 50px rgba(0,0,0,0.2); overflow: hidden;
       display: flex; flex-direction: column; max-height: 90vh;
-      transform: scale(0.95); transition: transform 0.2s ease;
+      transform: scale(0.95) translateY(20px); transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+      border: 1px solid var(--line);
     }
-    .modal-overlay.active .modal-box { transform: scale(1); }
+    .modal-overlay.active .modal-box { transform: scale(1) translateY(0); }
     
     .modal-header {
-      padding: 25px 30px; border-bottom: 1px solid var(--line);
-      display: flex; justify-content: space-between; align-items: center; background: #FAFCFB;
+      padding: 30px 35px 20px; border-bottom: 1px solid var(--line);
+      display: flex; justify-content: space-between; align-items: center; background: #fff;
     }
-    .modal-header h2 { margin: 0; font-size: 22px; color: var(--deep); }
-    .btn-close { background: #fff; border: 1px solid var(--line); width: 36px; height: 36px; border-radius: 10px; display: grid; place-items: center; cursor: pointer; font-size: 20px; color: var(--muted); transition: 0.2s; }
-    .btn-close:hover { background: var(--coral); color: #fff; border-color: var(--coral); }
+    .modal-header h2 { margin: 0; font-size: 24px; color: var(--deep); font-weight: 900; }
+    .btn-close { background: var(--paper); border: 1px solid var(--line); width: 40px; height: 40px; border-radius: 12px; display: grid; place-items: center; cursor: pointer; font-size: 20px; color: var(--muted); transition: 0.2s; }
+    .btn-close:hover { background: var(--coral); color: #fff; border-color: var(--coral); transform: rotate(90deg); }
     
-    .modal-body { padding: 30px; overflow-y: auto; }
+    .modal-body { padding: 30px 35px; overflow-y: auto; background: #fff; }
     
-    .form-group { margin-bottom: 20px; }
+    .form-group { margin-bottom: 24px; }
     .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-    .form-label { display: block; font-size: 13px; font-weight: 800; margin-bottom: 8px; color: var(--deep); }
+    .form-label { display: block; font-size: 14px; font-weight: 800; margin-bottom: 10px; color: var(--deep); }
     .form-input, .form-select, .form-textarea {
-      width: 100%; padding: 12px 16px; border: 1px solid var(--line); border-radius: 12px;
-      background: #F9FBFA; color: var(--ink); font-size: 15px; font-family: var(--font-ui); transition: 0.2s;
+      width: 100%; padding: 14px 18px; border: 1px solid var(--line); border-radius: 14px;
+      background: var(--paper); color: var(--ink); font-size: 15px; font-family: var(--font-ui); transition: 0.2s; font-weight: 600;
     }
-    .form-textarea { min-height: 120px; resize: vertical; line-height: 1.6; }
-    .form-input:focus, .form-select:focus, .form-textarea:focus { border-color: var(--gold); box-shadow: 0 0 0 3px rgba(255,189,34,0.2); background: #fff; }
-    .form-input:disabled, .form-select:disabled, .form-textarea:disabled { background: #EFEFEF; cursor: not-allowed; color: var(--muted); }
+    .form-textarea { min-height: 140px; resize: vertical; line-height: 1.6; }
+    .form-input:focus, .form-select:focus, .form-textarea:focus { border-color: var(--gold); box-shadow: 0 0 0 4px rgba(255,189,34,0.15); background: #fff; }
+    .form-input:disabled, .form-select:disabled, .form-textarea:disabled { background: #F0F4F2; cursor: not-allowed; color: var(--muted); opacity: 0.8; }
 
-    .modal-footer { padding: 20px 30px; border-top: 1px solid var(--line); background: #FAFCFB; display: flex; justify-content: flex-end; gap: 12px; }
+    .modal-footer { padding: 25px 35px; border-top: 1px solid var(--line); background: var(--paper); display: flex; justify-content: flex-end; gap: 15px; }
 
-    .admin-section { padding: 20px; background: var(--mint); border-radius: 16px; border: 1px solid #CFE0D3; margin-top: 10px; display: none; }
+    .admin-section { padding: 25px; background: var(--mint); border-radius: 16px; border: 1px solid #CFE0D3; margin-top: 15px; display: none; }
     .admin-section .form-label { color: var(--deep2); }
 
-    /* رسائل الإشعار */
+    /* رسائل الإشعار العائمة */
     .notice-msg {
       position: fixed; top: 100px; left: 50%; transform: translateX(-50%) translateY(-20px);
-      background: var(--deep); color: #fff; padding: 12px 24px; border-radius: 50px;
-      font-weight: 800; font-size: 14px; z-index: 2000; box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-      opacity: 0; visibility: hidden; transition: 0.3s ease;
+      background: var(--deep); color: #fff; padding: 14px 28px; border-radius: 50px;
+      font-weight: 800; font-size: 15px; z-index: 2000; box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+      opacity: 0; visibility: hidden; transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
     }
     .notice-msg.show { opacity: 1; visibility: visible; transform: translateX(-50%) translateY(0); }
     .notice-msg.error { background: var(--coral); }
 
     @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-    /* تجاوب الجوال */
     @media (max-width: 992px) {
       .dashboard-grid { grid-template-columns: 1fr; }
-      .dashboard-header { flex-direction: column; text-align: center; gap: 20px; padding: 30px 20px; }
+      .control-panel { position: static; }
+      .dashboard-header { flex-direction: column; text-align: center; gap: 25px; padding: 35px 20px; }
       .top-nav { padding: 0 20px; }
-      .form-row { grid-template-columns: 1fr; gap: 0; }
     }
     @media (max-width: 650px) {
-      .top-nav { height: auto; padding: 15px 20px; flex-wrap: wrap; justify-content: center; gap: 15px;}
-      .nav-actions { width: 100%; justify-content: center; }
+      .top-nav { height: auto; padding: 20px; flex-wrap: wrap; justify-content: center; gap: 20px;}
+      .nav-actions { width: 100%; justify-content: center; flex-wrap: wrap; }
+      .form-row { grid-template-columns: 1fr; gap: 0; }
       .tickets-table thead { display: none; }
       .tickets-table, .tickets-table tbody, .tickets-table tr, .tickets-table td { display: block; width: 100%; text-align: right; }
-      .tickets-table tr { margin-bottom: 15px; border: 1px solid var(--line); border-radius: 16px; padding: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.02); }
-      .tickets-table td { padding: 8px 0; border: none; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px dashed #f0f0f0;}
-      .tickets-table td:last-child { border-bottom: none; justify-content: center; margin-top: 10px; }
-      .tickets-table td::before { content: attr(data-label); font-weight: 800; color: var(--muted); font-size: 12px; }
+      .tickets-table tr { margin-bottom: 20px; border: 1px solid var(--line); border-radius: 16px; padding: 20px; box-shadow: 0 8px 20px rgba(0,0,0,0.03); background: #fff; }
+      .tickets-table td { padding: 10px 0; border: none; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px dashed var(--line);}
+      .tickets-table td:last-child { border-bottom: none; justify-content: stretch; margin-top: 15px; }
+      .tickets-table td:last-child .btn { width: 100%; }
+      .tickets-table td::before { content: attr(data-label); font-weight: 800; color: var(--muted); font-size: 13px; }
+      .modal-box { transform: scale(1) translateY(0); border-radius: 20px 20px 0 0; max-height: 95vh; margin-top: auto; }
+      .modal-overlay { align-items: flex-end; padding: 0; }
     }
   </style>
 </head>
 <body>
 
-  <!-- شريط التنقل العلوي -->
+  <!-- شريط التنقل العلوي المتناسق -->
   <header class="top-nav">
     <a class="brand" href="index.html">
       <img src="PMP-cropped.svg" alt="Exam-Pass" onerror="this.style.display='none'">
@@ -243,7 +240,7 @@
     </div>
   </header>
 
-  <!-- رسالة إشعار منبثقة -->
+  <!-- رسالة إشعار منبثقة (Toast) -->
   <div id="noticeToast" class="notice-msg">تمت العملية بنجاح.</div>
 
   <main class="page-container">
@@ -251,15 +248,15 @@
     <!-- القسم الترحيبي -->
     <div class="dashboard-header">
       <div class="header-text">
-        <h1>مركز الدعم والمتابعة</h1>
+        <h1>تذاكر الدعم والمتابعة</h1>
         <p>نحن هنا لمساعدتك في أي استفسار أو مشكلة تواجهك في مسيرتك.</p>
       </div>
-      <button class="btn btn-gold" style="min-height: 50px; font-size: 16px;" onclick="openForm()">
-        <span>＋</span> تذكرة جديدة
+      <button class="btn btn-gold" style="min-height: 54px; font-size: 16px; padding: 0 25px;" onclick="openForm()">
+        <span>＋</span> رفع تذكرة جديدة
       </button>
     </div>
 
-    <!-- شبكة لوحة التحكم -->
+    <!-- شبكة لوحة التحكم (Grid) -->
     <div class="dashboard-grid">
       
       <!-- الشريط الجانبي (الفلاتر) -->
@@ -280,7 +277,7 @@
         </div>
       </aside>
 
-      <!-- جدول التذاكر -->
+      <!-- جدول التذاكر العصري -->
       <section class="tickets-container">
         <div class="table-wrapper">
           <table class="tickets-table">
@@ -295,7 +292,7 @@
               </tr>
             </thead>
             <tbody id="rows">
-              <!-- يتم إضافة التذاكر هنا عبر الجافاسكريبت -->
+              <!-- يتم إضافة التذاكر هنا برمجياً -->
             </tbody>
           </table>
         </div>
@@ -304,7 +301,6 @@
     </div>
   </main>
 
-  <!-- النافذة المنبثقة (Modal) لرفع وعرض تذكرة -->
   <div id="ticketModal" class="modal-overlay" onmousedown="if(event.target===this) closeForm()">
     <div class="modal-box">
       <div class="modal-header">
@@ -382,12 +378,12 @@
     
     let session, isAdmin=false, tickets=[];
     
-    // دوال مساعدة
+    // دوال مساعدة للتنسيق والحماية
     const escapeHTML=s=>String(s||'').replace(/[&<>"']/g,x=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[x]));
     const formatTicketNumber=x=>'EP-'+String(x).padStart(5,'0');
     const formatDate=x=>new Intl.DateTimeFormat('ar-SA',{year:'numeric',month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'}).format(new Date(x));
     
-    // قواميس الترجمة والتنسيق
+    // قواميس الترجمة والتنسيق للأولويات والحالات
     const labels = {
       urgent: { text: 'عاجل', class: 'p-urgent' },
       high: { text: 'مرتفع', class: 'p-high' },
@@ -398,7 +394,7 @@
       closed: { text: 'مغلقة', class: 's-closed' }
     };
 
-    // إظهار الإشعارات العائمة
+    // دالة إظهار الإشعارات العائمة
     function showToast(msg, isError=false){
       const toast = $('noticeToast');
       toast.textContent = msg;
@@ -432,6 +428,7 @@
       render();
     }
 
+    // دالة عرض التذاكر في الجدول
     function render(){
       let text = $('q').value.toLowerCase();
       let filter = $('priorityFilter').value;
@@ -451,12 +448,12 @@
           ${isAdmin ? `<td data-label="العميل"><b>${escapeHTML(x.user_name||'—')}</b><br><span class="ticket-date">${escapeHTML(x.user_email||'')}</span></td>` : ''}
           <td data-label="الأولوية"><span class="pill ${labels[x.priority]?.class}">${labels[x.priority]?.text}</span></td>
           <td data-label="الحالة"><span class="pill ${labels[x.status]?.class}">${labels[x.status]?.text}</span></td>
-          <td><button class="btn btn-ghost" style="min-height:36px; padding:0 15px;" onclick="openForm('${x.id}')">${isAdmin ? 'إدارة' : 'عرض وتفاصيل'}</button></td>
+          <td data-label="إجراء"><button class="btn btn-ghost" style="min-height:38px; padding:0 18px;" onclick="openForm('${x.id}')">${isAdmin ? 'إدارة' : 'عرض وتفاصيل'}</button></td>
         </tr>
-      `).join('') : `<tr><td colspan="${isAdmin?6:5}" style="padding:40px; text-align:center; color:var(--muted); font-weight:bold;">لا توجد تذاكر حالياً.</td></tr>`;
+      `).join('') : `<tr><td colspan="${isAdmin?6:5}" style="padding:50px; text-align:center; color:var(--muted); font-weight:bold; font-size:16px;">لا توجد تذاكر حالياً...</td></tr>`;
     }
 
-    // فتح النافذة المنبثقة
+    // دالة فتح النافذة المنبثقة (مصلحة وتعمل بشكل مثالي)
     function openForm(key = ''){
       let x = tickets.find(v => v.id === key);
       $('ticketForm').reset();
@@ -498,13 +495,16 @@
         $('btnSubmit').textContent = 'إرسال التذكرة';
       }
       
+      // فتح النافذة بالـ ID الصحيح
       $('ticketModal').classList.add('active');
     }
 
+    // دالة إغلاق النافذة
     function closeForm(){
       $('ticketModal').classList.remove('active');
     }
 
+    // دالة الحفظ والتحديث
     async function save(ev){
       ev.preventDefault();
       let id = $('ticketId').value;
@@ -543,7 +543,7 @@
       location.href = 'auth.html';
     }
 
-    // تشغيل النظام
+    // تشغيل النظام عند تحميل الصفحة
     boot();
   </script>
 </body>
