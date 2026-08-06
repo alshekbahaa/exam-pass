@@ -1,1 +1,646 @@
-<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Exam-Pass | سجّل طلبك</title><link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;800;900&display=swap" rel="stylesheet"><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><style>:root{--g:#123a35;--m:#1e6c5c;--y:#ffc127;--bg:#f3f8f5;--card:#fff;--ink:#183238;--mut:#6c817d;--line:#d8e5de;--bad:#d94d42;--ok:#23704c}*{box-sizing:border-box}body{margin:0;min-height:100vh;background:linear-gradient(145deg,#f4f9f6,#e2f0e8);color:var(--ink);font:15px Tajawal,Arial,sans-serif}body:before{content:"";position:fixed;inset:16%;z-index:0;pointer-events:none;background:url('PMP-cropped.svg') center/contain no-repeat;opacity:.04;filter:grayscale(1)}button,input,textarea,select{font:inherit}.page{position:relative;z-index:1;max-width:760px;margin:auto;padding:22px 20px 50px}a{text-decoration:none;color:inherit}.top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:24px}.logo{width:108px;max-height:100px;object-fit:contain}.back{display:flex;align-items:center;justify-content:center;min-height:44px;padding:0 14px;border:1px solid var(--line);border-radius:11px;background:#fff;color:var(--g);font-weight:900}.card{padding:clamp(22px,5vw,38px);border:1px solid var(--line);border-radius:22px;background:var(--card);box-shadow:0 16px 40px #123a3514}.head small{color:var(--m);font-weight:900}.head h1{margin:4px 0 5px;font-size:28px}.head p{margin:0 0 25px;color:var(--mut);font-size:13px}.field{display:block;margin-bottom:18px;font-weight:900;font-size:13px}.field span{display:block;margin-bottom:8px}.field input,.field textarea,.field select{width:100%;min-height:52px;padding:12px 13px;border:1px solid var(--line);border-radius:12px;background:#fbfdfc;color:var(--ink);outline:0}.field textarea{min-height:95px;resize:vertical}.field input:focus,.field textarea:focus{border-color:var(--y);box-shadow:0 0 0 3px #ffc12733}.two{display:grid;grid-template-columns:1fr 1fr;gap:12px}.choices{display:grid;grid-template-columns:1fr 1fr;gap:10px}.choice{display:flex;align-items:center;justify-content:center;min-height:50px;border:1px solid var(--line);border-radius:12px;background:#fbfdfc;cursor:pointer}.choice:has(input:checked){border-color:var(--m);background:#e5f3ea}.choice input{width:20px;height:20px;accent-color:var(--m);margin-inline-end:8px;flex:none}.btn{width:100%;min-height:54px;border:0;border-radius:13px;background:var(--g);color:#fff;font-size:16px;font-weight:900;cursor:pointer}.btn:disabled{opacity:.7}.notice{display:none;margin:0 0 16px;padding:11px 13px;border-radius:11px;font-size:12px;font-weight:800}.notice.show{display:block}.notice.ok{background:#e5f4ea;color:var(--ok)}.notice.bad{background:#fde9e7;color:var(--bad)}@media(max-width:540px){.page{padding:16px}.logo{width:78px;max-height:74px}.card{padding:23px 18px;border-radius:18px}.head h1{font-size:24px}.two{grid-template-columns:1fr}}</style></head><body><main class="page"><header class="top"><a href="dashboard.html"><img class="logo" src="PMP-cropped.svg" alt="Exam-Pass" onerror="this.style.display='none'"></a><a class="back" href="dashboard.html">← العودة للوحة</a></header><section class="card"><div class="head"><small>طلب جديد</small><h1 id="title">سجّل طلبك</h1><p id="sub">حدّد معلومات الاختبار بدقة ليتمكن فريق الدعم من متابعتك.</p></div><div id="msg" class="notice"></div><form id="form"><label class="field"><span>هل حجزت موعد الاختبار؟</span><div class="choices"><label class="choice"><input name="booked" type="radio" value="true" required>نعم</label><label class="choice"><input name="booked" type="radio" value="false">لا</label></div></label><label class="field"><span>هل أنهيت ساعات التدريب التحضيرية عبر المنصة؟</span><div class="choices"><label class="choice"><input name="training" type="radio" value="true" required>نعم</label><label class="choice"><input name="training" type="radio" value="false">لا</label></div></label><div class="two"><label class="field"><span>تاريخ الاختبار المتوقع</span><input id="date" type="date" required></label><label class="field"><span>وقت الاختبار المتوقع</span><input id="time" type="time" required></label></div><label class="field"><span>اسم الاختبار</span><select id="examName" required><option value="PMP">PMP</option></select></label><label class="field"><span>ملاحظات إضافية</span><textarea id="notes" maxlength="1000" placeholder="اكتب أي تفاصيل يحتاجها فريق الدعم..."></textarea></label><button class="btn" id="save">تسجيل الطلب</button></form></section></main><script>const U='https://pigavirpwiireyugxmcq.supabase.co',K='sb_publishable_eTsW2oiBL0znjXPZD6XfpQ_jKDhtnwi',sb=window.supabase?.createClient(U,K),$=x=>document.getElementById(x);let session,editId=new URLSearchParams(location.search).get('edit');const say=(x,b=false)=>{$('msg').textContent=x;$('msg').className='notice show '+(b?'bad':'ok')};async function boot(){if(!sb)return;let{data:{session:s}}=await sb.auth.getSession();if(!s){location.href='auth.html';return}session=s;if(editId){let{data,error}=await sb.from('support_requests').select('*').eq('id',editId).single();if(error){say('تعذر فتح هذا الطلب.',true);return}$('title').textContent='تعديل الطلب';$('sub').textContent='يمكنك تعديل البيانات الخاصة بالاختبار فقط.';$('save').textContent='حفظ التعديلات';document.querySelector(`input[name=booked][value="${data.exam_booked}"]`).checked=true;document.querySelector(`input[name=training][value="${data.training_completed}"]`).checked=true;$('date').value=data.expected_exam_date;$('time').value=data.expected_exam_at?new Date(data.expected_exam_at).toTimeString().slice(0,5):'09:00';$('notes').value=data.notes||''}}$('form').onsubmit=async e=>{e.preventDefault();let f=new FormData($('form')),date=$('date').value,time=$('time').value,p={exam_booked:f.get('booked')==='true',training_completed:f.get('training')==='true',expected_exam_date:date,expected_exam_at:new Date(`${date}T${time}:00`).toISOString(),exam_name:'PMP',notes:$('notes').value.trim()||null};if(!date||!time||f.get('booked')===null||f.get('training')===null){say('أكمل الحقول المطلوبة.',true);return}$('save').disabled=true;let r=editId?await sb.from('support_requests').update(p).eq('id',editId):await sb.from('support_requests').insert({...p,user_id:session.user.id,user_email:session.user.email,user_name:session.user.user_metadata?.full_name||session.user.email.split('@')[0],status:'new'});$('save').disabled=false;if(r.error){say(r.error.message,true);return}say(editId?'تم حفظ التعديلات.':'تم تسجيل طلبك بنجاح.');setTimeout(()=>location.href='dashboard.html',900)};boot()</script></body></html>
+<!doctype html>
+<html lang="ar" dir="rtl" data-theme="light">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="description" content="EXAM PASS - سجّل طلبك للاستعداد للاختبار">
+    <meta name="theme-color" content="#123a35">
+    <title>EXAM PASS | سجّل طلبك</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        :root {
+            --deep: #123A35; --deep2: #1E6256; --gold: #FFBD22; --gold-dark: #c48b1a;
+            --mint: #E6F2E8; --paper: #FCFBF7; --coral: #F36F5A; --success: #287451;
+            --ink: #193236; --muted: #607276; --line: #D9E4DD; --card: #FFFFFF;
+            --font: 'Cairo', 'Inter', sans-serif;
+            --radius-lg: 20px; --radius: 14px; --radius-sm: 10px;
+            --shadow: 0 8px 30px rgba(18,58,53,0.08);
+            --shadow-lg: 0 20px 50px rgba(18,58,53,0.12);
+            --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        [data-theme="dark"] {
+            --deep: #0b2621; --deep2: #1d695b; --gold: #ffc94d;
+            --mint: #14392f; --paper: #081614; --coral: #ff8a74; --success: #66c491;
+            --ink: #E7EEEB; --muted: #9baeab; --line: #23443a; --card: #102822;
+            --shadow: 0 8px 30px rgba(0,0,0,0.3);
+            --shadow-lg: 0 20px 50px rgba(0,0,0,0.4);
+        }
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body {
+            font-family: var(--font); background: var(--paper); color: var(--ink);
+            min-height: 100vh; line-height: 1.65; padding: 16px;
+            transition: background var(--transition), color var(--transition);
+            position: relative;
+        }
+        body::after {
+            content: ''; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(-8deg);
+            width: 400px; height: 400px; background: url('logo.svg') center/contain no-repeat;
+            opacity: 0.03; pointer-events: none; z-index: 0; filter: grayscale(0.4);
+        }
+        button { cursor: pointer; font-family: inherit; }
+        a { color: inherit; text-decoration: none; }
+
+        .page { position: relative; z-index: 1; max-width: 860px; margin: 0 auto; }
+
+        /* ===== TOP NAV ===== */
+        .top-nav {
+            display: flex; align-items: center; justify-content: space-between; gap: 12px;
+            margin-bottom: 24px; flex-wrap: wrap;
+            background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(12px);
+            padding: 10px 18px; border-radius: var(--radius);
+            border: 1px solid var(--line); box-shadow: var(--shadow);
+        }
+        [data-theme="dark"] .top-nav { background: rgba(16, 40, 34, 0.9); }
+        .logo { height: 44px; width: auto; object-fit: contain; transition: transform 0.3s; }
+        .logo:hover { transform: scale(1.05); }
+
+        .nav-actions { display: flex; gap: 8px; align-items: center; }
+
+        .btn-icon {
+            width: 40px; height: 40px; border: 1.5px solid var(--line); border-radius: var(--radius-sm);
+            background: var(--card); color: var(--ink); font-size: 16px;
+            display: grid; place-items: center; transition: all 0.2s; cursor: pointer;
+        }
+        .btn-icon:hover { background: var(--mint); border-color: var(--gold); }
+
+        /* Desktop nav links */
+        .desktop-nav { display: flex; gap: 6px; align-items: center; }
+        .nav-link {
+            display: flex; align-items: center; gap: 6px; padding: 8px 14px; border-radius: var(--radius-sm);
+            border: 1px solid var(--line); background: var(--card); color: var(--ink);
+            font-weight: 700; font-size: 13px; transition: all 0.2s;
+        }
+        .nav-link:hover { background: var(--deep); color: #fff; border-color: var(--deep); }
+        .nav-link.active { background: var(--deep); color: #fff; border-color: var(--deep); }
+
+        /* Mobile menu button */
+        .mobile-menu-btn {
+            display: none; width: 40px; height: 40px; border: 1.5px solid var(--line);
+            border-radius: var(--radius-sm); background: var(--card); color: var(--ink);
+            font-size: 18px; place-items: center; cursor: pointer; transition: all 0.2s;
+        }
+        .mobile-menu-btn:hover { background: var(--mint); border-color: var(--gold); }
+
+        /* Mobile sidebar */
+        .mobile-overlay {
+            display: none; position: fixed; inset: 0; z-index: 100;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(4px);
+        }
+        .mobile-overlay.open { display: block; }
+        .mobile-sidebar {
+            position: fixed; top: 0; bottom: 0; inset-inline-end: 0; width: 280px;
+            background: var(--card); z-index: 101; padding: 20px;
+            transform: translateX(100%); transition: transform 0.3s ease;
+            display: flex; flex-direction: column;
+        }
+        html[dir="rtl"] .mobile-sidebar { transform: translateX(-100%); }
+        .mobile-overlay.open .mobile-sidebar { transform: translateX(0); }
+        .mobile-sidebar-header {
+            display: flex; align-items: center; justify-content: space-between;
+            padding-bottom: 16px; border-bottom: 2px solid var(--line); margin-bottom: 16px;
+        }
+        .mobile-sidebar-header img { height: 36px; }
+        .mobile-close-btn {
+            width: 36px; height: 36px; border: 1px solid var(--line); border-radius: var(--radius-sm);
+            background: var(--card); color: var(--muted); font-size: 18px;
+            display: grid; place-items: center; cursor: pointer; transition: all 0.2s;
+        }
+        .mobile-close-btn:hover { background: var(--coral); color: #fff; border-color: var(--coral); }
+        .mobile-nav-link {
+            display: flex; align-items: center; gap: 12px; padding: 14px 16px;
+            border-radius: var(--radius-sm); color: var(--ink); font-size: 15px; font-weight: 700;
+            transition: all 0.2s; margin-bottom: 4px;
+        }
+        .mobile-nav-link:hover { background: var(--mint); }
+        .mobile-nav-link.active { background: var(--deep); color: #fff; }
+
+        /* ===== CARD ===== */
+        .card {
+            padding: clamp(24px, 4vw, 40px); border: 1px solid var(--line);
+            border-radius: var(--radius-lg); background: var(--card); box-shadow: var(--shadow-lg);
+        }
+        .head { display: flex; align-items: flex-start; gap: 16px; margin-bottom: 28px; flex-wrap: wrap; }
+        .head-icon {
+            flex-shrink: 0; width: 56px; height: 56px; border-radius: 16px;
+            background: linear-gradient(135deg, var(--deep), var(--deep2));
+            display: flex; align-items: center; justify-content: center; color: #fff; font-size: 28px;
+            box-shadow: 0 4px 16px rgba(18, 58, 53, 0.3);
+        }
+        .head-content { flex: 1; min-width: 160px; }
+        .head-content .badge {
+            display: inline-block; background: linear-gradient(135deg, var(--deep2), var(--deep));
+            color: #fff; font-weight: 800; font-size: 11px; padding: 3px 16px; border-radius: 20px;
+            letter-spacing: 0.3px; margin-bottom: 4px;
+        }
+        .head-content h1 { margin: 2px 0 4px; font-size: 26px; font-weight: 900; color: var(--deep); }
+        .head-content p { margin: 0; color: var(--muted); font-size: 13px; font-weight: 500; }
+
+        /* ===== FORM ===== */
+        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px 24px; }
+        .field-full { grid-column: 1 / -1; }
+        .field { display: block; font-weight: 700; font-size: 13px; color: var(--ink); }
+        .field-label { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+        .field-label i { color: var(--deep2); font-size: 16px; width: 20px; text-align: center; }
+        .field-label .required { color: var(--coral); font-weight: 900; font-size: 16px; }
+        .field-label .optional { color: var(--muted); font-weight: 400; font-size: 11px; background: var(--mint); padding: 0 10px; border-radius: 10px; }
+
+        .field input, .field textarea, .field select {
+            width: 100%; min-height: 48px; padding: 10px 14px; border: 1.5px solid var(--line);
+            border-radius: var(--radius-sm); background: var(--paper); color: var(--ink);
+            outline: 0; transition: all 0.3s; font-weight: 500; font-family: var(--font);
+        }
+        .field textarea { min-height: 90px; resize: vertical; }
+        .field input:focus, .field textarea:focus, .field select:focus {
+            border-color: var(--gold); box-shadow: 0 0 0 4px rgba(255, 189, 34, 0.12);
+        }
+        .field input:disabled, .field textarea:disabled { background: var(--mint); opacity: 0.6; cursor: not-allowed; }
+
+        /* ===== RADIO ===== */
+        .choices { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .choice {
+            display: flex; align-items: center; justify-content: center; gap: 10px;
+            min-height: 48px; padding: 0 14px; border: 1.5px solid var(--line);
+            border-radius: var(--radius-sm); background: var(--paper); cursor: pointer;
+            transition: all 0.3s; font-weight: 600; font-size: 14px;
+        }
+        .choice:hover { border-color: var(--deep2); }
+        .choice:has(input:checked) { border-color: var(--deep2); background: var(--mint); box-shadow: 0 2px 12px rgba(30, 98, 86, 0.1); }
+        .choice input { width: 18px; height: 18px; accent-color: var(--deep2); flex-shrink: 0; cursor: pointer; }
+
+        /* ===== INFO ===== */
+        .info-box {
+            background: var(--mint); border-radius: var(--radius-sm); padding: 14px 18px;
+            border-right: 4px solid var(--deep2); display: flex; align-items: center; gap: 12px;
+            font-size: 13px; color: var(--deep);
+        }
+        .info-box i { color: var(--deep2); font-size: 20px; flex-shrink: 0; }
+
+        /* ===== BUTTON ===== */
+        .btn-submit {
+            width: 100%; min-height: 56px; border: 0; border-radius: var(--radius-sm);
+            background: linear-gradient(135deg, var(--deep), var(--deep2)); color: #fff;
+            font-size: 16px; font-weight: 900; cursor: pointer; transition: all 0.3s;
+            display: flex; align-items: center; justify-content: center; gap: 10px; margin-top: 6px;
+        }
+        .btn-submit:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(18,58,53,0.35); }
+        .btn-submit:disabled { opacity: 0.6; cursor: not-allowed; }
+        .btn-submit .spinner {
+            display: none; width: 22px; height: 22px; border: 3px solid rgba(255,255,255,0.3);
+            border-top-color: #fff; border-radius: 50%; animation: spin 0.7s linear infinite;
+        }
+        .btn-submit.loading .spinner { display: block; }
+        .btn-submit.loading .btn-text { display: none; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* ===== ALERT ===== */
+        .alert {
+            display: none; padding: 14px 18px; margin-bottom: 18px; border-radius: var(--radius-sm);
+            font-size: 13px; font-weight: 700; border: 1px solid transparent;
+            align-items: center; gap: 10px;
+        }
+        .alert.show { display: flex; }
+        .alert.success { background: #e5f4ea; color: var(--success); border-color: var(--success); }
+        .alert.error { background: #fde9e7; color: var(--coral); border-color: var(--coral); }
+        .alert.info { background: var(--mint); color: var(--deep); border-color: var(--deep2); }
+
+        @media(max-width:768px) {
+            .desktop-nav { display: none; }
+            .mobile-menu-btn { display: grid; }
+        }
+        @media(max-width:720px) {
+            body { padding: 10px; }
+            .form-grid { grid-template-columns: 1fr; gap: 14px; }
+            .field-full { grid-column: 1; }
+            .head { flex-direction: column; align-items: center; text-align: center; }
+            .head-content h1 { font-size: 22px; }
+            .choices { grid-template-columns: 1fr 1fr; }
+            .card { padding: 18px 14px; }
+        }
+        @media(max-width:400px) {
+            .choices { grid-template-columns: 1fr; }
+        }
+        @media(min-width:769px) {
+            .mobile-overlay { display: none !important; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- MOBILE OVERLAY & SIDEBAR -->
+    <div class="mobile-overlay" id="mobileOverlay">
+        <div class="mobile-sidebar">
+            <div class="mobile-sidebar-header">
+                <img src="logo.svg" alt="EXAM PASS" onerror="this.style.display='none'">
+                <button class="mobile-close-btn" id="mobileCloseBtn">✕</button>
+            </div>
+            <a href="dashboard.html" class="mobile-nav-link"><i class="fas fa-th-large"></i> الرئيسية</a>
+            <a href="request.html" class="mobile-nav-link active"><i class="fas fa-plus-circle"></i> طلب جديد</a>
+            <a href="tickets.html" class="mobile-nav-link"><i class="fas fa-ticket-alt"></i> التذاكر</a>
+        </div>
+    </div>
+
+    <main class="page">
+        <!-- TOP NAVIGATION -->
+        <nav class="top-nav">
+            <a href="dashboard.html">
+                <img class="logo" src="logo.svg" alt="EXAM PASS" onerror="this.style.display='none'">
+            </a>
+
+            <!-- Desktop Nav -->
+            <div class="desktop-nav">
+                <a href="dashboard.html" class="nav-link"><i class="fas fa-th-large"></i> الرئيسية</a>
+                <a href="request.html" class="nav-link active"><i class="fas fa-plus-circle"></i> طلب جديد</a>
+                <a href="tickets.html" class="nav-link"><i class="fas fa-ticket-alt"></i> التذاكر</a>
+            </div>
+
+            <div class="nav-actions">
+                <!-- زر اللغة -->
+                <button class="btn-icon" id="btnLang" title="Language">EN</button>
+                
+                <!-- زر الثيم -->
+                <button class="btn-icon" id="btnTheme" title="Theme">🌙</button>
+
+                <!-- زر القائمة للجوال -->
+                <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="القائمة">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </nav>
+
+        <!-- CARD -->
+        <section class="card">
+            <div class="head">
+                <div class="head-icon"><i class="fas fa-file-alt"></i></div>
+                <div class="head-content">
+                    <span class="badge" id="mode">طلب جديد</span>
+                    <h1 id="title">سجّل طلبك</h1>
+                    <p id="sub">حدّد معلومات الاختبار بدقة ليتمكن فريق الدعم من متابعتك.</p>
+                </div>
+            </div>
+
+            <div id="alertBox" class="alert"></div>
+
+            <form id="form" onsubmit="return false;">
+                <div class="form-grid">
+                    <!-- Booked -->
+                    <div class="field field-full">
+                        <div class="field-label">
+                            <i class="fas fa-calendar-check"></i>
+                            <span>هل حجزت موعد الاختبار؟</span>
+                            <span class="required">*</span>
+                        </div>
+                        <div class="choices">
+                            <label class="choice"><input name="booked" type="radio" value="true" required>✅ نعم</label>
+                            <label class="choice"><input name="booked" type="radio" value="false">❌ لا</label>
+                        </div>
+                    </div>
+
+                    <!-- Training -->
+                    <div class="field field-full">
+                        <div class="field-label">
+                            <i class="fas fa-check-circle"></i>
+                            <span>هل أنهيت ساعات التدريب التحضيرية عبر المنصة؟</span>
+                            <span class="required">*</span>
+                        </div>
+                        <div class="choices">
+                            <label class="choice"><input name="training" type="radio" value="true" required>✅ نعم</label>
+                            <label class="choice"><input name="training" type="radio" value="false">❌ لا</label>
+                        </div>
+                    </div>
+
+                    <!-- Date -->
+                    <div class="field" id="dateField">
+                        <div class="field-label">
+                            <i class="fas fa-calendar-alt"></i>
+                            <span>تاريخ الاختبار</span>
+                            <span class="optional" id="dateRequired">اختياري (غير محجوز)</span>
+                        </div>
+                        <input id="date" type="date">
+                    </div>
+
+                    <!-- Time -->
+                    <div class="field" id="timeField">
+                        <div class="field-label">
+                            <i class="fas fa-clock"></i>
+                            <span>وقت الاختبار</span>
+                            <span class="optional" id="timeRequired">اختياري (غير محجوز)</span>
+                        </div>
+                        <input id="time" type="time">
+                    </div>
+
+                    <!-- Language -->
+                    <div class="field">
+                        <div class="field-label">
+                            <i class="fas fa-language"></i>
+                            <span>لغة الاختبار</span>
+                            <span class="required">*</span>
+                        </div>
+                        <select id="examLanguage" required>
+                            <option value="ar">العربية</option>
+                            <option value="en">English</option>
+                        </select>
+                    </div>
+
+                    <!-- WhatsApp -->
+                    <div class="field">
+                        <div class="field-label">
+                            <i class="fab fa-whatsapp"></i>
+                            <span>رقم واتساب للتواصل</span>
+                            <span class="optional">اختياري</span>
+                        </div>
+                        <input id="whatsapp" type="tel" placeholder="مثال: 05xxxxxxxx" dir="ltr">
+                    </div>
+
+                    <!-- Exam Name -->
+                    <div class="field field-full">
+                        <div class="field-label">
+                            <i class="fas fa-graduation-cap"></i>
+                            <span>اسم الاختبار</span>
+                            <span class="required">*</span>
+                        </div>
+                        <select id="examName" required>
+                            <option value="PMP">PMP - Project Management Professional</option>
+                            <option value="PMI-ACP">PMI-ACP</option>
+                            <option value="CAPM">CAPM</option>
+                            <option value="AWS">AWS Certification</option>
+                            <option value="Microsoft Azure">Microsoft Azure</option>
+                            <option value="Cisco">Cisco</option>
+                            <option value="CompTIA">CompTIA</option>
+                            <option value="ITIL">ITIL</option>
+                            <option value="CEH">CEH</option>
+                            <option value="CISSP">CISSP</option>
+                            <option value="Google Cloud">Google Cloud</option>
+                        </select>
+                    </div>
+
+                    <!-- Notes -->
+                    <div class="field field-full">
+                        <div class="field-label">
+                            <i class="fas fa-sticky-note"></i>
+                            <span>ملاحظات إضافية</span>
+                            <span class="optional">اختياري</span>
+                        </div>
+                        <textarea id="notes" maxlength="1000" placeholder="أضف أي تفاصيل إضافية يحتاجها فريق الدعم..."></textarea>
+                    </div>
+
+                    <!-- Info Box -->
+                    <div class="field-full">
+                        <div class="info-box">
+                            <i class="fas fa-info-circle"></i>
+                            <span>📌 <strong>تنبيه:</strong> إذا لم تقم بحجز الاختبار، يمكنك ترك التاريخ والوقت فارغين. سيتم متابعة طلبك لاحقاً.</span>
+                        </div>
+                    </div>
+
+                    <!-- Submit -->
+                    <div class="field-full" style="margin-top:4px;">
+                        <button class="btn-submit" id="save" type="submit" onclick="handleSubmit()">
+                            <span class="spinner"></span>
+                            <span class="btn-text" id="btnText">تسجيل الطلب</span>
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </section>
+    </main>
+
+    <script>
+        (function() {
+            // ==================== CONFIG ====================
+            const SUPABASE_URL = 'https://pigavirpwiireyugxmcq.supabase.co';
+            const SUPABASE_KEY = 'sb_publishable_eTsW2oiBL0znjXPZD6XfpQ_jKDhtnwi';
+            const supabase = window.supabase?.createClient(SUPABASE_URL, SUPABASE_KEY);
+            const editId = new URLSearchParams(location.search).get('edit') || '';
+            let session = null;
+
+            // ==================== DOM REFS ====================
+            const btnLang = document.getElementById('btnLang');
+            const btnTheme = document.getElementById('btnTheme');
+            const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+            const mobileCloseBtn = document.getElementById('mobileCloseBtn');
+            const mobileOverlay = document.getElementById('mobileOverlay');
+            const alertBox = document.getElementById('alertBox');
+            const dateInput = document.getElementById('date');
+            const timeInput = document.getElementById('time');
+            const saveBtn = document.getElementById('save');
+
+            // ==================== LANGUAGE ====================
+            let currentLang = localStorage.getItem('ep_lang') || 'ar';
+
+            function applyLanguage() {
+                document.documentElement.lang = currentLang === 'ar' ? 'ar' : 'en';
+                document.documentElement.dir = currentLang === 'ar' ? 'rtl' : 'ltr';
+                if (btnLang) btnLang.textContent = currentLang === 'ar' ? 'EN' : 'ع';
+                localStorage.setItem('ep_lang', currentLang);
+            }
+
+            applyLanguage();
+
+            if (btnLang) {
+                btnLang.addEventListener('click', function() {
+                    currentLang = currentLang === 'ar' ? 'en' : 'ar';
+                    applyLanguage();
+                });
+            }
+
+            // ==================== THEME ====================
+            function applyTheme(theme) {
+                document.documentElement.dataset.theme = theme;
+                if (btnTheme) {
+                    btnTheme.innerHTML = theme === 'dark' ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
+                }
+                localStorage.setItem('ep_theme', theme);
+            }
+
+            const savedTheme = localStorage.getItem('ep_theme') || 'light';
+            applyTheme(savedTheme);
+
+            if (btnTheme) {
+                btnTheme.addEventListener('click', function() {
+                    const current = document.documentElement.dataset.theme;
+                    const next = current === 'dark' ? 'light' : 'dark';
+                    applyTheme(next);
+                });
+            }
+
+            // ==================== MOBILE MENU ====================
+            function openMobileMenu() {
+                if (mobileOverlay) mobileOverlay.classList.add('open');
+                document.body.style.overflow = 'hidden';
+            }
+
+            function closeMobileMenu() {
+                if (mobileOverlay) mobileOverlay.classList.remove('open');
+                document.body.style.overflow = '';
+            }
+
+            if (mobileMenuBtn) {
+                mobileMenuBtn.addEventListener('click', openMobileMenu);
+            }
+
+            if (mobileCloseBtn) {
+                mobileCloseBtn.addEventListener('click', closeMobileMenu);
+            }
+
+            if (mobileOverlay) {
+                mobileOverlay.addEventListener('click', function(e) {
+                    if (e.target === mobileOverlay) closeMobileMenu();
+                });
+            }
+
+            // ==================== ALERT ====================
+            function showAlert(msg, type = 'info') {
+                if (!alertBox) return;
+                const icon = type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' : 'info-circle';
+                alertBox.innerHTML = `<i class="fas fa-${icon}"></i> ${msg}`;
+                alertBox.className = `alert show ${type}`;
+                setTimeout(() => { alertBox.className = 'alert'; }, 4000);
+            }
+
+            // ==================== DATE/TIME TOGGLE ====================
+            function toggleDateTime() {
+                const booked = document.querySelector('input[name="booked"]:checked');
+                const isBooked = booked && booked.value === 'true';
+                if (dateInput) {
+                    dateInput.disabled = !isBooked;
+                    dateInput.required = isBooked;
+                }
+                if (timeInput) {
+                    timeInput.disabled = !isBooked;
+                    timeInput.required = isBooked;
+                }
+                const dateReq = document.getElementById('dateRequired');
+                const timeReq = document.getElementById('timeRequired');
+                if (dateReq) dateReq.textContent = isBooked ? 'مطلوب' : 'اختياري (غير محجوز)';
+                if (timeReq) timeReq.textContent = isBooked ? 'مطلوب' : 'اختياري (غير محجوز)';
+                if (!isBooked) {
+                    if (dateInput) dateInput.value = '';
+                    if (timeInput) timeInput.value = '';
+                }
+            }
+
+            document.querySelectorAll('input[name="booked"]').forEach(el => {
+                el.addEventListener('change', toggleDateTime);
+            });
+
+            // ==================== VALIDATION ====================
+            function validateForm() {
+                const booked = document.querySelector('input[name="booked"]:checked');
+                const training = document.querySelector('input[name="training"]:checked');
+                if (!booked) { showAlert('الرجاء اختيار ما إذا كنت قد حجزت موعد الاختبار.', 'error'); return false; }
+                if (!training) { showAlert('الرجاء اختيار ما إذا كنت قد أنهيت ساعات التدريب.', 'error'); return false; }
+                if (booked.value === 'true') {
+                    if (dateInput && !dateInput.value) { showAlert('الرجاء اختيار تاريخ الاختبار.', 'error'); return false; }
+                    if (timeInput && !timeInput.value) { showAlert('الرجاء اختيار وقت الاختبار.', 'error'); return false; }
+                }
+                return true;
+            }
+
+            // ==================== SUBMIT ====================
+            window.handleSubmit = async function() {
+                if (!validateForm()) return;
+                if (!saveBtn) return;
+                
+                saveBtn.disabled = true;
+                saveBtn.classList.add('loading');
+
+                const booked = document.querySelector('input[name="booked"]:checked');
+                const training = document.querySelector('input[name="training"]:checked');
+                const examName = document.getElementById('examName');
+                const examLanguage = document.getElementById('examLanguage');
+                const notes = document.getElementById('notes');
+                const whatsapp = document.getElementById('whatsapp');
+
+                const payload = {
+                    exam_booked: booked.value === 'true',
+                    training_completed: training.value === 'true',
+                    exam_name: examName?.value || 'PMP',
+                    language: examLanguage?.value || 'ar',
+                    notes: notes?.value.trim() || null,
+                    whatsapp: whatsapp?.value.trim() || null,
+                    expected_exam_date: (booked.value === 'true' && dateInput?.value) ? dateInput.value : null,
+                    expected_exam_at: (booked.value === 'true' && dateInput?.value && timeInput?.value) ? new Date(`${dateInput.value}T${timeInput.value}:00`).toISOString() : null,
+                };
+
+                let result;
+                if (editId) {
+                    result = await supabase.from('support_requests').update(payload).eq('id', editId).eq('user_id', session.user.id);
+                } else {
+                    result = await supabase.from('support_requests').insert({
+                        ...payload,
+                        user_id: session.user.id,
+                        user_email: session.user.email,
+                        user_name: session.user.user_metadata?.full_name || session.user.email?.split('@')[0],
+                        status: 'new'
+                    });
+                }
+
+                if (saveBtn) {
+                    saveBtn.disabled = false;
+                    saveBtn.classList.remove('loading');
+                }
+
+                if (result.error) {
+                    showAlert(result.error.message || 'تعذر حفظ الطلب.', 'error');
+                    return;
+                }
+
+                showAlert(editId ? 'تم حفظ التعديلات بنجاح!' : 'تم تسجيل طلبك بنجاح!', 'success');
+                setTimeout(() => location.replace('dashboard.html'), 1200);
+            };
+
+            // ==================== BOOT ====================
+            async function boot() {
+                if (!supabase) { showAlert('تعذر الاتصال بقاعدة البيانات.', 'error'); return; }
+                
+                const { data: { session: s } } = await supabase.auth.getSession();
+                if (!s) { location.replace('auth.html'); return; }
+                session = s;
+
+                if (editId) {
+                    const { data, error } = await supabase.from('support_requests').select('*').eq('id', editId).single();
+                    if (!error && data) {
+                        const modeEl = document.getElementById('mode');
+                        const titleEl = document.getElementById('title');
+                        const subEl = document.getElementById('sub');
+                        const btnText = document.getElementById('btnText');
+                        
+                        if (modeEl) modeEl.textContent = 'تعديل طلب';
+                        if (titleEl) titleEl.textContent = 'تعديل الطلب';
+                        if (subEl) subEl.textContent = 'يمكنك تعديل البيانات الخاصة بالاختبار فقط.';
+                        if (btnText) btnText.textContent = 'حفظ التعديلات';
+                        
+                        const bookedRadio = document.querySelector(`input[name="booked"][value="${data.exam_booked}"]`);
+                        if (bookedRadio) bookedRadio.checked = true;
+                        
+                        const trainingRadio = document.querySelector(`input[name="training"][value="${data.training_completed}"]`);
+                        if (trainingRadio) trainingRadio.checked = true;
+                        
+                        if (data.expected_exam_date && dateInput) dateInput.value = data.expected_exam_date;
+                        if (data.expected_exam_at && timeInput) timeInput.value = new Date(data.expected_exam_at).toTimeString().slice(0, 5);
+                        
+                        const examNameSel = document.getElementById('examName');
+                        if (data.exam_name && examNameSel) examNameSel.value = data.exam_name;
+                        
+                        const examLangSel = document.getElementById('examLanguage');
+                        if (data.language && examLangSel) examLangSel.value = data.language;
+                        
+                        const whatsappInp = document.getElementById('whatsapp');
+                        if (data.whatsapp && whatsappInp) whatsappInp.value = data.whatsapp;
+                        
+                        const notesInp = document.getElementById('notes');
+                        if (notesInp) notesInp.value = data.notes || '';
+                    }
+                }
+                
+                toggleDateTime();
+            }
+
+            boot();
+        })();
+    </script>
+</body>
+</html>
